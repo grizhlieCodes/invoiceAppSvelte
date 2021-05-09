@@ -1,0 +1,162 @@
+
+
+:root {
+
+	/* Font */
+	font-size: 62.5%;
+	--spartan: 'Spartan', sans-serif;
+	--font-thin: 100;
+	--font-extra-light: 200;
+	--font-light: 300;
+	--font-reg: 400;
+	--font-med: 500;
+	--font-semi-bold: 600;
+	--font-bold: 700;
+	--font-extra-bold: 800;
+	--font-black: 900;
+
+	/* B&W */
+	--white: #ffffff;
+	--black: #000000;
+	--light-bg: #f9f9fb;
+	--dark-text: #0d0f17;
+	--light-grey: #F3F3F5;
+
+
+    /* Color Variables */
+	/* Purples */
+	--purple-800: #141624;
+	--purple-750: #1e2139;
+	--purple-700: #252946;
+	--purple-650: #292C44;
+	--purple-600: #373B53;
+	--purple-550: #494E6E;
+	--purple-500: #7B5CfA;
+	--purple-400: #9175FF;
+	--purple-350: #7E88C4;
+	--purple-300: #858BB2;
+	--purple-250: #888EAF;
+	--purple-100: #DFE3FA;
+
+	/* Reds */
+	--red-500: #ec5555;
+	--red-200: #ff9999; 
+
+	/* Greens */
+	--green-800: #1e2a3e;
+	--green-500: #33d7a0;
+	--green-100: #f3fcf9;
+
+	/* Oranges */
+	--orange-800: #2a2735;
+	--orange-500: #ff9100;
+	--orange-100: #fff8f0;
+
+	/* pageBg */
+	--page-bg: var(--light-bg)
+
+
+	/* Invoices */
+
+	/* pageBg Dark*/
+	--page-bg: var(--purple-800);
+
+	/* Invoices (list)  Dark*/
+	--main-text-color: var(--white);
+	--invoices-accent: var(--purple-500);
+	--invoices-highlight-text: var(--white);
+	--invoices-hash: var(--purple-350);
+	--invoices-date: var(--purple-100);
+	--invoices-name: var(--white);
+	--invoices-paid-status-text: var(--green-500);
+	--invoices-paid-status-bg: var(--green-800);
+	--invoices-pending-status-text: var(--orange-500);
+	--invoices-pending-status-bg: var(--orange-800);
+	--invoices-draft-status-text: var(--purple-100);
+	--invoices-draft-status-bg: var(--purple-650);
+	--invoices-arrow: var(--purple-500);
+
+	/* Sidebar Dark*/
+	--invoices-sidebar-bg: var(--purple-750);
+	--invoices-sidebar-split: var(--purple-550);
+
+	/* Invoices (list) */
+	--main-text-color: var(--dark-text);
+	--invoices-accent: var(--purple-500);
+	--invoices-highlight-text: var(--dark-text);
+	--invoices-hash: var(--purple-350);
+	--invoices-date: var(--purple-350);
+	--invoices-name: var(--purple-300);
+	--invoices-paid-status-text: var(--green-500);
+	--invoices-paid-status-bg: var(--green-100);
+	--invoices-pending-status-text: var(--orange-500);
+	--invoices-pending-status-bg: var(--orange-100);
+	--invoices-draft-status-text: var(--purple-600);
+	--invoices-draft-status-bg: var(--light-grey);
+	--invoices-arrow: var(--purple-500);
+	/* Sidebar */
+	--invoices-sidebar-bg: var(--purple-600);
+	--invoices-sidebar-split: var(--purple-550);
+	--invoices-sidebar-logo-bg: var(--purple-500);
+	--invoices-sidebar-logo-span-bg: var(--purple-400);
+
+}
+
+
+html, body {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	margin: 0;
+}
+
+:root, body, * {
+	font-family: var(--spartan);
+	box-sizing: border-box;
+}
+
+p.normal {
+	font-size: 1.2rem;
+	line-height: 1.5rem;
+	font-weight: var(--font-med);
+	letter-spacing: -0.0025rem;
+}
+
+p.small {
+	font-size: 1.1rem;
+	line-height: 1.8rem;
+	font-weight: var(--font-med);
+	letter-spacing: -0.0023rem;
+}
+
+body {
+	width: 100%;
+	height: 100vh;
+	display: grid;
+	grid-template-columns: 2.4rem minmax(32.7rem, 1fr) 2.4rem;
+	grid-template-rows: 7.2rem 1fr;
+	grid-template-areas: 
+	"sidebar sidebar sidebar"
+	".....     main    .....";
+}
+
+@media screen and (min-width: 768px ){
+	body {
+		grid-template-columns: 4.8rem minmax(32.7rem, 1fr) 4.8rem;
+		grid-template-rows: 7.2rem 1fr;
+	}
+}
+
+@media screen and (min-width: 1110px ){
+	body {
+		grid-template-columns: 10.3rem 1fr;
+		grid-template-rows: 1fr;
+		grid-template-areas: 
+		"sidebar main"
+	}
+}
+
+
+
+
