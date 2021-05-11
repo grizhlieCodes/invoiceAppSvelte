@@ -59,10 +59,10 @@
 	/* Invoices */
 
 	/* pageBg Dark*/
-	--page-bg: var(--purple-800);
+	;
 
 	/* Invoices (list)  Dark*/
-	--main-text-color: var(--white);
+	/* --main-text-color: var(--white);
 	--invoices-accent: var(--purple-500);
 	--invoices-highlight-text: var(--white);
 	--invoices-hash: var(--purple-350);
@@ -74,11 +74,11 @@
 	--invoices-pending-status-bg: var(--orange-800);
 	--invoices-draft-status-text: var(--purple-100);
 	--invoices-draft-status-bg: var(--purple-650);
-	--invoices-arrow: var(--purple-500);
+	--invoices-arrow: var(--purple-500); */
 
 	/* Sidebar Dark*/
-	--invoices-sidebar-bg: var(--purple-750);
-	--invoices-sidebar-split: var(--purple-550);
+	/* --invoices-sidebar-bg: var(--purple-750);
+	--invoices-sidebar-split: var(--purple-550); */
 
 	/* Invoices (list) */
 	--main-text-color: var(--dark-text);
@@ -94,6 +94,7 @@
 	--invoices-draft-status-text: var(--purple-600);
 	--invoices-draft-status-bg: var(--light-grey);
 	--invoices-arrow: var(--purple-500);
+	
 	/* Sidebar */
 	--invoices-sidebar-bg: var(--purple-600);
 	--invoices-sidebar-split: var(--purple-550);
