@@ -1,74 +1,122 @@
 <script>
-    import authStore from '../stores/userStore.js'
+  import authStore from '../stores/userStore.js'
+  import User from '../stores/userStore.js'
+  import Button from './Button.svelte'
+  import Input from './Input.svelte'
+  import { fade, fly } from 'svelte/transition'
+  import SmallModal from './SmallModal.svelte'
 
-    let showLogin = false
+  let showLogin = false 
 
-    let email, password
+  let email, password, name
 
-    const updatePassword = (event) => {
-        let val = event.target.value
-        password = val
+  const updatePassword = (event) => {
+    let val = event.target.value
+    password = val
+  }
+
+  const updateEmail = (event) => {
+    let val = event.target.value
+    email = val
+  }
+
+  const loginOption = (option) => {
+    if (option === 'signin') {
+      showLogin = true
     }
-
-    const updateEmail = (event) => {
-        let val = event.target.value
-        email = val
+    if (option === 'signup') {
+      showLogin = false
     }
+  }
 
-    const loginOption = (option) => {
-        if(option === 'signin'){
-            showLogin = true
-        }
-        if(option === 'signup'){
-            showLogin = false
-        }
-    }
-    const signInUser = (email, password) => authStore.signInUser(email, password)
-    const signUpUser = (email, password) => authStore.signUpUser(email, password)
+  const updateName = (event) => {
+    let val = event.target.value
+    name = val
+  }
 
-
+  const signInUser = () => authStore.signInUser(email, password)
+  const signUpUser = () => authStore.signUpUser(email, password, name)
 </script>
 
-<div class="login-container">
-
-    <div class="login-options">
-        <button on:click={() => {loginOption('signin')}}>Sign In</button>
-        <button on:click={() => {loginOption('signup')}}>Sign Up</button>
-    </div>
-
-    {#if showLogin}
-        <form action="" on:submit|preventDefault={signInUser}>
-            <input type="text" on:input={updateEmail} placeholder="Email" id="email">
-            <input type="password" on:input={updatePassword} placeholder="Password">
-            <button type="submit">
-                Sign In
-            </button>
-        </form>
-
-    {:else}
-
-        <form action="" on:submit|preventDefault={signUpUser}>
-            <input type="email" on:input={updateEmail} placeholder="Email" id="email">
-            <input type="password" on:input={updatePassword} placeholder="Password">
-            <button type="submit">
-                Sign Up
-            </button>
-        </form>
-        
-    {/if}
-
-
-</div>
-
 <style lang="scss">
-    .login-container {
-        position: absolute;
-        left: 0;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        background: v(white);
-        height: 500px;
+
+
+  .login-options {
+    display: flex;
+    flex-flow: row nowrap;
+    margin: 5rem auto 5rem;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    max-width: 300px;
+
+    p {
+      color: v(login-or-text);
     }
+  }
 </style>
+
+<SmallModal>
+  <div class="login-options">
+
+    <Button
+      on:click={() => {
+        loginOption('signin')
+      }}
+      content="Sign In"
+      type="button"
+      btnClass={showLogin ? 'primary' : 'light'} />
+
+    <p>OR</p>
+
+    <Button
+      on:click={() => {
+        loginOption('signup')
+      }}
+      content="Sign Up"
+      type="button"
+      btnClass={!showLogin ? 'primary' : 'light'} />
+
+  </div>
+
+  {#if showLogin}
+    <form action="" on:submit|preventDefault={signInUser}>
+      <Input
+        type="email"
+        on:input={updateEmail}
+        placeholder=" "
+        id="email"
+        label="Email" />
+      <Input
+        type="password"
+        on:input={updatePassword}
+        placeholder=" "
+        id="password"
+        label="Password" />
+      <Button content="Sign In" type="submit" btnClass="primary" />
+    </form>
+  {:else}
+    <form action="" on:submit|preventDefault={signUpUser}>
+      <Input
+        type="text"
+        on:input={updateName}
+        placeholder=" "
+        id="name"
+        label="Name" />
+      <Input
+        type="email"
+        on:input={updateEmail}
+        placeholder=" "
+        id="email"
+        label="Email" />
+      <Input
+        type="password"
+        on:input={updatePassword}
+        placeholder=" "
+        id="password"
+        label="Password" />
+      <Button content="Sign Up" type="submit" btnClass="light" />
+    </form>
+  {/if}
+</SmallModal>
 

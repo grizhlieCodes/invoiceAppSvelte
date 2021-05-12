@@ -1,0 +1,134 @@
+:root {
+
+	/* Font */
+	font-size: 62.5%;
+	--spartan: 'Spartan', sans-serif;
+	--font-thin: 100;
+	--font-extra-light: 200;
+	--font-light: 300;
+	--font-reg: 400;
+	--font-med: 500;
+	--font-semi-bold: 600;
+	--font-bold: 700;
+	--font-extra-bold: 800;
+	--font-black: 900;
+
+	/* B&W */
+	--white: #ffffff;
+	--black: #000000;
+	--light-bg: #f9f9fb;
+	--dark: #0d0f17;
+	--light-grey: #F3F3F5;
+	--light-purple: #F9FAFE;
+
+
+    /* Color Variables */
+	/* Purples */
+	--purple-850: #0f1120;
+	--purple-800: #141624;
+	--purple-750: #1e2139;
+	--purple-700: #252946;
+	--purple-650: #292C44;
+	--purple-600: #373B53;
+	--purple-550: #494E6E;
+	--purple-500: #7B5CfA;
+	--purple-400: #9175FF;
+	--purple-350: #7E88C4;
+	--purple-300: #858BB2;
+	--purple-250: #888EAF;
+	--purple-100: #DFE3FA;
+	--purple-50: #eaedff;
+
+	/* Reds */
+	--red-500: #ec5555;
+	--red-200: #ff9999; 
+
+	/* Greens */
+	--green-800: #1e2a3e;
+	--green-500: #33d7a0;
+	--green-100: #f3fcf9;
+
+	/* Oranges */
+	--orange-800: #2a2735;
+	--orange-500: #ff9100;
+	--orange-100: #fff8f0;
+
+	/* pageBg */
+	--page-bg: var(--light-bg);
+
+	/* Invoices (list) */
+	--main-text-color: var(--dark);
+	--invoices-light-accent-text: var(--purple-250);
+	--invoices-accent: var(--purple-500);
+	--invoices-highlight-text: var(--dark);
+	--invoices-hash: var(--purple-350);
+	--invoices-date: var(--purple-350);
+	--invoices-name: var(--purple-300);
+	--invoices-paid-status-text: var(--green-500);
+	--invoices-paid-status-bg: var(--green-100);
+	--invoices-pending-status-text: var(--orange-500);
+	--invoices-pending-status-bg: var(--orange-100);
+	--invoices-draft-status-text: var(--purple-600);
+	--invoices-draft-status-bg: var(--light-grey);
+	--invoices-arrow: var(--purple-500);
+
+	--invoices-selection-bg: var(--white);
+	--invoices-checkbox-bg: var(--purple-100);
+	--invoices-checkbox-checked-bg: var(--purple-500);
+	--invoices-checkbox-tick: var(--white);
+	--invoices-checkbox-border: var(--purple-500);
+
+	
+	/* Sidebar */
+	--invoices-sidebar-bg: var(--purple-600);
+	--invoices-sidebar-split: var(--purple-550);
+	--invoices-sidebar-logo-bg: var(--purple-500);
+	--invoices-sidebar-logo-span-bg: var(--purple-400);
+
+	/* Buttons */
+	/* - primary */
+	--btn-primary-bg: var(--purple-500);
+	--btn-primary-hover-bg: var(--purple-400);
+	--btn-primary-text: var(--white);
+
+	/* - addition */
+	--btn-addition-span-bg: var(--purple-500);
+	--btn-addition-span-hover-bg: var(--purple-500);
+
+	/* - red */
+	--btn-red-bg: var(--red-500);
+	--btn-red-hover-bg: var(--red-200);
+
+	/* - light */
+	--btn-light-bg: var(--light-bg);
+	--btn-light-hover-bg: var(--purple-100);
+	--btn-light-text: var(--purple-350);
+	--btn-light-hover-text: var(--purple-350);
+	
+	/* - dark */
+	--btn-dark-bg: var(--purple-600);
+	--btn-dark-hover-bg: var(--dark);
+	--btn-dark-text: var(--purple-250);
+	--btn-dark-hover-text: var(--purple-250);
+
+	/* - large */
+	--btn-large-bg: var(--light-bg);
+	--btn-large-hover-bg: var(--purple-100);
+	--btn-large-text: var(--purple-350);
+	--btn-large-hover-text: var(--purple-350);
+
+	/* Input */
+	--label-text: var(--purple-350);
+	--input-background: var(--white);
+	--input-border: var(--purple-100);
+	--input-outline: var(--purple-500);
+	--input-text: var(--dark);
+	--input-icon: var(--purple-350);
+
+	/* Login Container */
+	--small-modal-h1-text: var(--purple-500);
+	--modal-container-bg: var(--purple-50);
+	--login-or-text: var(--purple-750);
+	
+	/*  */
+}
