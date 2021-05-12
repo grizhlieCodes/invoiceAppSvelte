@@ -1,8 +1,10 @@
 <script>
-    import {fly} from 'svelte/transition'
+  import { getContext } from 'svelte'
+  import { fly } from 'svelte/transition'
   let selectionActive = false
   let checkboxChecked = false
   let checkbox = ''
+  const size = getContext('size')
 
   const toggleSelection = () => {
     selectionActive = !selectionActive
@@ -36,13 +38,14 @@
   .selection {
     height: 100%;
     position: relative;
-    width: 19.5rem;
   }
 
   .selection-toggle {
     height: 100%;
+    width: auto;
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     cursor: pointer;
 
     .span-container {
@@ -165,7 +168,12 @@
     class="selection-toggle"
     on:click={toggleSelection}
     class:toggled={selectionActive}>
-    <p class="normal">Filter by status</p>
+    {#if $size === 'mobile'}
+    <p class="normal">Filter</p>
+    {:else}
+       <!-- else content here -->
+       <p class="normal">Filter by status</p>
+    {/if}
     <div class="span-container">
       <span />
       <span />
@@ -173,7 +181,7 @@
   </div>
 
   {#if selectionActive}
-    <div class="filterSelections" transition:fly={{y: -20, duration: 250}}>
+    <div class="filterSelections" transition:fly={{ y: -20, duration: 250 }}>
       <div class="filter-item" on:click={() => check('draft')}>
         <div class="checkbox {draftChecked ? 'checked' : ''}">
           <span />

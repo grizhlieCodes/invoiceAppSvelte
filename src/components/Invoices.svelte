@@ -1,7 +1,7 @@
 <script>
-  import { getContext } from 'svelte'
   import Button from './Button.svelte'
   import FilterSelection from './FilterSelection.svelte'
+  import { getContext } from 'svelte'
 
   const size = getContext('size')
   let buttonContent
@@ -16,6 +16,10 @@
 
     .invoices-container {
         width: 100%;
+        align-self: start;
+        grid-row: 1/2;
+        grid-column: 1/2;
+        margin-top: 3.4rem;
     }
 
     .top {
@@ -62,7 +66,11 @@
   <div class="top">
     <div class="left">
       <h1>Invoices</h1>
-      <p class="normal">There are x total invoices</p>
+      {#if $size === 'mobile'}
+        <p class="normal">X invoices</p>
+      {:else}
+         <p class="normal">There are x total invoices</p>
+      {/if}
     </div>
     <div class="right">
       <FilterSelection />

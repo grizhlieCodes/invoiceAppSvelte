@@ -81,7 +81,7 @@
     //filterSelection
     --invoices-selection-bg: var(--purple-700);
     --invoices-checkbox-bg: var(--purple-750);
-    --invoices-checkbox-checked-bg: var(--purple-750);
+    --invoices-checkbox-checked-bg: var(--purple-500);
     --invoices-checkbox-tick: var(--white);
     --invoices-checkbox-border: var(--purple-500);
     

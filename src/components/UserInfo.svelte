@@ -39,6 +39,8 @@
         flex-flow: column nowrap;
         align-items: center;
         justify-content: center;
+        grid-row: 1/2;
+        grid-column: 1/2;
     }
 
     h1 {
