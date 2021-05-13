@@ -4,7 +4,7 @@
   import { getContext } from 'svelte'
   import {fly} from 'svelte/transition'
   import InvoiceList from './InvoiceList.svelte'
-
+  let filter
 
   const size = getContext('size')
   let buttonContent
@@ -13,6 +13,14 @@
   } else {
     buttonContent = 'New Invoice'
   }
+
+  const updateFilter = (event) => {
+    let val = event.detail
+    filter = val
+  }
+
+
+
 </script>
 
 <style lang="scss">
@@ -32,6 +40,14 @@
         flex-flow: row nowrap;
         align-items: center;
         justify-content: space-between;
+        margin-bottom: 3.2rem;
+
+        &.tablet {
+          margin-bottom: 5.6rem;
+        }
+        &.desktop {
+          margin-bottom: 6.5rem;
+        }
     }
 
     .top .left {
@@ -66,7 +82,7 @@
 </style>
 
 <div class="invoices-container" transition:fly={{x:20, duration:200}}>
-  <div class="top">
+  <div class="top {$size}">
     <div class="left">
       <h1>Invoices</h1>
       {#if $size === 'mobile'}
@@ -76,7 +92,7 @@
       {/if}
     </div>
     <div class="right">
-      <FilterSelection />
+      <FilterSelection on:filter={updateFilter}/>
       <Button
         type="button"
         content={buttonContent}
@@ -84,5 +100,7 @@
         on:click />
     </div>
   </div>
-  <InvoiceList />
+
+  <InvoiceList {filter}/>
+
 </div>

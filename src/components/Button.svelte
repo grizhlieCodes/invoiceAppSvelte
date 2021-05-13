@@ -45,7 +45,7 @@
         display: flex;
         flex-flow: row nowrap;
         align-items: center;
-        padding: 0 1.4rem 0 0.6rem;
+        padding: 0 1.5rem 0 0.8rem;
 
         div.plus-container {
             $div-size: 3.2rem;
@@ -54,7 +54,7 @@
             background: v(white);
             border-radius: 50%;
             position: relative;
-            margin-right: 0.6rem;
+            margin-right: 1.6rem;
             
             span {
                 position: absolute;
@@ -64,6 +64,7 @@
                 width: 0.24rem;
                 height: 1rem;
                 background: v(btn-addition-span-bg);
+
                 &:nth-child(2){
                     transform: translate(-50%, -50%) rotate(90deg);
                 }

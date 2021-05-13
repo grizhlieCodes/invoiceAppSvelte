@@ -1,8 +1,39 @@
 <script>
   import InvoicesArray from '../invoices/testing.js'
   import { getContext } from 'svelte'
+  import { flip } from 'svelte/animate'
+  import { quintOut } from 'svelte/easing'
+  import { crossfade } from 'svelte/transition'
+
+  const [send, receive] = crossfade({
+		duration: d => Math.sqrt(d * 400),
+		fallback(node, params) {
+			const style = getComputedStyle(node);
+			const transform = style.transform === 'none' ? '' : style.transform;
+			return {
+				duration: 600,
+				easing: quintOut,
+				css: t => `
+					transform: ${transform} scale(${t});
+					opacity: ${t}
+				`
+			};
+		}
+	});
+
+
+
+  export let filter = ''
 
   const size = getContext('size')
+
+  let invoices = [...InvoicesArray]
+
+  $: if (filter !== '') {
+    invoices = InvoicesArray.filter((item) => item.status === filter)
+  } else if (filter === '') {
+    invoices = InvoicesArray
+  }
 
   const invoiceValueFormat = (value) => {
     return value.toLocaleString(undefined, { minimumFractionDigits: 2 })
@@ -145,39 +176,43 @@
     }
   }
 
-
   .arrow-container.mobile {
-      display: none;
+    display: none;
   }
 
   .arrow-container {
-      transform: rotate(180deg);
-      grid-area: arrow;
-      justify-self: end;
+    transform: rotate(180deg);
+    grid-area: arrow;
+    justify-self: end;
   }
 </style>
 
 <div class="invoice-list">
-  {#each InvoicesArray as invoice, i}
-    <div class="invoice {$size}" id={i}>
-      <p class="id normal">{invoice.id}</p>
-      <p class="dueDate normal">Due {invoice.paymentDue}</p>
-      <p class="customer normal">{invoice.clientName}</p>
-      <p class="invoiceValue">{invoiceValueFormat(invoice.total)}</p>
-      <div class="status {invoice.status}">
-        <div />
-        <p class="normal">{invoice.status}</p>
+  {#each invoices as invoice(invoice.id)}
+
+
+      <div class="invoice {$size}" animate:flip={{duration: 200}}
+      in:receive={{key: invoice.id}}
+      out:send={{key: invoice.id}} >
+        <p class="id normal">{invoice.id}</p>
+        <p class="dueDate normal">Due {invoice.paymentDue}</p>
+        <p class="customer normal">{invoice.clientName}</p>
+        <p class="invoiceValue">{invoiceValueFormat(invoice.total)}</p>
+        <div class="status {invoice.status}">
+          <div />
+          <p class="normal">{invoice.status}</p>
+        </div>
+        <div class="arrow-container {$size}">
+          <svg width="7" height="10" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M6.342.886L2.114 5.114l4.228 4.228"
+              stroke="#9277FF"
+              stroke-width="2"
+              fill="none"
+              fill-rule="evenodd" />
+          </svg>
+        </div>
       </div>
-      <div class="arrow-container {$size}">
-        <svg width="7" height="10" xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M6.342.886L2.114 5.114l4.228 4.228"
-            stroke="#9277FF"
-            stroke-width="2"
-            fill="none"
-            fill-rule="evenodd" />
-        </svg>
-      </div>
-    </div>
+
   {/each}
 </div>
