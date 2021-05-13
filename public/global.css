@@ -11,7 +11,7 @@ html, body {
 	box-sizing: border-box;
 }
 
-p.normal {
+p.normal, span.normal {
 	font-size: 1.2rem;
 	line-height: 1.5rem;
 	font-weight: var(--font-med);
@@ -21,7 +21,7 @@ p.normal {
 p.small {
 	font-size: 1.1rem;
 	line-height: 1.8rem;
-	font-weight: var(--font-med);
+	/* font-weight: var(--font-med); */
 	letter-spacing: -0.0023rem;
 }
 
@@ -30,28 +30,29 @@ body {
 	height: 100vh;
 	display: grid;
 	grid-template-columns: 2.4rem minmax(32.7rem, 1fr) 2.4rem;
-	grid-template-rows: 7.2rem 1fr;
+	grid-template-rows: 7.2rem 3.2rem 1fr;
 	grid-template-areas: 
 	"sidebar sidebar sidebar"
+	".....    .....    ....."
 	".....     main    .....";
 }
 
 @media screen and (min-width: 768px ){
 	body {
 		grid-template-columns: 4.8rem minmax(32.7rem, 1fr) 4.8rem;
-		grid-template-rows: 7.2rem 1fr;
+		grid-template-rows: 7.2rem 5.6rem 1fr;
 	}
 }
 
 @media screen and (min-width: 1110px ){
 	body {
-		grid-template-columns: 10.3rem 1fr;
-		grid-template-rows: 1fr;
+		grid-template-columns: 10.3rem minmax(25.2rem, 1fr) 73rem 1fr;
+		grid-template-rows: 7.2rem 1fr;
 		grid-template-areas: 
-		"sidebar main"
+		"sidebar .. .. .."
+		"sidebar . main ."
 	}
 }
-
 
 
 

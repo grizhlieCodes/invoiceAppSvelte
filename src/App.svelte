@@ -64,12 +64,13 @@
     --login-or-text: var(--purple-100);
     
     //Invoices 
+    --invoices-invoice-bg: var(--purple-750);
     --main-text-color: var(--white);
     --invoices-accent: var(--purple-500);
     --invoices-highlight-text: var(--white);
     --invoices-hash: var(--purple-350);
     --invoices-date: var(--purple-100);
-    --invoices-name: var(--white);
+    --invoices-customer: var(--white);
     --invoices-paid-status-text: var(--green-500);
     --invoices-paid-status-bg: var(--green-800);
     --invoices-pending-status-text: var(--orange-500);

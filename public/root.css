@@ -57,13 +57,14 @@
 	--page-bg: var(--light-bg);
 
 	/* Invoices (list) */
+	--invoices-invoice-bg: var(--white);
 	--main-text-color: var(--dark);
 	--invoices-light-accent-text: var(--purple-250);
 	--invoices-accent: var(--purple-500);
 	--invoices-highlight-text: var(--dark);
 	--invoices-hash: var(--purple-350);
 	--invoices-date: var(--purple-350);
-	--invoices-name: var(--purple-300);
+	--invoices-customer: var(--purple-300);
 	--invoices-paid-status-text: var(--green-500);
 	--invoices-paid-status-bg: var(--green-100);
 	--invoices-pending-status-text: var(--orange-500);

@@ -6,13 +6,14 @@
   import Invoices from './Invoices.svelte'
   let showInvoices = true
   let timer = 4
-  let modalDisabled = false
 
     $: if($showLoginModal && $User){
+        showInvoices = false
         timer = 4
         timerOne()
         setTimeout(() => {
             showLoginModal.set(false)
+            showInvoices = true
         },4000)
     }
 
@@ -49,7 +50,7 @@
     <UserInfo {timer}/>
   {/if}
 
-  {#if showInvoices}
+  {#if showInvoices && $User}
      <Invoices/>
   {/if}
 

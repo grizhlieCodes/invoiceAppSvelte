@@ -2,6 +2,9 @@
   import Button from './Button.svelte'
   import FilterSelection from './FilterSelection.svelte'
   import { getContext } from 'svelte'
+  import {fly} from 'svelte/transition'
+  import InvoiceList from './InvoiceList.svelte'
+
 
   const size = getContext('size')
   let buttonContent
@@ -59,10 +62,10 @@
         align-items: center;
     }
 
-    
+
 </style>
 
-<div class="invoices-container">
+<div class="invoices-container" transition:fly={{x:20, duration:200}}>
   <div class="top">
     <div class="left">
       <h1>Invoices</h1>
@@ -81,4 +84,5 @@
         on:click />
     </div>
   </div>
+  <InvoiceList />
 </div>

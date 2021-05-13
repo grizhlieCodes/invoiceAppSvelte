@@ -1,32 +1,37 @@
 <script>
   import { getContext } from 'svelte'
   import { fly } from 'svelte/transition'
+  import FilterItem from './FilterItem.svelte'
+  import {createEventDispatcher} from 'svelte';
+  const dispatch = createEventDispatcher()
   let selectionActive = false
   let checkboxChecked = false
-  let checkbox = ''
+  let currentFilter = ''
   const size = getContext('size')
 
   const toggleSelection = () => {
     selectionActive = !selectionActive
   }
 
-  function check(checkboxString) {
-    if (checkbox !== checkboxString && checkboxChecked) {
-      checkbox = checkboxString
-    } else if (checkbox === checkboxString) {
-      checkbox = ''
+  function check(selectedFilter) {
+    let removeFilters = currentFilter === selectedFilter
+    let updateCheckedItem = currentFilter !== selectedFilter && checkboxChecked
+
+    if (updateCheckedItem) {
+      currentFilter = selectedFilter
+    } else if (removeFilters) {
+      currentFilter = ''
       checkboxChecked = !checkboxChecked
     } else {
-      checkbox = checkboxString
+      currentFilter = selectedFilter
       checkboxChecked = !checkboxChecked
     }
-    console.log(checkbox, checkboxChecked)
   }
 
-  $: draftChecked = checkboxChecked && checkbox === 'draft'
-  $: paidChecked = checkboxChecked && checkbox === 'paid'
-  $: pendingChecked = checkboxChecked && checkbox === 'pending'
-  $: noFilter = checkbox === '' && !checkboxChecked
+  $: draftChecked = checkboxChecked && currentFilter === 'draft'
+  $: paidChecked = checkboxChecked && currentFilter === 'paid'
+  $: pendingChecked = checkboxChecked && currentFilter === 'pending'
+  $: noFilter = currentFilter === '' && !checkboxChecked
 </script>
 
 <style lang="scss">
@@ -63,11 +68,11 @@
         transition: background 250ms ease;
 
         &:nth-child(1) {
-          left: 0;
+          left: 0.25px;
           transform: rotate(45deg);
         }
         &:nth-child(2) {
-          right: 0;
+          right: 0.25px;
           transform: rotate(-45deg);
         }
       }
@@ -97,63 +102,6 @@
     row-gap: 1.6rem;
     box-shadow: 0px 10px 20px rgba(72, 84, 159, 0.25);
     border-radius: 8px;
-
-    .filter-item {
-      height: 1.6rem;
-      flex: 0;
-      display: flex;
-      align-items: center;
-      cursor: pointer;
-
-      p {
-        font-weight: v(font-bold);
-      }
-
-      .checkbox {
-        width: 1.6rem;
-        height: 1.6rem;
-        margin-right: 1.3rem;
-        background: v(invoices-checkbox-bg);
-        transition: background 250ms ease;
-        border: 1px solid v(invoices-checkbox-border);
-        box-sizing: border-box;
-        border-radius: 2px;
-        position: relative;
-
-        &.checked {
-          background: v(invoices-checkbox-checked-bg);
-        }
-
-        span {
-          opacity: 0;
-          transition: opacity 250ms ease;
-        }
-
-        &.checked span {
-          opacity: 1;
-        }
-
-        span:nth-child(1) {
-          position: absolute;
-          left: 20%;
-          top: 50%;
-          width: 0.4rem;
-          height: 0.2rem;
-          transform: rotate(45deg);
-          background: white;
-        }
-
-        span:nth-child(2) {
-          position: absolute;
-          right: 40%;
-          top: 50%;
-          width: 0.7rem;
-          height: 0.2rem;
-          transform: rotate(-45deg) translate(4px, 1px);
-          background: v(invoices-checkbox-tick);
-        }
-      }
-    }
   }
 
   :global(body.dark) {
@@ -168,12 +116,13 @@
     class="selection-toggle"
     on:click={toggleSelection}
     class:toggled={selectionActive}>
+
     {#if $size === 'mobile'}
-    <p class="normal">Filter</p>
+      <p class="normal">Filter</p>
     {:else}
-       <!-- else content here -->
-       <p class="normal">Filter by status</p>
+      <p class="normal">Filter by status</p>
     {/if}
+
     <div class="span-container">
       <span />
       <span />
@@ -182,27 +131,18 @@
 
   {#if selectionActive}
     <div class="filterSelections" transition:fly={{ y: -20, duration: 250 }}>
-      <div class="filter-item" on:click={() => check('draft')}>
-        <div class="checkbox {draftChecked ? 'checked' : ''}">
-          <span />
-          <span />
-        </div>
-        <p class="normal">Draft</p>
-      </div>
-      <div class="filter-item" on:click={() => check('pending')}>
-        <div class="checkbox {pendingChecked ? 'checked' : ''}">
-          <span />
-          <span />
-        </div>
-        <p class="normal">Pending</p>
-      </div>
-      <div class="filter-item" on:click={() => check('paid')}>
-        <div class="checkbox {paidChecked ? 'checked' : ''}">
-          <span />
-          <span />
-        </div>
-        <p class="normal">Paid</p>
-      </div>
+      <FilterItem
+        itemChecked={draftChecked}
+        content="Draft"
+        on:click={() => check('draft')} />
+      <FilterItem
+        itemChecked={paidChecked}
+        content="Paid"
+        on:click={() => check('paid')} />
+      <FilterItem
+        itemChecked={pendingChecked}
+        content="Pending"
+        on:click={() => check('pending')} />
     </div>
   {/if}
 
