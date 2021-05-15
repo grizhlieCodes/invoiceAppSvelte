@@ -2,9 +2,8 @@
   import { getContext } from 'svelte'
   import { fly } from 'svelte/transition'
   import FilterItem from './FilterItem.svelte'
-  import {createEventDispatcher} from 'svelte';
-  const dispatch= createEventDispatcher()
-  // import FilterStore from '../stores/filterStore.js'
+  import { createEventDispatcher } from 'svelte'
+  const dispatch = createEventDispatcher()
 
   let selectionActive = false
   let checkboxChecked = false
@@ -30,14 +29,14 @@
     }
     selectionActive = !selectionActive
     dispatch('filter', currentFilter)
-    // FilterStore.set(currentFilter)
   }
 
   $: draftChecked = checkboxChecked && currentFilter === 'draft'
   $: paidChecked = checkboxChecked && currentFilter === 'paid'
   $: pendingChecked = checkboxChecked && currentFilter === 'pending'
+  $: testingChecked = checkboxChecked && currentFilter === 'zero'
   $: noFilter = currentFilter === '' && !checkboxChecked
-  // $: console.log($FilterStore)
+
 </script>
 
 <style lang="scss">
@@ -140,15 +139,15 @@
       <FilterItem
         itemChecked={draftChecked}
         content="Draft"
-        on:click={() => check('draft')}/>
+        on:click={() => check('draft')} />
       <FilterItem
         itemChecked={paidChecked}
         content="Paid"
-        on:click={() => check('paid')}/>
+        on:click={() => check('paid')} />
       <FilterItem
         itemChecked={pendingChecked}
         content="Pending"
-        on:click={() => check('pending')}/>
+        on:click={() => check('pending')} />
     </div>
   {/if}
 

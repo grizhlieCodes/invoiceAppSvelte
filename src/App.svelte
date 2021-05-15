@@ -85,6 +85,10 @@
     --invoices-checkbox-checked-bg: var(--purple-500);
     --invoices-checkbox-tick: var(--white);
     --invoices-checkbox-border: var(--purple-500);
+
+    // Popup
+
+    --popup-bg: var(--purple-850);
     
   }
 

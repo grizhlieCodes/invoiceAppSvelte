@@ -131,5 +131,7 @@
 	--modal-container-bg: var(--purple-50);
 	--login-or-text: var(--purple-750);
 	
-	/*  */
+	/* popup */
+	--popup-bg: var(--purple-100);
+
 }

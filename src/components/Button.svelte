@@ -17,6 +17,7 @@
 {/if}
 
 <style lang="scss">
+    
     button {
         width: auto;
         height: 4.8rem;
@@ -46,7 +47,6 @@
         flex-flow: row nowrap;
         align-items: center;
         padding: 0 1.5rem 0 0.8rem;
-
         div.plus-container {
             $div-size: 3.2rem;
             height: $div-size;
@@ -55,7 +55,6 @@
             border-radius: 50%;
             position: relative;
             margin-right: 1.6rem;
-            
             span {
                 position: absolute;
                 left: 50%;
@@ -76,10 +75,7 @@
                 background: v(btn-addition-span-hover-bg);
             }
         }
-
     }
-
-  
 
     button.red {
         color: v(white);
@@ -89,6 +85,7 @@
             background: v(btn-red-hover-bg);
         }
     }
+
     button.light {
         color: v(btn-light-text);
         background: v(btn-light-bg);
@@ -98,6 +95,7 @@
             color: v(btn-light-hover-text);
         }
     }
+
     button.dark {
         color: v(btn-dark-text);
         background: v(btn-dark-bg);
@@ -107,6 +105,7 @@
             color: v(btn-dark-hover-text);
         }
     }
+
     button.large {
         color: v(btn-large-text);
         background: v(btn-large-bg);
@@ -117,4 +116,5 @@
             color: v(btn-large-hover-text);
         }
     }
+
 </style>

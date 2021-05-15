@@ -19,7 +19,9 @@
 
 <div
   class="modal-container"
-  in:fly={{ x: 50, duration: 200 }}
-  out:fly={{ x: -50, duration: 200 }}>
+>
     <slot />
 </div>    
+
+<!-- in:fly={{ x: 50, duration: 200 }}
+out:fly={{ x: -50, duration: 200 }} -->

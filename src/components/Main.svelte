@@ -2,30 +2,13 @@
   import showLoginModal from '../stores/showLoginModal.js'
   import LoginModal from './Login.svelte'
   import User from '../stores/userStore.js'
-  import UserInfo from './UserInfo.svelte'
   import Invoices from './Invoices.svelte'
   let showInvoices = true
-  let timer = 4
 
     $: if($showLoginModal && $User){
-        showInvoices = false
-        timer = 4
-        timerOne()
-        setTimeout(() => {
-            showLoginModal.set(false)
-            showInvoices = true
-        },4000)
-    }
-
-    function timerOne(){
-        if(timer >= 1 && $User){
-            timer--
-            setTimeout(() => {
-                timerOne()
-            },1000)
-        } else {
-            return
-        }
+        // showInvoices = false
+    } else {
+      showInvoices = true
     }
 
 </script>
@@ -46,8 +29,6 @@
 <main>
   {#if !$User}
     <LoginModal />
-  {:else if  $showLoginModal && $User}
-    <UserInfo {timer}/>
   {/if}
 
   {#if showInvoices && $User}

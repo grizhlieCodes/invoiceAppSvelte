@@ -6,7 +6,7 @@
   import { fade, fly } from 'svelte/transition'
   import SmallModal from './SmallModal.svelte'
 
-  let showLogin = false 
+  let showLogin = true 
 
   let email, password, name
 

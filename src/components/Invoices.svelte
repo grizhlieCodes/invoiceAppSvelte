@@ -2,105 +2,133 @@
   import Button from './Button.svelte'
   import FilterSelection from './FilterSelection.svelte'
   import { getContext } from 'svelte'
-  import {fly} from 'svelte/transition'
+  import { fly } from 'svelte/transition'
   import InvoiceList from './InvoiceList.svelte'
-  let filter
+
+  //Filter, invoice quantity,
+  let filter = ''
+  let invoiceQuantity
+  $: singleInvoice = invoiceQuantity === 1
+  $: totalInvoices = filter !== '' ? filter : 'total'
+  $: title = `InnVoice: ${invoiceQuantity}`
 
   const size = getContext('size')
-  let buttonContent
-  $: if ($size === 'mobile') {
-    buttonContent = 'New'
-  } else {
-    buttonContent = 'New Invoice'
-  }
 
+  $: buttonContent = $size === 'mobile' ? 'New' : 'New Invoice'
+
+  //Update filter & invoice quantity
   const updateFilter = (event) => {
     let val = event.detail
     filter = val
   }
+  const updateInvoiceQuant = (event) => {
+    let val = event.detail
+    invoiceQuantity = val
+  }
 
+  //Open invoice after click
 
-
+  let invoiceShown = false
+  let invoiceData
+  const openInvoice = (event) => {
+    let invoice = event.detail
+    invoiceShown = true
+  }
 </script>
 
 <style lang="scss">
+  .invoices-container {
+    width: 100%;
+    align-self: start;
+    grid-row: 1/2;
+    grid-column: 1/2;
+    margin-top: 3.4rem;
+  }
 
-    .invoices-container {
-        width: 100%;
-        align-self: start;
-        grid-row: 1/2;
-        grid-column: 1/2;
-        margin-top: 3.4rem;
+  .top {
+    width: 100%;
+    height: 4.4rem;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 3.2rem;
+
+    &.tablet {
+      margin-bottom: 5.6rem;
     }
-
-    .top {
-        width: 100%;
-        height: 4.4rem;
-        display: flex;
-        flex-flow: row nowrap;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 3.2rem;
-
-        &.tablet {
-          margin-bottom: 5.6rem;
-        }
-        &.desktop {
-          margin-bottom: 6.5rem;
-        }
+    &.desktop {
+      margin-bottom: 6.5rem;
     }
+  }
 
-    .top .left {
-        width: auto;
-        display: flex;
-        flex-flow: column nowrap;
-        justify-content: flex-start;
+  .top .left {
+    width: auto;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
 
-        h1{
-            flex: 0;
-            height: 2.2rem;
-            margin: 0;
-            padding: 0;
-            color: v(main-text-color);
-        }   
-        p {
-            color: v(invoices-light-accent-text);
-            flex: 0;
-            height: 1.5rem;
-            margin: 0;
-            padding: 0
-        }
+    h1 {
+      flex: 0;
+      height: 2.2rem;
+      margin: 0;
+      padding: 0;
+      color: v(main-text-color);
     }
-
-    .top .right {
-        width: auto;
-        display:flex; 
-        align-items: center;
+    p {
+      color: v(invoices-light-accent-text);
+      flex: 0;
+      height: 1.5rem;
+      margin: 0;
+      padding: 0;
     }
+  }
 
-
+  .top .right {
+    width: auto;
+    display: flex;
+    align-items: center;
+  }
 </style>
 
-<div class="invoices-container" transition:fly={{x:20, duration:200}}>
-  <div class="top {$size}">
-    <div class="left">
-      <h1>Invoices</h1>
-      {#if $size === 'mobile'}
-        <p class="normal">X invoices</p>
-      {:else}
-         <p class="normal">There are x total invoices</p>
-      {/if}
-    </div>
-    <div class="right">
-      <FilterSelection on:filter={updateFilter}/>
-      <Button
-        type="button"
-        content={buttonContent}
-        btnClass="addition"
-        on:click />
-    </div>
-  </div>
+<svelte:head>
+  <title>{title}</title>
+</svelte:head>
 
-  <InvoiceList {filter}/>
+<div class="invoices-container" transition:fly={{ x: 20, duration: 200 }}>
+  {#if !invoiceShown}
+    <div class="top {$size}">
+      <div class="left">
+        <h1>Invoices</h1>
+        {#if invoiceQuantity === 0}
+          <p class="normal">No invoices.</p>
+        {:else if $size === 'mobile'}
+          <p class="normal">
+            {invoiceQuantity} {singleInvoice ? 'invoice' : 'invoices'}
+          </p>
+        {:else}
+          <p class="normal">
+            There {singleInvoice ? 'is' : 'are'} {invoiceQuantity} {totalInvoices}
+            {singleInvoice ? 'invoice' : 'invoices'}
+          </p>
+        {/if}
 
+      </div>
+      <div class="right">
+        <FilterSelection on:filter={updateFilter} />
+        <Button
+          type="button"
+          content={buttonContent}
+          btnClass="addition"
+          on:click />
+      </div>
+    </div>
+
+    <InvoiceList
+      {filter}
+      on:invoiceQuantity={updateInvoiceQuant}
+      on:openInvoice={openInvoice} />
+  {:else}
+    <!-- <Invoice {...invoiceData}/> -->
+  {/if}
 </div>
