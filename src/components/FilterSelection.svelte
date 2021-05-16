@@ -48,6 +48,7 @@
   .selection {
     height: 100%;
     position: relative;
+    z-index: 1;
   }
 
   .selection-toggle {
