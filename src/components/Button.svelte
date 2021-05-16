@@ -1,5 +1,5 @@
 <script>
-    export let type, content, btnClass
+    export let type = "button", content, btnClass
 </script>
 
 {#if btnClass === 'addition'}

@@ -4,6 +4,8 @@
   import { getContext } from 'svelte'
   import { fly } from 'svelte/transition'
   import InvoiceList from './InvoiceList.svelte'
+  import Invoice from './Invoice.svelte'
+  import testInvoice from '../invoices/singleInvoice.js'
 
   //Filter, invoice quantity,
   let filter = ''
@@ -28,10 +30,18 @@
 
   //Open invoice after click
 
-  let invoiceShown = false
-  let invoiceData
+  let invoiceShown = true
+  let invoiceData = testInvoice
+
   const openInvoice = (event) => {
-    let invoice = event.detail
+    let invoice = {invoice: event.detail}
+    console.log(invoice)
+    for(const key in invoice) {
+      invoiceData = {
+        ...invoice[key],
+      }
+    } 
+    console.log(invoiceData)
     invoiceShown = true
   }
 </script>
@@ -129,6 +139,8 @@
       on:invoiceQuantity={updateInvoiceQuant}
       on:openInvoice={openInvoice} />
   {:else}
-    <!-- <Invoice {...invoiceData}/> -->
+    <Invoice {...invoiceData}/>
   {/if}
 </div>
+
+<!-- if else  -->
