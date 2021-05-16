@@ -133,5 +133,14 @@
 	
 	/* popup */
 	--popup-bg: var(--purple-100);
-
+	
+	/* Invoice */
+	--invoice-tile-bg: var(--white);
+	--invoice-status-text-col: var(--purple-300);
+	--invoice-bold-text-col: var(--dark);
+	--invoice-accent-text-col: var(--purple-350);
+	--invoice-items-bg: var(--light-purple);
+	--invoice-total-bg: var(--purple-600);
+	--invoice-total-col: var(--white);
+	--invoice-quantity-col: var(--purple-350);
 }

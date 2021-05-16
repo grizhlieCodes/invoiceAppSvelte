@@ -29,7 +29,7 @@
 </script>
 
 <style lang="scss">
-  :global(:root body.dark) {
+  :global(body.dark) {
     //Main
     --main-text-color: var(--white);
 
@@ -89,7 +89,15 @@
     // Popup
 
     --popup-bg: var(--purple-850);
-    
+
+    /* Invoice */
+    --invoice-tile-bg: var(--purple-750);
+    --invoice-status-text-col: var(--purple-100);
+    --invoice-bold-text-col: var(--white);
+    --invoice-accent-text-col: var(--purple-100);
+    --invoice-items-bg: var(--purple-700);
+    --invoice-total-bg: var(--dark);
+    --invoice-quantity-col: var(--purple-250);
   }
 
   :global(body) {
