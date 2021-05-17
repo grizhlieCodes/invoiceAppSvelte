@@ -21,6 +21,17 @@
     clientName,
     paymentTerms
 
+    const invoiceData = {
+      id,
+      description,
+      senderAddress,
+      createdAt,
+      paymentDue,
+      clientName,
+      clientAddress,
+      clientEmail
+    }
+
 </script>
 
 <svelte:head>
@@ -52,6 +63,7 @@
 </style>
 
 <div class="invoice">
-  <InvoiceTop {status}/>
+  <InvoiceTop {status} />
+  <InvoiceBody {...invoiceData} />
 </div>
 
