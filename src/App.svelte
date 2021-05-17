@@ -98,6 +98,7 @@
     --invoice-items-bg: var(--purple-700);
     --invoice-total-bg: var(--dark);
     --invoice-quantity-col: var(--purple-250);
+    --invoice-tab-quantity-col: var(--purple-100);
   }
 
   :global(body) {

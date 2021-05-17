@@ -1,0 +1,57 @@
+<script>
+  import GoBack from './GoBack.svelte'
+  import InvoiceTop from './InvoiceTop.svelte'
+  import InvoiceBody from './InvoiceBody.svelte'
+  import InvoiceBottom from './InvoiceBottom.svelte'
+  import { getContext } from 'svelte'
+  let size = getContext('size')
+  // import invoiceValueFormat from '../helpers/invoiceValueFormat.js'
+  // import dateFormat from '../helpers/dateFormat.js'
+
+  export let id,
+    status,
+    description,
+    clientAddress,
+    createdAt,
+    paymentDue,
+    clientEmail,
+    items,
+    total,
+    senderAddress,
+    clientName,
+    paymentTerms
+
+</script>
+
+<svelte:head>
+  <title>InnVoice: {id}</title>
+</svelte:head>
+
+<style lang="scss">
+  .invoice {
+    width: 100%;
+    grid-row: 1/2;
+    grid-column: 1/2;
+    align-self: start;
+    justify-self: center;
+    display: grid;
+    grid:
+    "goBack" max-content
+    "invoiceTop" 9.1rem
+    "invoiceBody" max-content
+    "invoiceBottom" max-content / 1fr;
+
+    @include mq(tablet){
+      grid:
+      "goBack" max-content
+      "invoiceTop" 8.8rem
+      "invoiceBody" max-content
+      "invoiceBottom" max-content / 1fr;
+    }
+  }
+</style>
+
+<div class="invoice">
+  <InvoiceTop {status}/>
+</div>
+

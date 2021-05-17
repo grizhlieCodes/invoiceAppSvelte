@@ -3,12 +3,14 @@
   import { getContext } from 'svelte'
   import { flip } from 'svelte/animate'
   import { quintOut } from 'svelte/easing'
-  import { crossfade } from 'svelte/transition'
+import { crossfade } from 'svelte/transition'
   import { createEventDispatcher } from 'svelte'
   import StatusCard from './StatusCard.svelte'
   const dispatch = createEventDispatcher()
   import { onMount } from 'svelte'
   const size = getContext('size')
+  import invoiceValueFormat from '../helpers/invoiceValueFormat.js'
+  import dateFormat from '../helpers/dateFormat.js'
 
   const [send, receive] = crossfade({
     duration: (d) => Math.sqrt(d * 400),
@@ -36,10 +38,6 @@
     invoices = InvoicesArray.filter((item) => item.status === filter)
   } else if (filter === '') {
     invoices = InvoicesArray
-  }
-
-  const invoiceValueFormat = (value) => {
-    return value.toLocaleString(undefined, { minimumFractionDigits: 2 })
   }
 
   onMount(() => {
@@ -188,7 +186,7 @@
       out:send={{ key: invoice.id }}
       on:click={() => viewInvoice(invoice.id)}>
       <p class="id normal">{invoice.id}</p>
-      <p class="dueDate normal">Due {invoice.paymentDue}</p>
+      <p class="dueDate normal">Due {dateFormat(invoice.paymentDue)}</p>
       <p class="customer normal">{invoice.clientName}</p>
       <p class="invoiceValue">{invoiceValueFormat(invoice.total)}</p>
 

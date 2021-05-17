@@ -4,7 +4,7 @@
   import { getContext } from 'svelte'
   import { fly } from 'svelte/transition'
   import InvoiceList from './InvoiceList.svelte'
-  import Invoice from './Invoice.svelte'
+  import Invoice from './Invoice/Invoice.svelte'
   import testInvoice from '../invoices/singleInvoice.js'
 
   //Filter, invoice quantity,
@@ -105,8 +105,8 @@
   <title>{title}</title>
 </svelte:head>
 
+{#if !invoiceShown}
 <div class="invoices-container" transition:fly={{ x: 20, duration: 200 }}>
-  {#if !invoiceShown}
     <div class="top {$size}">
       <div class="left">
         <h1>Invoices</h1>
@@ -138,9 +138,9 @@
       {filter}
       on:invoiceQuantity={updateInvoiceQuant}
       on:openInvoice={openInvoice} />
-  {:else}
-    <Invoice {...invoiceData}/>
-  {/if}
-</div>
-
+  </div>
+    {:else}
+      <Invoice {...invoiceData}/>
+    {/if}
+    
 <!-- if else  -->

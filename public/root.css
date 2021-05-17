@@ -143,4 +143,5 @@
 	--invoice-total-bg: var(--purple-600);
 	--invoice-total-col: var(--white);
 	--invoice-quantity-col: var(--purple-350);
+	--invoice-tab-quantity-col: var(--purple-350);
 }
