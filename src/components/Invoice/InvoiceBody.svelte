@@ -130,6 +130,7 @@
     }
   }
 
+  //Body-Bottom-Default+Mobile
   .body-bottom {
     border-radius: 0.8rem;
     overflow: hidden;
@@ -152,21 +153,21 @@
       //Item grid-styling for mobile only.
       display: grid;
       row-gap: 0.8rem;
-      grid: 
-      "itemName itemName total" max-content
-      "quantity price total" max-content
-      / max-content 1fr 1fr;
+      grid:
+        'itemName itemName total' max-content
+        'quantity price total' max-content
+        / max-content 1fr 1fr;
 
-      .itemName{
+      .itemName {
         grid-area: itemName;
       }
-      .quantity{
+      .quantity {
         grid-area: quantity;
       }
-      .price{
+      .price {
         grid-area: price;
       }
-      .total{
+      .total {
         grid-area: total;
         justify-self: end;
         align-self: center;
@@ -188,8 +189,63 @@
     }
   }
 
+  //Body bottom tablet ++
+  .body-bottom {
+    @include mq(tablet) {
+      .headers {
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        margin-bottom: 3.2rem;
+
+        .itemName {
+          flex: 1 0 27.6rem;
+        }
+        .quantity {
+          flex: 0 0 3rem;
+          text-align: center;
+        }
+        .price {
+          flex: 1 0 11.7rem;
+          text-align: right;
+        }
+        .total {
+          flex: 1 0 13.8rem;
+          text-align: right;
+        }
+      }
+
+      .item {
+        &:not(:nth-last-child(1)) {
+          margin-bottom: 4rem;
+        }
+        
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+
+        .itemName {
+          flex: 1 0 27.6rem;
+        }
+        .quantity {
+          flex: 0 0 3rem;
+          text-align: center;
+        }
+        .price {
+          flex: 1 0 11.7rem;
+          text-align: right;
+        }
+        .total {
+          flex: 1 0 13.8rem;
+          text-align: right;
+        }
+      }
+    }
+  }
+
   //Basic Text Styling Only (no spacing/layout)
   .topLeft {
+
     .id {
       @include txt(1.2, font-bold, invoice-plain-text-col, 1.5, 0);
       transition: color 250ms ease;
@@ -199,21 +255,26 @@
         transition: color 250ms ease;
       }
     }
+
     .description {
       @include txt(1.2, font-med, invoice-accent-text-col, 1.5, 0);
       transition: color 250ms ease;
     }
+
   }
+
   .senderAddress,
   .clientAddress {
     @include txt(1.1, font-med, invoice-accent-text-col, 1.8, 0);
     transition: color 250ms ease;
   }
+
   .dateLabel,
   .label {
     @include txt(1.2, font-med, invoice-accent-text-col, 1.5, 0);
     transition: color 250ms ease;
   }
+  
   .date,
   .clientName,
   .clientEmail {
@@ -225,17 +286,17 @@
     .items {
       .headers {
         @include txt(1.1, font-med, invoice-accent-text-col, 1.8, -0.23);
-        transition: color 250ms ease; 
+        transition: color 250ms ease;
       }
 
       .item {
         .itemName {
           @include txt(1.2, font-bold, invoice-plain-text-col, 1.5, -0.25);
-          transition: color 250ms ease; 
+          transition: color 250ms ease;
         }
         .quantity {
           @include txt(1.2, font-bold, invoice-quantity-col, 1.5, -0.25);
-          transition: color 250ms ease; 
+          transition: color 250ms ease;
           &::after {
             content: ' x ';
             white-space: pre;
@@ -243,7 +304,7 @@
         }
         .price {
           @include txt(1.2, font-bold, invoice-quantity-col, 1.5, -0.25);
-          transition: color 250ms ease; 
+          transition: color 250ms ease;
           &::before {
             content: '£ ';
             white-space: pre;
@@ -251,7 +312,7 @@
         }
         .total {
           @include txt(1.2, font-bold, invoice-plain-text-col, 1.5, -0.25);
-          transition: color 250ms ease; 
+          transition: color 250ms ease;
           &::before {
             content: '£ ';
             white-space: pre;
