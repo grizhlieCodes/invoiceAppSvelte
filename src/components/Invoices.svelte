@@ -30,8 +30,8 @@
 
   //Open invoice after click
 
-  let invoiceShown = true //-->this
-  let invoiceData = testInvoice //-->this
+  let invoiceShown = false //-->this
+  let invoiceData //-->this
 
   const openInvoice = (event) => {
     let invoice = {invoice: event.detail}
