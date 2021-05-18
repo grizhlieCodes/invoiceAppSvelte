@@ -6,9 +6,15 @@
     paymentDue,
     clientName,
     clientAddress,
-    clientEmail
+    clientEmail,
+    items,
+    total
 
   import dateFormat from '../../helpers/dateFormat.js'
+  import priceFormat from '../../helpers/invoiceValueFormat.js'
+  import { getContext } from 'svelte'
+
+  const size = getContext('size')
 </script>
 
 <style lang="scss">
@@ -28,6 +34,8 @@
     }
   }
 
+  //Main grid for the component
+
   .invoice-body {
     background: v(invoice-tile-bg);
     width: 100%;
@@ -36,14 +44,14 @@
     padding: 2.4rem;
     grid-area: invoiceBody;
     display: grid;
+    row-gap: 3rem;
     grid:
       'topLeft topLeft' max-content
       'senderAddress senderAddress' max-content
       'dates clientAddress' max-content
       'email email' max-content
+      'body-bottom body-bottom' max-content
       / 1fr 1fr;
-    row-gap: 3rem;
-
     .topLeft {
       grid-area: topLeft;
     }
@@ -59,20 +67,41 @@
     .email {
       grid-area: email;
     }
+    .body-bottom {
+      grid-area: body-bottom;
+    }
   }
 
-  //Layout to push max-content of grid to correct sizing.
-  //We have a row-gap seperating main content. 
+  .invoice-body {
+    @include mq(tablet) {
+      padding: 3.2rem;
+      grid:
+        'topLeft topLeft senderAddress senderAddress' max-content
+        'dates clientAddress email ....' max-content
+        'body-bottom body-bottom body-bottom body-bottom' max-content
+        / 1fr 1fr 1fr 6.5rem;
+    }
+  }
+
+  .invoice-body {
+    @include mq(desktop) {
+      padding: 4.8rem;
+    }
+  }
+
+  //Layout to push max-content of grid to correct sizing/positioning.
+  //We have a row-gap seperating main content.
   //Any additional spacing is purely margin, as per below.
-
-  .dateLabel,
-  .label {
-    margin-bottom: 1.2rem;
-  }
 
   .topLeft {
     .id {
       margin-bottom: 0.4rem;
+    }
+  }
+
+  .senderAddress {
+    @include mq(tablet) {
+      justify-self: end;
     }
   }
 
@@ -88,31 +117,159 @@
     }
   }
 
+  .dateLabel,
+  .label {
+    margin-bottom: 1.2rem;
+  }
+
+  .email {
+    margin-bottom: 1rem;
+
+    @include mq(tablet) {
+      margin-bottom: 0;
+    }
+  }
+
+  .body-bottom {
+    border-radius: 0.8rem;
+    overflow: hidden;
+
+    .items {
+      background: v(invoice-items-bg);
+      transition: background 250ms ease;
+      padding: 2.4rem;
+    }
+
+    .headers {
+      display: none;
+    }
+
+    .item {
+      &:not(:nth-last-child(1)) {
+        margin-bottom: 2.4rem;
+      }
+
+      //Item grid-styling for mobile only.
+      display: grid;
+      row-gap: 0.8rem;
+      grid: 
+      "itemName itemName total" max-content
+      "quantity price total" max-content
+      / max-content 1fr 1fr;
+
+      .itemName{
+        grid-area: itemName;
+      }
+      .quantity{
+        grid-area: quantity;
+      }
+      .price{
+        grid-area: price;
+      }
+      .total{
+        grid-area: total;
+        justify-self: end;
+        align-self: center;
+      }
+    }
+
+    .grandTotal {
+      background: v(invoice-total-bg);
+      transition: background 250ms ease;
+      padding: 2.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .label {
+        margin: 0;
+        padding: 0;
+      }
+    }
+  }
+
   //Basic Text Styling Only (no spacing/layout)
   .topLeft {
     .id {
       @include txt(1.2, font-bold, invoice-plain-text-col, 1.5, 0);
+      transition: color 250ms ease;
       &::before {
         content: '#';
         color: v(invoice-id-hash-col);
+        transition: color 250ms ease;
       }
     }
     .description {
       @include txt(1.2, font-med, invoice-accent-text-col, 1.5, 0);
+      transition: color 250ms ease;
     }
   }
   .senderAddress,
   .clientAddress {
     @include txt(1.1, font-med, invoice-accent-text-col, 1.8, 0);
+    transition: color 250ms ease;
   }
   .dateLabel,
   .label {
     @include txt(1.2, font-med, invoice-accent-text-col, 1.5, 0);
+    transition: color 250ms ease;
   }
   .date,
   .clientName,
   .clientEmail {
     @include txt(1.5, font-med, invoice-plain-text-col, 2, -0.31);
+    transition: color 250ms ease;
+  }
+
+  .body-bottom {
+    .items {
+      .headers {
+        @include txt(1.1, font-med, invoice-accent-text-col, 1.8, -0.23);
+        transition: color 250ms ease; 
+      }
+
+      .item {
+        .itemName {
+          @include txt(1.2, font-bold, invoice-plain-text-col, 1.5, -0.25);
+          transition: color 250ms ease; 
+        }
+        .quantity {
+          @include txt(1.2, font-bold, invoice-quantity-col, 1.5, -0.25);
+          transition: color 250ms ease; 
+          &::after {
+            content: ' x ';
+            white-space: pre;
+          }
+        }
+        .price {
+          @include txt(1.2, font-bold, invoice-quantity-col, 1.5, -0.25);
+          transition: color 250ms ease; 
+          &::before {
+            content: '£ ';
+            white-space: pre;
+          }
+        }
+        .total {
+          @include txt(1.2, font-bold, invoice-plain-text-col, 1.5, -0.25);
+          transition: color 250ms ease; 
+          &::before {
+            content: '£ ';
+            white-space: pre;
+          }
+        }
+      }
+    }
+
+    .grandTotal {
+      .total {
+        @include txt(2, font-bold, invoice-total-col, 3.2, -0.42);
+        transition: color 250ms ease;
+        &::before {
+          content: '£ ';
+          white-space: pre;
+        }
+      }
+    }
   }
 </style>
 
@@ -149,6 +306,32 @@
   <div class="email">
     <p class="label">Sent to</p>
     <p class="clientEmail">{clientEmail}</p>
+  </div>
+
+  <div class="body-bottom">
+    <div class="items">
+
+      <div class="headers">
+        <p class="itemName">Item Name</p>
+        <p class="quantity">QTY.</p>
+        <p class="price">Price</p>
+        <p class="total">Total</p>
+      </div>
+
+      {#each items as item}
+        <div class="item">
+          <p class="itemName">{item.name}</p>
+          <p class="quantity">{item.quantity}</p>
+          <p class="price">{priceFormat(item.price)}</p>
+          <p class="total">{priceFormat(item.total)}</p>
+        </div>
+      {/each}
+    </div>
+
+    <div class="grandTotal">
+      <p class="label grandTotal">Amount Due</p>
+      <p class="total">{priceFormat(total)}</p>
+    </div>
   </div>
 
 </div>

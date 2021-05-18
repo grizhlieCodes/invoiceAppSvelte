@@ -29,7 +29,9 @@
       paymentDue,
       clientName,
       clientAddress,
-      clientEmail
+      clientEmail,
+      items,
+      total
     }
 
 </script>
@@ -46,6 +48,7 @@
     align-self: start;
     justify-self: center;
     display: grid;
+    row-gap: 1.6rem;
     grid:
     "goBack" max-content
     "invoiceTop" 9.1rem
