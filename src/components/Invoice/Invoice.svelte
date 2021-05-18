@@ -55,18 +55,22 @@
     "invoiceBody" max-content
     "invoiceBottom" max-content / 1fr;
 
-    @include mq(tablet){
+    @include mq(tablet) {
       grid:
       "goBack" max-content
       "invoiceTop" 8.8rem
       "invoiceBody" max-content
       "invoiceBottom" max-content / 1fr;
     }
+
   }
 </style>
 
 <div class="invoice">
   <InvoiceTop {status} />
   <InvoiceBody {...invoiceData} />
+  {#if $size === 'mobile'}
+     <InvoiceBottom />
+  {/if}
 </div>
 
