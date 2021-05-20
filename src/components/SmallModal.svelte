@@ -5,6 +5,7 @@
 
 <style lang="scss">
   .modal-container {
+    grid-area: mainCenter;
     width: 100%;
     max-width: 400px;
     border-radius: 1rem;

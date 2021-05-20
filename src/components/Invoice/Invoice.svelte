@@ -4,6 +4,7 @@
   import InvoiceBody from './InvoiceBody.svelte'
   import InvoiceBottom from './InvoiceBottom.svelte'
   import { getContext } from 'svelte'
+  import { fly } from 'svelte/transition'
   let size = getContext('size')
   // import invoiceValueFormat from '../helpers/invoiceValueFormat.js'
   // import dateFormat from '../helpers/dateFormat.js'
@@ -41,6 +42,7 @@
 </svelte:head>
 
 <style lang="scss">
+
   .invoice {
     width: 100%;
     grid-row: 1/2;
@@ -60,13 +62,13 @@
       "goBack" max-content
       "invoiceTop" 8.8rem
       "invoiceBody" max-content
-      "invoiceBottom" max-content / 1fr;
+      "invoiceBottom" max-content / 1fnr;
     }
-
   }
 </style>
 
-<div class="invoice">
+<div class="invoice" transition:fly={{x: 50, duration: 350}}>
+  <GoBack on:closeInvoice/>
   <InvoiceTop {status} />
   <InvoiceBody {...invoiceData} />
   {#if $size === 'mobile'}

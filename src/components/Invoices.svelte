@@ -30,24 +30,32 @@
 
   //Open invoice after click
 
-  let invoiceShown = false //-->this
-  let invoiceData //-->this
+  let invoiceShown = true //-->this
+  let invoiceData = testInvoice //-->this
 
   const openInvoice = (event) => {
-    let invoice = {invoice: event.detail}
+    let invoice = { invoice: event.detail }
     console.log(invoice)
-    for(const key in invoice) {
+    for (const key in invoice) {
       invoiceData = {
         ...invoice[key],
       }
-    } 
+    }
     console.log(invoiceData)
     invoiceShown = true
+  }
+
+  //Close the invoice, dispatched.
+
+  const closeInvoice = () => {
+    invoiceShown = !invoiceShown
+    invoiceData = {}
   }
 </script>
 
 <style lang="scss">
   .invoices-container {
+    grid-area: mainCenter;
     width: 100%;
     align-self: start;
     grid-row: 1/2;
@@ -106,7 +114,7 @@
 </svelte:head>
 
 {#if !invoiceShown}
-<div class="invoices-container" transition:fly={{ x: 20, duration: 200 }}>
+  <div class="invoices-container" transition:fly={{ x: 20, duration: 200 }}>
     <div class="top {$size}">
       <div class="left">
         <h1>Invoices</h1>
@@ -139,8 +147,8 @@
       on:invoiceQuantity={updateInvoiceQuant}
       on:openInvoice={openInvoice} />
   </div>
-    {:else}
-      <Invoice {...invoiceData}/>
-    {/if}
-    
+{:else}
+  <Invoice {...invoiceData} on:closeInvoice={closeInvoice} />
+{/if}
+
 <!-- if else  -->

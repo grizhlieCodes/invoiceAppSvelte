@@ -301,14 +301,16 @@
     <!-- replace the user-image-container with login navigation? Yes. -->
     <div class="user-image-container" on:click={togglePopup}>
       <img src="./assets/image-avatar.jpg" alt="" />
-      <div class="popup {showPopup ? 'show' : ''} {$size}">
-        <h1>Hello {localUserInfo.name}. Would you like to sign out?</h1>
-        <Button
-          type="button"
-          on:click={signOutUser}
-          btnClass="dark"
-          content="Sign Out" />
-      </div>
+      {#if $User}
+         <div class="popup {showPopup ? 'show' : ''} {$size}">
+           <h1>Hello {localUserInfo.name}. Would you like to sign out?</h1>
+           <Button
+             type="button"
+             on:click={signOutUser}
+             btnClass="dark"
+             content="Sign Out" />
+         </div>
+      {/if}
     </div>
   </div>
 </div>

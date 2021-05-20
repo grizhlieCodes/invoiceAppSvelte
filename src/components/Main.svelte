@@ -20,13 +20,14 @@
     height: 100%;
     grid-area: main;
     display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr;
     place-items: center;
+
+    grid: "mainCenter" 1fr  / 1fr;
   }
 </style>
 
 <main>
+
   {#if !$User}
     <LoginModal />
   {/if}

@@ -6,7 +6,7 @@
   import { fade, fly } from 'svelte/transition'
   import SmallModal from './SmallModal.svelte'
 
-  let showLogin = true 
+  let showLogin = true
 
   let email, password, name
 
@@ -39,8 +39,6 @@
 </script>
 
 <style lang="scss">
-
-
   .login-options {
     display: flex;
     flex-flow: row nowrap;
@@ -52,6 +50,14 @@
 
     p {
       color: v(login-or-text);
+    }
+  }
+
+  .forms-container {
+    display: grid;
+    grid: "form" 1fr / 1fr;
+    form {
+      grid-area: form;
     }
   }
 </style>
@@ -79,44 +85,59 @@
 
   </div>
 
-  {#if showLogin}
-    <form action="" on:submit|preventDefault={signInUser}>
-      <Input
-        type="email"
-        on:input={updateEmail}
-        placeholder=" "
-        id="email"
-        label="Email" />
-      <Input
-        type="password"
-        on:input={updatePassword}
-        placeholder=" "
-        id="password"
-        label="Password" />
-      <Button content="Sign In" type="submit" btnClass="primary" />
-    </form>
-  {:else}
-    <form action="" on:submit|preventDefault={signUpUser}>
-      <Input
-        type="text"
-        on:input={updateName}
-        placeholder=" "
-        id="name"
-        label="Name" />
-      <Input
-        type="email"
-        on:input={updateEmail}
-        placeholder=" "
-        id="email"
-        label="Email" />
-      <Input
-        type="password"
-        on:input={updatePassword}
-        placeholder=" "
-        id="password"
-        label="Password" />
-      <Button content="Sign Up" type="submit" btnClass="light" />
-    </form>
-  {/if}
-</SmallModal>
+  <div class="forms-container">
+    {#if showLogin}
+      <form
+        action=""
+        on:submit|preventDefault={signInUser}
+        in:fly={{ x: 25, duration: 350, delay: 200 }}
+        out:fly={{ x: 25, duration: 350 }}>
+        <Input
+          type="email"
+          on:input={updateEmail}
+          placeholder="
+          "
+          id="email"
+          label="Email" />
+        <Input
+          type="password"
+          on:input={updatePassword}
+          placeholder="
+          "
+          id="password"
+          label="Password" />
+        <Button content="Sign In" type="submit" btnClass="primary" />
+      </form>
+    {:else}
+      <form
+        action=""
+        on:submit|preventDefault={signUpUser}
+        in:fly={{ x: 25, duration: 350, delay: 200  }}
+        out:fly={{ x: 25, duration: 350 }}>
+        <Input
+          type="text"
+          on:input={updateName}
+          placeholder="
+          "
+          id="name"
+          label="Name" />
+        <Input
+          type="email"
+          on:input={updateEmail}
+          placeholder="
+          "
+          id="email"
+          label="Email" />
+        <Input
+          type="password"
+          on:input={updatePassword}
+          placeholder="
+          "
+          id="password"
+          label="Password" />
+        <Button content="Sign Up" type="submit" btnClass="light" />
+      </form>
+    {/if}
 
+  </div>
+</SmallModal>
