@@ -1,6 +1,7 @@
 <script>
   import {createEventDispatcher} from 'svelte'
   const dispatch = createEventDispatcher();
+
 </script>
 
 <style lang="scss">
@@ -36,7 +37,7 @@
     }
 </style>
 
-<button class="back" on:click={() => dispatch('closeInvoice')}>
+<button class="back" on:click>
   <img src="./assets/icon-arrow-left.svg" alt="left arrow" />
   <p>Go back</p>
 </button>

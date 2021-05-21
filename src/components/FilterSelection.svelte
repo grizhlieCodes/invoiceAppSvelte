@@ -34,7 +34,6 @@
   $: draftChecked = checkboxChecked && currentFilter === 'draft'
   $: paidChecked = checkboxChecked && currentFilter === 'paid'
   $: pendingChecked = checkboxChecked && currentFilter === 'pending'
-  $: testingChecked = checkboxChecked && currentFilter === 'zero'
   $: noFilter = currentFilter === '' && !checkboxChecked
 
 </script>

@@ -142,9 +142,10 @@
 
   .navigation.desktop {
     flex-flow: column nowrap;
-    height: 100%;
+    height: 100vh;
     width: 10.3rem;
     border-radius: 0 20px 20px 0;
+    position: fixed;
 
     .logo {
       width: 100%;

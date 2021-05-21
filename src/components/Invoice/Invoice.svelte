@@ -9,6 +9,9 @@
   // import invoiceValueFormat from '../helpers/invoiceValueFormat.js'
   // import dateFormat from '../helpers/dateFormat.js'
 
+  import {createEventDispatcher} from 'svelte'
+  const dispatch = createEventDispatcher();
+
   export let id,
     status,
     description,
@@ -68,7 +71,7 @@
 </style>
 
 <div class="invoice" transition:fly={{x: 50, duration: 350}}>
-  <GoBack on:closeInvoice/>
+  <GoBack on:click={() => dispatch('closeInvoice')}/>
   <InvoiceTop {status} />
   <InvoiceBody {...invoiceData} />
   {#if $size === 'mobile'}

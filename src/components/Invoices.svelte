@@ -6,6 +6,7 @@
   import InvoiceList from './InvoiceList.svelte'
   import Invoice from './Invoice/Invoice.svelte'
   import testInvoice from '../invoices/singleInvoice.js'
+  import EditInvoice from './EditInvoice/EditInvoice.svelte'
 
   //Filter, invoice quantity,
   let filter = ''
@@ -14,8 +15,10 @@
   $: totalInvoices = filter !== '' ? filter : 'total'
   $: title = `InnVoice: ${invoiceQuantity}`
 
+  //Size
   const size = getContext('size')
 
+  //Button mobile vs tab/des
   $: buttonContent = $size === 'mobile' ? 'New' : 'New Invoice'
 
   //Update filter & invoice quantity
@@ -24,14 +27,18 @@
     filter = val
   }
   const updateInvoiceQuant = (event) => {
+    console.log('it run')
     let val = event.detail
     invoiceQuantity = val
+
+    let docTitle = document.querySelector('title')
+    docTitle.textContent = title
   }
 
   //Open invoice after click
 
-  let invoiceShown = true //-->this
-  let invoiceData = testInvoice //-->this
+  let invoiceShown = false //-->this
+  let invoiceData //-->this
 
   const openInvoice = (event) => {
     let invoice = { invoice: event.detail }
@@ -45,7 +52,7 @@
     invoiceShown = true
   }
 
-  //Close the invoice, dispatched.
+  //Close the invoice, source = dispatched from Invoice.
 
   const closeInvoice = () => {
     invoiceShown = !invoiceShown
@@ -150,5 +157,3 @@
 {:else}
   <Invoice {...invoiceData} on:closeInvoice={closeInvoice} />
 {/if}
-
-<!-- if else  -->

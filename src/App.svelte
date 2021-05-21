@@ -3,6 +3,7 @@
   import { writable } from 'svelte/store'
   import { setContext } from 'svelte'
   import Nav from './components/Nav.svelte'
+  import EditInvoice from './components/EditInvoice/EditInvoice.svelte'
   import darkMode from './stores/darkModeStore.js'
   import initialiseFirebaseAuth from './stores/initialiseFirebase.js'
   initialiseFirebaseAuth()
@@ -26,6 +27,9 @@
   } else {
     $size = 'mobile'
   }
+
+  let editInvoice = false
+
 </script>
 
 <style lang="scss">
@@ -62,6 +66,9 @@
     //Login Container
     --modal-container-bg: var(--purple-850);
     --login-or-text: var(--purple-100);
+
+    //Edit Invoice
+    --edit-invoice-bg: var(--purple-800);
     
     //Invoices 
     --invoices-invoice-bg: var(--purple-750);
@@ -112,3 +119,7 @@
 <Nav />
 
 <Main />
+
+{#if editInvoice}
+   <EditInvoice />
+{/if}
