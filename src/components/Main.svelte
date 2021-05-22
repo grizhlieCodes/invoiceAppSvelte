@@ -33,7 +33,7 @@
   {/if}
 
   {#if showInvoices && $User}
-     <Invoices/>
+     <Invoices on:click/>
   {/if}
 
 </main>

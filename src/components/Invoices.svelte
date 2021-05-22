@@ -27,7 +27,6 @@
     filter = val
   }
   const updateInvoiceQuant = (event) => {
-    console.log('it run')
     let val = event.detail
     invoiceQuantity = val
 
@@ -41,14 +40,13 @@
   let invoiceData //-->this
 
   const openInvoice = (event) => {
+    filter = ''
     let invoice = { invoice: event.detail }
-    console.log(invoice)
     for (const key in invoice) {
       invoiceData = {
         ...invoice[key],
       }
     }
-    console.log(invoiceData)
     invoiceShown = true
   }
 
@@ -140,7 +138,7 @@
 
       </div>
       <div class="right">
-        <FilterSelection on:filter={updateFilter} />
+        <FilterSelection on:filter={updateFilter} {invoiceShown}/>
         <Button
           type="button"
           content={buttonContent}

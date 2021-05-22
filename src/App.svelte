@@ -28,7 +28,7 @@
     $size = 'mobile'
   }
 
-  let editInvoice = false
+  let editInvoice = true
 
 </script>
 
@@ -42,6 +42,9 @@
 
     //pageBackground
     --page-bg: var(--purple-800);
+
+    //Scrollbar
+    --scrollbar-bg: var(--purple-700);
 
     //Buttons
     //-light
@@ -118,8 +121,8 @@
 
 <Nav />
 
-<Main />
+<Main on:click={() => editInvoice = !editInvoice}/>
 
 {#if editInvoice}
-   <EditInvoice />
+   <EditInvoice on:openModal={() => editInvoice = !editInvoice} on:click={() => editInvoice = !editInvoice}/>
 {/if}

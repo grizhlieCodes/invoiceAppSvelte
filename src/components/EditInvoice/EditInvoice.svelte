@@ -1,48 +1,144 @@
 <script>
+  import { fly, fade } from 'svelte/transition'
+  import GoBack from '../Invoice/GoBack.svelte'
+  import { createEventDispatcher, getContext } from 'svelte'
+  import Input from '../Input.svelte'
+  const size = getContext('size')
+  const dispatch = createEventDispatcher()
 
+  const submitForm = () => {
+
+  }
 </script>
 
 <style lang="scss">
-    .overlay, .editInvoice {
-        grid-column: 1/4;
-        grid-row: 2/4;
+  .overlay,
+  .editInvoice {
+    grid-column: 1/4;
+    grid-row: 2/4;
+  }
+
+  .overlay {
+    @include mq(desktop) {
+      grid-column: 2/5;
+      grid-row: 1/3;
+    }
+  }
+  .editInvoice {
+    @include mq(desktop) {
+      grid-column: 2/5;
+      grid-row: 1/3;
+    }
+  }
+
+  .overlay {
+    background: black;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    opacity: 50%;
+  }
+
+  .editInvoice {
+    z-index: 200;
+    height: 100%;
+    width: clamp(37.5rem, 100%, 61.6rem);
+    background: v(edit-invoice-bg);
+    padding: 3.2rem 0.8rem 3.2rem 0.8rem;
+
+    @include mq(tablet){
+      padding: 5.6rem 3.2rem 5.6rem 3.2rem;
     }
 
-    .overlay{
-        @include mq(tablet){
-            grid-column: 2/5;
-            grid-row: 1/3;
-        }
-    }
-    .editInvoice {
-        @include mq(tablet){
-            grid-column: 2/5;
-            grid-row: 1/3;
-        }
+    @include mq(desktop){
+      width: 71.9rem;
     }
 
-    .overlay {
-        background: black;
-        width: 100%;
-        height: 100%;
-        z-index:100;
-        opacity: 50%;
+  }
+
+
+  .flexContainer {
+    display: flex;
+    flex-flow: row wrap;
+    column-gap: 2.3rem;
+  }
+
+  .section {
+    margin-bottom: 1.6rem;
+  }
+
+  form {
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    padding-left: 2.4rem;
+    padding-right: 0.8rem;
+
+    .goBackContainer {
+      margin-bottom: 1.4rem;
     }
 
-    .editInvoice {
-        z-index: 200;
-        color: white;
-        height: 100%;
-        width: clamp(37.5rem, 100%, 61.6rem);
-        background: v(edit-invoice-bg);
-
-
+    h1 {
+      font-size: 2.4rem;
+      line-height: 3.2rem;
+      letter-spacing: -0.5px;
+      font-weight: v(font-bold);
+      color: v(main-text-color);
+      margin-bottom: 2.4rem;
+      transition: color 400ms ease;
     }
-    
+
+    h3 {
+      font-size: 1.2rem;
+      line-height: 1.5rem;
+      letter-spacing: -0.25px;
+      font-weight: v(font-bold);
+      color: v(edit-invoice-accent);
+      margin-bottom: 2.4rem;
+      transition: color 400ms ease;
+    }
+
+    @include mq(tablet){
+        padding-left: 2.4rem;
+        padding-right: 1.6rem;
+    }
+
+  }
+
+  
+
+
+
 </style>
 
-<div class="overlay">
-    
-</div>
+<div
+  class="overlay"
+  on:click={() => dispatch('openModal')}
+  transition:fade={{ duration: 200 }} />
 
-<div class="editInvoice">TESTING</div>
+<div class="editInvoice" transition:fly={{ x: -200, duration: 400 }}>
+  {#if $size === 'mobile'}
+  <div class="goBackContainer">
+    <GoBack on:click />
+  </div>
+  {/if}
+  <form on:submit|preventDefault={submitForm} >
+    <h1>New Invoice</h1>
+    <section class="senderInfoContainer flexContainer section">
+      <h3>Bill From</h3>
+      <Input type="text" placeholder=' ' id='senderStreet' label='Street Address' flex='f-full' />
+      <Input type="text" placeholder=' ' id='senderCity' label='City' flex='f-share' />
+      <Input type="text" placeholder=' ' id='senderPostCode' label='Post Code' flex='f-share' />
+      <Input type="text" placeholder=' ' id='senderCountry' label='Country' flex='f-share' />
+    </section>
+    <section class="clientInfoContainer flexContainer section">
+      <h3>Bill From</h3>
+      <Input type="text" placeholder=' ' id='clientName' label="Client's Name" flex='f-full' />
+      <Input type="email" placeholder=' ' id='clientEmail' label="Client's Email" flex='f-full' />
+      <Input type="text" placeholder=' ' id='clientStreet' label="Street Address" flex='f-full' />
+      <Input type="text" placeholder=' ' id='clientCity' label='City' flex='f-share' />
+      <Input type="text" placeholder=' ' id='clientPostCode' label='Post Code' flex='f-share' />
+      <Input type="text" placeholder=' ' id='clientCountry' label='Country' flex='f-share' />
+    </section>
+  </form>
+</div>

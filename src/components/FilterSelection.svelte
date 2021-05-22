@@ -5,13 +5,13 @@
   import { createEventDispatcher } from 'svelte'
   const dispatch = createEventDispatcher()
 
-  let selectionActive = false
+  let filterOpen = false
   let checkboxChecked = false
   let currentFilter = ''
   const size = getContext('size')
 
   const toggleSelection = () => {
-    selectionActive = !selectionActive
+    filterOpen = !filterOpen
   }
 
   function check(selectedFilter) {
@@ -27,7 +27,7 @@
       currentFilter = selectedFilter
       checkboxChecked = !checkboxChecked
     }
-    selectionActive = !selectionActive
+    filterOpen = !filterOpen
     dispatch('filter', currentFilter)
   }
 
@@ -120,7 +120,7 @@
   <div
     class="selection-toggle"
     on:click={toggleSelection}
-    class:toggled={selectionActive}>
+    class:toggled={filterOpen}>
 
     {#if $size === 'mobile'}
       <p class="normal">Filter</p>
@@ -134,7 +134,7 @@
     </div>
   </div>
 
-  {#if selectionActive}
+  {#if filterOpen}
     <div class="filterSelections" transition:fly={{ y: -20, duration: 250 }}>
       <FilterItem
         itemChecked={draftChecked}

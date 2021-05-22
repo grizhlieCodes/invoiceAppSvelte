@@ -1,10 +1,10 @@
 <script>
-  export let type, inputClass = '', placeholder, id, label
+  export let type, inputClass = '', placeholder, id, label, flex
 </script>
 
 <style lang="scss">
     .form-item {
-        margin-bottom: 2.4rem;
+        margin: 0 0rem 2.4rem 0rem;
         font-size: 1.2rem;
         letter-spacing: -0.025rem;
         line-height: 1.5rem;
@@ -18,7 +18,7 @@
         margin-bottom: 1rem;
     }
     input {
-        margin-top: 1rem;
+        margin: 1rem 0rem 0 0rem;
         background: v(input-background);
         border: 1px solid v(input-border);
         color: v(input-text);
@@ -36,9 +36,16 @@
             box-shadow: 0 0 1pt 1pt v(input-outline);
         }
     }
+
+    .f-full{
+        flex: 1 0 100%;
+    }
+    .f-share {
+        flex: 1 0 15.2rem;
+    }
 </style>
 
-<div class="form-item">
+<div class="form-item {flex}">
   <label for={id}>{label}</label>
   <input {type} class={inputClass} on:input {placeholder} {id} />
 </div>

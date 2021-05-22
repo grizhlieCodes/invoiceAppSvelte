@@ -53,6 +53,7 @@
     align-items: center;
     background: var(--invoices-sidebar-bg);
     transition: background 250ms ease;
+    z-index: 500;
 
     .options-container {
       height: 100%;

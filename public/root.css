@@ -56,6 +56,14 @@
 	/* pageBg */
 	--page-bg: var(--light-bg);
 
+	/* Scrollbar */
+	--scrollbar-bg: var(--purple-100);
+
+	/* Edit Invoice (or create) */
+	--edit-invoice-bg: var(--white);
+	--edit-invoice-accent: var(--purple-500);
+
+
 	/* Invoices (list) */
 	--invoices-invoice-bg: var(--white);
 	--main-text-color: var(--dark);
@@ -146,4 +154,7 @@
 	--invoice-total-col: var(--white);
 	--invoice-quantity-col: var(--purple-350);
 	--invoice-tab-quantity-col: var(--purple-350);
+
+
+	/* Edit Invoice */
 }
