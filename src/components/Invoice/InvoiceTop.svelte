@@ -2,10 +2,12 @@
   import Button from '../Button.svelte'
   import { getContext } from 'svelte'
   import StatusCard from '../StatusCard.svelte'
+  import { createEventDispatcher } from 'svelte'
+  const dispatch = createEventDispatcher()
 
   const size = getContext('size')
 
-  export let status
+  export let status, id
 </script>
 
 <style lang="scss">
@@ -58,7 +60,7 @@
   </div>
   {#if $size !== 'mobile'}
     <div class="buttons">
-      <Button content="Edit" btnClass="light" on:click />
+      <Button content="Edit" btnClass="light" on:click={() => dispatch('editInvoice', id)} />
       <Button content="Delete" btnClass="red" on:click />
       <Button content="Mark as Paid" btnClass="primary" on:click />
     </div>

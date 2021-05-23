@@ -10,6 +10,7 @@
 
   let body = document.body
 
+
   $: if ($darkMode === true) {
     body.classList.add('dark')
   } else {
@@ -28,8 +29,13 @@
     $size = 'mobile'
   }
 
-  let editInvoice = true
-
+  let editInvoice = false
+  let invoiceId
+  const editActualInvoice = (e) => {
+    let id = e.detail
+    invoiceId = id
+    editInvoice = !editInvoice
+  }
 </script>
 
 <style lang="scss">
@@ -72,8 +78,8 @@
 
     //Edit Invoice
     --edit-invoice-bg: var(--purple-800);
-    
-    //Invoices 
+
+    //Invoices
     --invoices-invoice-bg: var(--purple-750);
     --main-text-color: var(--white);
     --invoices-accent: var(--purple-500);
@@ -121,8 +127,17 @@
 
 <Nav />
 
-<Main on:click={() => editInvoice = !editInvoice}/>
+<Main
+  on:click={() => (editInvoice = !editInvoice)}
+  on:editInvoice={editActualInvoice} 
+  on:editInvoiceBottom={editActualInvoice} />
 
 {#if editInvoice}
-   <EditInvoice on:openModal={() => editInvoice = !editInvoice} on:click={() => editInvoice = !editInvoice}/>
+  <EditInvoice
+    on:openModal={() => { 
+      invoiceId = undefined
+      editInvoice = !editInvoice
+    }}
+    on:click={() => (editInvoice = !editInvoice)} 
+    {invoiceId}/>
 {/if}

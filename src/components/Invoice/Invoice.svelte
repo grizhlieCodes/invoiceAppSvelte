@@ -72,10 +72,10 @@
 
 <div class="invoice" transition:fly={{x: 50, duration: 350}}>
   <GoBack on:click={() => dispatch('closeInvoice')}/>
-  <InvoiceTop {status} />
+  <InvoiceTop {status} on:editInvoice {id} />
   <InvoiceBody {...invoiceData} />
   {#if $size === 'mobile'}
-     <InvoiceBottom />
+     <InvoiceBottom  on:editInvoiceBottom {id} />
   {/if}
 </div>
 

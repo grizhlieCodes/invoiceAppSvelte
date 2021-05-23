@@ -1,5 +1,5 @@
 <script>
-  export let type, inputClass = '', placeholder, id, label, flex
+  export let type, inputClass = '', placeholder, id, label, flex,value = ''
 </script>
 
 <style lang="scss">
@@ -47,5 +47,5 @@
 
 <div class="form-item {flex}">
   <label for={id}>{label}</label>
-  <input {type} class={inputClass} on:input {placeholder} {id} />
+  <input {type} class={inputClass} on:input {placeholder} {id} {value}/>
 </div>

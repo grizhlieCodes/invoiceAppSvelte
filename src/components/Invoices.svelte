@@ -153,5 +153,5 @@
       on:openInvoice={openInvoice} />
   </div>
 {:else}
-  <Invoice {...invoiceData} on:closeInvoice={closeInvoice} />
+  <Invoice {...invoiceData} on:closeInvoice={closeInvoice} on:editInvoice on:editInvoiceBottom/>
 {/if}
