@@ -4,6 +4,7 @@
   import { createEventDispatcher, getContext } from 'svelte'
   import Input from '../Input.svelte'
   import InvoicesArray from '../../invoices/testing' //Data source, will be replaced
+  import InvoiceDate from '../DatePicker/InvoiceDate.svelte'
   const size = getContext('size')
   const dispatch = createEventDispatcher()
 
@@ -16,7 +17,8 @@
     clientStreet,
     clientCity,
     clientPostCode,
-    clientCountry
+    clientCountry,
+    invoiceDate
 
   let data = {}
 
@@ -49,6 +51,7 @@
       },
       clientName,
       clientEmail,
+      invoiceDate
     }
     console.log(data)
   }
@@ -68,6 +71,7 @@
     clientCity = invoice.clientAddress.city
     clientPostCode = invoice.clientAddress.postCode
     clientCountry = invoice.clientAddress.country
+    invoiceDate = invoice.createdAt
   }
 
   const submitForm = () => {}
@@ -273,6 +277,12 @@
         flex="f-share"
         value={clientCountry}
         on:input={updateVariable} />
+      <InvoiceDate 
+        flex='f-share'
+        type="text"  
+        value={invoiceDate}
+      />
+
     </section>
   </form>
 </div>

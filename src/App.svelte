@@ -29,7 +29,7 @@
     $size = 'mobile'
   }
 
-  let editInvoice = false
+  let editInvoice = true //THIS
   let invoiceId
   const editActualInvoice = (e) => {
     let id = e.detail
