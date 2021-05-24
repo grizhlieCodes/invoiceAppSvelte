@@ -39,6 +39,14 @@
 	--purple-100: #DFE3FA;
 	--purple-50: #eaedff;
 
+	/* DatePicker */
+	--datePicker-bg: var(--white);
+	--datePicker-accent: var(--purple-500);
+	--datePicker-grey-text-col: #EBEBEC;
+	--datePicker-selectedDate-bg: var(--purple-500);
+	--datePicker-selectedDate-col: var(--white);
+	--datePicker-normal-text-col: var(--dark);
+
 	/* Reds */
 	--red-500: #ec5555;
 	--red-200: #ff9999; 

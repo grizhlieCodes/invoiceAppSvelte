@@ -73,3 +73,62 @@ body {
   outline: none;
   border-radius: 8px;
 }
+
+
+
+
+.cal {
+  grid-area: cal;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-auto-rows: 15px;
+  grid-auto-flow: row;
+  place-items: center;
+  row-gap: 16px;
+}
+  .cal p {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    font-weight: var(--font-bold);
+    transition: color 250ms ease;
+  }
+
+  .cal p.cur-month {
+      color: var(--datePicker-normal-text-col);
+    }
+  
+  .cal p.cur-month.selected{
+    position: relative;
+    z-index: 5;
+    color: var(--datePicker-selectedDate-col);
+  }
+  .cal p.cur-month.hover{
+    color: white;
+  }
+
+  .cal p.cur-month.selected::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    bottom: 0;
+    height: 175%;
+    width: 100%;
+    transform: translateY(-58%);
+    background: var(--purple-500);
+    z-index: -1;
+    border-radius: 5px;
+  }
+
+  .cal p.prev-month, .cal p.next-month{
+    color: #343853;
+  }
+
+  .cal p.cur-month:hover {
+    color: var(--purple-500);
+  }

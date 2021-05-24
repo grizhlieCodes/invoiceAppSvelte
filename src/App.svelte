@@ -115,7 +115,14 @@
     --invoice-total-bg: var(--dark);
     --invoice-quantity-col: var(--purple-250);
     --invoice-tab-quantity-col: var(--purple-100);
+
+
+    // DatePicker
+    --datePicker-bg: var(--purple-700);
+    --datePicker-grey-text-col: #343853;
+    --datePicker-normal-text-col: var(--purple-100);
   }
+
 
   :global(body) {
     transition: background 250ms ease;

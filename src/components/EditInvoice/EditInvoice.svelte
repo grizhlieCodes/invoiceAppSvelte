@@ -279,9 +279,8 @@
         on:input={updateVariable} />
       <InvoiceDate 
         flex='f-share'
-        type="text"  
-        value={invoiceDate}
       />
+
 
     </section>
   </form>
