@@ -120,7 +120,7 @@
     }, 0)
   }
 
-  const previousMonth = () => {
+const previousMonth = () => {
     let previousMonthIndex = monthIndex === 0 ? 11 : monthIndex - 1
     let yearIndex = previousMonthIndex === 11 ? year - 1 : year
     selectedDate = new Date(yearIndex, previousMonthIndex, 1)
