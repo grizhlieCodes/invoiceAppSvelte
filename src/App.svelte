@@ -79,6 +79,10 @@
     //Edit Invoice
     --edit-invoice-bg: var(--purple-800);
 
+    //paymentTerms
+    --paymentTerms-dividing-line: var(--purple-700);
+    --paymentTerms-accent: var(--purple-400);
+
     //Invoices
     --invoices-invoice-bg: var(--purple-750);
     --main-text-color: var(--white);

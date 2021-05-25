@@ -47,6 +47,11 @@
 	--datePicker-selectedDate-col: var(--white);
 	--datePicker-normal-text-col: var(--dark);
 
+	/* PaymentTerms */
+	--paymentTerms-bg: var(--white);
+	--paymentTerms-dividing-line: var(--purple-100);
+	--paymentTerms-accent: var(--purple-500);
+
 	/* Reds */
 	--red-500: #ec5555;
 	--red-200: #ff9999; 

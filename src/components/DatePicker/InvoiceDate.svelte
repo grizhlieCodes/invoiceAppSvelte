@@ -2,28 +2,48 @@
   import DatePicker from './NewDatePicker.svelte'
   import visualiseDate from '../../helpers/realDateToInvoiceVisual.js'
   import pickedDate from '../../stores/pickedDate.js'
+  import { onMount, onDestroy, createEventDispatcher } from 'svelte'
+  const dispatch = createEventDispatcher()
 
   export let inputClass = '',
     placeholder,
     flex,
-    invoiceDateFromExistingInvoice
+    existingInvoiceDate
 
-  $: console.log(invoiceDateFromExistingInvoice)
+    $: console.log(existingInvoiceDate)
 
-  $: invoicePresetDateArray = invoiceDateFromExistingInvoice ? invoiceDateFromExistingInvoice.split('-') : undefined
-  $: invoicePresetDate = invoiceDateFromExistingInvoice ? new Date(invoicePresetDateArray[0],invoicePresetDateArray[1] - 1,invoicePresetDateArray[2]) : new Date()
-
-
+  $: invoicePresetDate = existingInvoiceDate ? new Date(existingInvoiceDate) : undefined
+  $: console.log(invoicePresetDate)
+  $: existingDate = existingInvoiceDate ? new Date(invoicePresetDate.getFullYear(), invoicePresetDate.getMonth(),invoicePresetDate.getDate()) : new Date()
+  
   let showDatepicker = false
 
   const toggleDatepicker = () => {
-    console.log('worked')
     showDatepicker = !showDatepicker
   }
-  $: date = $pickedDate ? pickedDate.visualiseDate($pickedDate) : visualiseDate(new Date())
 
-  $: invoiceDateFromExistingInvoice ? date = pickedDate.visualiseDate(invoicePresetDate) : null
+  $: date = $pickedDate ? $pickedDate : new Date()
+  $: dateVisualised = $pickedDate
+    ? pickedDate.visualiseDate($pickedDate)
+    : visualiseDate(new Date())
 
+  $: existingInvoiceDate
+    ? (dateVisualised = pickedDate.visualiseDate(existingDate))
+    : null
+  $: existingInvoiceDate
+    ? pickedDate.updateSelectedDate(existingDate)
+    : console.log(false)
+  $: existingInvoiceDate ? (date = existingDate) : console.log(false)
+
+  onDestroy(() => {
+    pickedDate.nullify()
+  })
+
+  onMount(() => {
+    if (!existingInvoiceDate) {
+      dispatch('updateDateAsToday', date)
+    }
+  })
 </script>
 
 <style lang="scss">
@@ -66,14 +86,14 @@
   .f-full {
     flex: 1 0 100%;
   }
+
   .f-half {
     flex: 1 0 100%;
 
-    @include mq(tablet) {
-      flex: 1 0 50%;
+    @media screen and (min-width: 560px) {
+      flex: 1 0 20rem;
     }
   }
-  
 
   .input-container {
     position: relative;
@@ -103,14 +123,21 @@
     <button
       type="button"
       class={inputClass}
-      on:click={toggleDatepicker}
+      on:click={() => {
+        toggleDatepicker()
+      }}
       {placeholder}
-      id="invoiceDate">
-      {date}
+      id="invoiceDate"
+      data-date={date}>
+      {dateVisualised}
     </button>
     <img src="./assets/icon-calendar.svg" alt="calendar icon" />
   </div>
   {#if showDatepicker}
-     <DatePicker {date} {invoicePresetDate}/>
+    <DatePicker
+      {dateVisualised}
+      {existingDate}
+      on:updateInvoiceDate
+      on:closeDatepicker={() => (showDatepicker = !showDatepicker)} />
   {/if}
 </div>

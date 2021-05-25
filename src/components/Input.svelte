@@ -49,5 +49,5 @@
 
 <div class="form-item {flex}">
   <label for={id}>{label}</label>
-  <input {type} class={inputClass} on:input {placeholder} {id} {value}/>
+  <input autocomplete="nope" {type} class={inputClass} on:input {placeholder} {id} {value}/>
 </div>

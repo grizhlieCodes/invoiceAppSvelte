@@ -1,8 +1,10 @@
 <script>
   import { onMount } from 'svelte'
   import pickedDate from '../../stores/pickedDate.js'
-
-  export let invoicePresetDate
+  import {fly} from 'svelte/transition'
+  import { createEventDispatcher } from 'svelte'
+  const dispatch = createEventDispatcher();
+  export let existingDate
 
   let calendar
   //Basic Data
@@ -33,34 +35,25 @@
   const totalDayInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
   //Core Date Variables
-  let date = invoicePresetDate ? invoicePresetDate : new Date()
-  // if()
-  // let date = invoicePresetDate ? invoicePresetDate : new Date() 
-  console.log(date)
+  let date = existingDate ? existingDate : new Date()
   let selectedDate = $pickedDate ? $pickedDate : date
   $: year = selectedDate.getFullYear()
   $: monthIndex = selectedDate.getMonth()
   $: monthName = monthNames[monthIndex].substring(0, 3)
-  $: day = selectedDate.getDate()
-  $: originalDayIndex = selectedDate.getDay()
-  $: dayIndex = originalDayIndex === -1 ? 6 : NaN
-  $: firstDayIndexOfMonth = new Date(year, monthIndex, 1).getDay() - 1
+  $: firstDayIndexOfMonth = new Date(year, monthIndex, 1).getDay() - 1 //Adjust for Sun -> Mon
   $: normalFirstDayIndexOfMonth =
-    firstDayIndexOfMonth === -1 ? 6 : firstDayIndexOfMonth
-  $: selectedDayElement = null
-  $: prevMonthIndex = monthIndex === 0 ? 11 : monthIndex - 1
+    firstDayIndexOfMonth === -1 ? 6 : firstDayIndexOfMonth //Adjust for Sun -> Mon
+  $: prevMonthIndex = monthIndex === 0 ? 11 : monthIndex - 1 //If Jan -> Dec, swap -1 with 11 for Dec.
   $: totalDaysPrevMonth = totalDayInMonth[prevMonthIndex]
   $: totalDaysToLoop = totalDaysPrevMonth - normalFirstDayIndexOfMonth //30 - 5 = 25
   $: lastDayOfMonth = new Date(year, monthIndex + 1, 0).getDay() //1 (Sun -> Sat)
   $: totalDaysToLoopFront = 7 - lastDayOfMonth
   let clickedDate
-  $: chosenDate = clickedDate ? clickedDate : selectedDate
   let chosenDateDay = selectedDate.getDate()
   let chosenDateMonthIndex = selectedDate.getMonth()
 
   function renderCalendar() {
     calendar.innerHTML = ''
-    //              31
     for (let i = totalDaysPrevMonth; i > totalDaysToLoop; i--) {
       let day = document.createElement('p')
       day.classList.add('prev-month')
@@ -73,7 +66,6 @@
       day.classList.add('cur-month')
       day.textContent = i
       if (i == chosenDateDay && chosenDateMonthIndex == monthIndex) {
-        selectedDayElement = day
         day.classList.add('selected')
       }
       calendar.append(day)
@@ -103,6 +95,17 @@
           renderCalendar()
         }, 0)
         pickedDate.updateSelectedDate(clickedDate)
+        console.log($pickedDate)
+        
+        dispatch('updateInvoiceDate', {
+          id: "invoiceDate",
+          date: clickedDate
+        })
+
+        dispatch('closeDatepicker')
+
+        console.log(clickedDate)
+
       }
     })
   })
@@ -143,6 +146,7 @@
     padding: 2.5rem 2rem;
     font-weight: v(font-bold);
     border-radius: 0.8rem;
+    margin-top: 1.6rem;
 
     .calendar__header {
       grid-area: calHead;
@@ -220,7 +224,7 @@
   }
 </style>
 
-<div class="calendar-container">
+<div class="calendar-container" transition:fly={{y:-50, duration:250}}>
   <div class="calendar__header">
     <button type="button" class="back-arrow arrow" on:click={previousMonth}>
       <img src="./assets/icon-arrow-left.svg" alt="left arrow" />
@@ -240,5 +244,5 @@
     <p class="dayName">S</p>
     <p class="dayName">S</p>
   </div>
-  <div class="calendar" />
+  <div class="calendar"/>
 </div>

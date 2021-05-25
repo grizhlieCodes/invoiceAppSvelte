@@ -1,16 +1,28 @@
 <script>
   import { fly, fade } from 'svelte/transition'
   import GoBack from '../Invoice/GoBack.svelte'
-  import { createEventDispatcher, getContext } from 'svelte'
+  import { createEventDispatcher, getContext, onMount } from 'svelte'
   import Input from '../Input.svelte'
   import InvoicesArray from '../../invoices/testing' //Data source, will be replaced
   import InvoiceDate from '../DatePicker/InvoiceDate.svelte'
+  import PaymentTerms from './PaymentTerms.svelte'
   const size = getContext('size')
   const dispatch = createEventDispatcher()
 
+  Date.prototype.addDays = function (days) {
+    var date = new Date(this.valueOf())
+    date.setDate(date.getDate() + days)
+    return date
+  }
+
   export let invoiceId = undefined
 
-  let senderStreet = '', senderCity = '', senderPostCode = '', senderCountry = ''
+  let senderStreet = '',
+    senderCity = '',
+    senderPostCode = '',
+    senderCountry = ''
+
+  let dispatchedPaymentTerms
 
   let clientName,
     clientEmail,
@@ -18,7 +30,10 @@
     clientCity,
     clientPostCode,
     clientCountry,
-    invoiceDate
+    createdAt,
+    description,
+    paymentTerms,
+    paymentDue
 
   let data = {}
 
@@ -35,8 +50,10 @@
     else if (id === 'clientCity') clientCity = val
     else if (id === 'clientPostCode') clientPostCode = val
     else if (id === 'clientCountry') clientCountry = val
+    else if (id === 'description') description = val
 
     data = {
+      ...data,
       senderAddress: {
         senderStreet,
         senderCity,
@@ -51,15 +68,30 @@
       },
       clientName,
       clientEmail,
-      invoiceDate
+      description,
     }
     console.log(data)
   }
 
-  //Load invoice information if we have an ID. 
+  const updateInvoiceDate = (e) => {
+    const id = e.detail.id
+    const date = e.detail.date
+    let dueDate = new Date(date).addDays(dispatchedPaymentTerms)
+    createdAt = `${date}`
+    paymentDue = `${dueDate}`
+
+    data = {
+      ...data,
+      createdAt,
+      paymentDue,
+    }
+    console.log(data)
+  }
+
+  //Load invoice information if we have an ID.
   //We can only have an ID if we arrive from a specific invoice.
-  if(invoiceId){
-    let invoice = InvoicesArray.find(invoice => invoice.id === invoiceId)
+  if (invoiceId) {
+    let invoice = InvoicesArray.find((invoice) => invoice.id === invoiceId)
     console.log(invoice)
     senderStreet = invoice.senderAddress.street
     senderCity = invoice.senderAddress.city
@@ -71,10 +103,27 @@
     clientCity = invoice.clientAddress.city
     clientPostCode = invoice.clientAddress.postCode
     clientCountry = invoice.clientAddress.country
-    invoiceDate = invoice.createdAt
+    createdAt = invoice.createdAt
+    paymentTerms = invoice.paymentTerms
+    description = invoice.description
   }
 
   const submitForm = () => {}
+
+  const updateDateDue = (e) => {
+    let paymentTerms = e.detail
+    dispatchedPaymentTerms = paymentTerms
+    paymentTerms = dispatchedPaymentTerms
+    if (data.createdAt) {
+      paymentDue = new Date(data.createdAt).addDays(dispatchedPaymentTerms)
+      data = {
+        ...data,
+        paymentDue,
+      }
+      console.log(data)
+    } else {
+    }
+  }
 </script>
 
 <style lang="scss">
@@ -117,7 +166,7 @@
     }
 
     @include mq(desktop) {
-      width: 71.9rem;
+      width: 61.6rem;
     }
   }
 
@@ -180,7 +229,7 @@
       <GoBack on:click />
     </div>
   {/if}
-  <form on:submit|preventDefault={submitForm}>
+  <form on:submit|preventDefault={submitForm} autocomplete="off">
     <h1>{!invoiceId ? 'New Invoice' : `Edit #${invoiceId}`}</h1>
     <section class="senderInfoContainer flexContainer section">
       <h3>Bill From</h3>
@@ -277,12 +326,24 @@
         flex="f-share"
         value={clientCountry}
         on:input={updateVariable} />
-      <InvoiceDate 
-        flex='f-half'
-        invoiceDateFromExistingInvoice={invoiceDate}
-      />
+      <InvoiceDate
+        flex="f-half"
+        existingInvoiceDate={createdAt}
+        on:updateInvoiceDate={updateInvoiceDate}/>
+      <PaymentTerms
+        flex="f-half"
+        on:updateDateDue={updateDateDue}
+        {paymentTerms} />
 
-
+      <Input
+        type="text"
+        placeholder="
+        "
+        id="description"
+        label="Project Description"
+        flex="f-full"
+        value={description}
+        on:input={updateVariable} />
     </section>
   </form>
 </div>
