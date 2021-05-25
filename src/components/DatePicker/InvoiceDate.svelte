@@ -4,43 +4,37 @@
   import pickedDate from '../../stores/pickedDate.js'
   import { onMount, onDestroy, createEventDispatcher } from 'svelte'
   const dispatch = createEventDispatcher()
+  
+  //Basic Variables
+  let showDatepicker = false
 
   export let inputClass = '',
     placeholder,
     flex,
-    existingInvoiceDate
+    dateFromInvoice
 
-    $: console.log(existingInvoiceDate)
+  $: existingDate = dateFromInvoice ? new Date(dateFromInvoice) : new Date()
 
-  $: invoicePresetDate = existingInvoiceDate ? new Date(existingInvoiceDate) : undefined
-  $: console.log(invoicePresetDate)
-  $: existingDate = existingInvoiceDate ? new Date(invoicePresetDate.getFullYear(), invoicePresetDate.getMonth(),invoicePresetDate.getDate()) : new Date()
+  //if we have clicked on a date and stored it in a store then update Date
+  $: date = $pickedDate ? $pickedDate : new Date()
+
+  //if we have a stored date create a visualisation of that date.
+  //pickedDate.visualiseDate($pickedDate) === Grabs long date and outputs 'dd-mmm-yyyy'
+  $: dateVisualised = $pickedDate ? visualiseDate($pickedDate) : visualiseDate(new Date())
+
+  $: if(dateFromInvoice) dateVisualised = pickedDate.visualiseDate(existingDate)
+  $: if(dateFromInvoice) pickedDate.updateSelectedDate(existingDate)
+  $: if(dateFromInvoice) date = existingDate
   
-  let showDatepicker = false
-
   const toggleDatepicker = () => {
     showDatepicker = !showDatepicker
   }
-
-  $: date = $pickedDate ? $pickedDate : new Date()
-  $: dateVisualised = $pickedDate
-    ? pickedDate.visualiseDate($pickedDate)
-    : visualiseDate(new Date())
-
-  $: existingInvoiceDate
-    ? (dateVisualised = pickedDate.visualiseDate(existingDate))
-    : null
-  $: existingInvoiceDate
-    ? pickedDate.updateSelectedDate(existingDate)
-    : console.log(false)
-  $: existingInvoiceDate ? (date = existingDate) : console.log(false)
-
   onDestroy(() => {
     pickedDate.nullify()
   })
 
   onMount(() => {
-    if (!existingInvoiceDate) {
+    if (!dateFromInvoice) {
       dispatch('updateDateAsToday', date)
     }
   })

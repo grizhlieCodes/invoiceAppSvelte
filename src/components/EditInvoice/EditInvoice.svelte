@@ -328,7 +328,7 @@
         on:input={updateVariable} />
       <InvoiceDate
         flex="f-half"
-        existingInvoiceDate={createdAt}
+        dateFromInvoice={createdAt}
         on:updateInvoiceDate={updateInvoiceDate}/>
       <PaymentTerms
         flex="f-half"
