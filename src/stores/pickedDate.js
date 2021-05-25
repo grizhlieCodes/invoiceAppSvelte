@@ -24,23 +24,15 @@ const customSelectedDate = {
             "December"
         ];
 
-        const dateArray = date.split('/')
-        const dateDay = dateArray[0]
-        const dateMonth = dateArray[1] - 1
-        const dateYear = dateArray[2]
-
-        const selectedDate = new Date(dateYear, dateMonth, dateDay)
-
-
-        const day = selectedDate.getDate();
-        const month = monthNames[selectedDate.getMonth()].substring(0, 3);
-        const year = selectedDate.getFullYear();
+        const day = date.getDate();
+        const month = monthNames[date.getMonth()].substring(0, 3);
+        const year = date.getFullYear();
         const visualDate = `${day} ${month} ${year}`
         return visualDate
 
     },
     updateSelectedDate: (date) => {
-        selectedDate.set(customSelectedDate.visualiseDate(date))
+        selectedDate.set(date)
     }
 }
 
@@ -66,6 +58,6 @@ function convertDateToString(date){
     return `${day} ${month} ${year}`
 }
 
-selectedDate.set(convertDateToString(new Date()))
+// selectedDate.set(convertDateToString(new Date()))
 
 export default customSelectedDate

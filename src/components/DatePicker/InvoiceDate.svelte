@@ -5,18 +5,24 @@
 
   export let inputClass = '',
     placeholder,
-    flex
+    flex,
+    invoiceDateFromExistingInvoice
 
-    let today = visualiseDate(new Date())
+  $: console.log(invoiceDateFromExistingInvoice)
 
-  let showDatepicker = true
+  $: invoicePresetDateArray = invoiceDateFromExistingInvoice ? invoiceDateFromExistingInvoice.split('-') : undefined
+  $: invoicePresetDate = invoiceDateFromExistingInvoice ? new Date(invoicePresetDateArray[0],invoicePresetDateArray[1] - 1,invoicePresetDateArray[2]) : new Date()
+
+
+  let showDatepicker = false
 
   const toggleDatepicker = () => {
     console.log('worked')
     showDatepicker = !showDatepicker
   }
+  $: date = $pickedDate ? pickedDate.visualiseDate($pickedDate) : visualiseDate(new Date())
 
-  $: today = $pickedDate
+  $: invoiceDateFromExistingInvoice ? date = pickedDate.visualiseDate(invoicePresetDate) : null
 
 </script>
 
@@ -60,9 +66,14 @@
   .f-full {
     flex: 1 0 100%;
   }
-  .f-share {
-    flex: 1 0 15.2rem;
+  .f-half {
+    flex: 1 0 100%;
+
+    @include mq(tablet) {
+      flex: 1 0 50%;
+    }
   }
+  
 
   .input-container {
     position: relative;
@@ -95,11 +106,11 @@
       on:click={toggleDatepicker}
       {placeholder}
       id="invoiceDate">
-      {today}
+      {date}
     </button>
     <img src="./assets/icon-calendar.svg" alt="calendar icon" />
   </div>
   {#if showDatepicker}
-     <DatePicker {today}/>
+     <DatePicker {date} {invoicePresetDate}/>
   {/if}
 </div>

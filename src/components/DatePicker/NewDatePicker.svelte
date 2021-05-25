@@ -1,5 +1,8 @@
 <script>
   import { onMount } from 'svelte'
+  import pickedDate from '../../stores/pickedDate.js'
+
+  export let invoicePresetDate
 
   let calendar
   //Basic Data
@@ -29,31 +32,35 @@
   //                       0   1   2   3   4   5   6   7   8   9   10  11
   const totalDayInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
-  let year, monthIndex, day, originalDayIndex, dayIndex, firstDayIndexOfMonth
-
   //Core Date Variables
-  let today = new Date()
-  let selectedDate = undefined
-  $: year = selectedDate ? selectedDate.getFullYear() : today.getFullYear()
-  $: monthIndex = selectedDate ? selectedDate.getMonth() : today.getMonth()
+  let date = invoicePresetDate ? invoicePresetDate : new Date()
+  // if()
+  // let date = invoicePresetDate ? invoicePresetDate : new Date() 
+  console.log(date)
+  let selectedDate = $pickedDate ? $pickedDate : date
+  $: year = selectedDate.getFullYear()
+  $: monthIndex = selectedDate.getMonth()
   $: monthName = monthNames[monthIndex].substring(0, 3)
-  $: day = selectedDate ? selectedDate.getDate() : today.getDate()
-  $: originalDayIndex = selectedDate ? selectedDate.getDay() : today.getDay()
+  $: day = selectedDate.getDate()
+  $: originalDayIndex = selectedDate.getDay()
   $: dayIndex = originalDayIndex === -1 ? 6 : NaN
   $: firstDayIndexOfMonth = new Date(year, monthIndex, 1).getDay() - 1
-  $: normalFirstDayIndexOfMonth = firstDayIndexOfMonth === -1 ? 6 : firstDayIndexOfMonth
+  $: normalFirstDayIndexOfMonth =
+    firstDayIndexOfMonth === -1 ? 6 : firstDayIndexOfMonth
   $: selectedDayElement = null
   $: prevMonthIndex = monthIndex === 0 ? 11 : monthIndex - 1
   $: totalDaysPrevMonth = totalDayInMonth[prevMonthIndex]
   $: totalDaysToLoop = totalDaysPrevMonth - normalFirstDayIndexOfMonth //30 - 5 = 25
   $: lastDayOfMonth = new Date(year, monthIndex + 1, 0).getDay() //1 (Sun -> Sat)
   $: totalDaysToLoopFront = 7 - lastDayOfMonth
-  let chosenDate = today
-  let chosenDateDay = today.getDate()
-  let chosenDateMonth = today.getMonth()
+  let clickedDate
+  $: chosenDate = clickedDate ? clickedDate : selectedDate
+  let chosenDateDay = selectedDate.getDate()
+  let chosenDateMonthIndex = selectedDate.getMonth()
 
   function renderCalendar() {
-    //              31                           
+    calendar.innerHTML = ''
+    //              31
     for (let i = totalDaysPrevMonth; i > totalDaysToLoop; i--) {
       let day = document.createElement('p')
       day.classList.add('prev-month')
@@ -65,7 +72,7 @@
       let day = document.createElement('p')
       day.classList.add('cur-month')
       day.textContent = i
-      if (i == chosenDateDay && chosenDateMonth == monthIndex) {
+      if (i == chosenDateDay && chosenDateMonthIndex == monthIndex) {
         selectedDayElement = day
         day.classList.add('selected')
       }
@@ -83,28 +90,40 @@
   $: onMount(async () => {
     calendar = document.querySelector('.calendar')
     renderCalendar()
+
+    calendar.addEventListener('click', (e) => {
+      let el = e.target
+      let elIsCurrentMonth = el.classList.contains('cur-month')
+
+      if(elIsCurrentMonth){
+        chosenDateDay = parseInt(el.textContent, 10)
+        let chosenDateMonthIndex = monthIndex
+        clickedDate = new Date(year, chosenDateMonthIndex, chosenDateDay)
+        setTimeout(() => {
+          renderCalendar()
+        }, 0)
+        pickedDate.updateSelectedDate(clickedDate)
+      }
+    })
   })
 
   const nextMonth = () => {
-    calendar.innerHTML = ''
     let nextMonthIndex = monthIndex === 11 ? 0 : monthIndex + 1
     let yearIndex = nextMonthIndex === 0 ? year + 1 : year
     selectedDate = new Date(yearIndex, nextMonthIndex, 1)
 
     setTimeout(() => {
       renderCalendar()
-    },0)
-    
+    }, 0)
   }
 
   const previousMonth = () => {
-    calendar.innerHTML = ''
     let previousMonthIndex = monthIndex === 0 ? 11 : monthIndex - 1
     let yearIndex = previousMonthIndex === 11 ? year - 1 : year
     selectedDate = new Date(yearIndex, previousMonthIndex, 1)
     setTimeout(() => {
       renderCalendar()
-    },0)
+    }, 0)
   }
 </script>
 
@@ -174,10 +193,10 @@
     height: 100%;
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    grid-auto-rows: 15px;
+    grid-auto-rows: min-content;
     grid-auto-flow: row;
     place-items: center;
-    row-gap: 16px;
+    // row-gap: 16px;
     color: v(datePicker-normal-text-col);
 
     :global(p.prev-month, p.next-month) {
@@ -186,10 +205,17 @@
 
     :global(p.prev-month, p.next-month, p.cur-month) {
       margin: 0;
-      padding: 0;
+      // padding: 0;
       text-align: center;
       cursor: pointer;
       width: 100%;
+      padding: 0.8rem 0 0.5rem;
+      margin-bottom: 0.3rem;
+      border-radius: 4px;
+    }
+    :global(p.cur-month.selected) {
+      background: v(datePicker-accent);
+      color: v(white);
     }
   }
 </style>

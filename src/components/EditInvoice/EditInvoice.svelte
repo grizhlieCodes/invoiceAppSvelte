@@ -278,7 +278,8 @@
         value={clientCountry}
         on:input={updateVariable} />
       <InvoiceDate 
-        flex='f-share'
+        flex='f-half'
+        invoiceDateFromExistingInvoice={invoiceDate}
       />
 
 
