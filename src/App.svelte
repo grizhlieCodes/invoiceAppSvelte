@@ -10,7 +10,6 @@
 
   let body = document.body
 
-
   $: if ($darkMode === true) {
     body.classList.add('dark')
   } else {
@@ -64,6 +63,12 @@
     --btn-dark-hover-bg: var(--purple-750);
     --btn-dark-text: var(--purple-100);
     --btn-dark-hover-text: var(--purple-100);
+
+    //large button
+    --btn-large-bg: var(--purple-700);
+    --btn-large-hover-bg: var(--purple-650);
+    --btn-large-text: var(--purple-100);
+    --btn-large-hover-text: var(--white);
 
     //Input
     --label-text: var(--purple-100);
@@ -120,13 +125,14 @@
     --invoice-quantity-col: var(--purple-250);
     --invoice-tab-quantity-col: var(--purple-100);
 
-
     // DatePicker
     --datePicker-bg: var(--purple-700);
     --datePicker-grey-text-col: #343853;
     --datePicker-normal-text-col: var(--purple-100);
-  }
 
+    // Edit Invoice
+    --h2-item-list-col: var(--purple-350);
+  }
 
   :global(body) {
     transition: background 250ms ease;
@@ -140,15 +146,15 @@
 
 <Main
   on:click={() => (editInvoice = !editInvoice)}
-  on:editInvoice={editActualInvoice} 
+  on:editInvoice={editActualInvoice}
   on:editInvoiceBottom={editActualInvoice} />
 
 {#if editInvoice}
   <EditInvoice
-    on:openModal={() => { 
+    on:openModal={() => {
       invoiceId = undefined
       editInvoice = !editInvoice
     }}
-    on:click={() => (editInvoice = !editInvoice)} 
-    {invoiceId}/>
+    on:click={() => (editInvoice = !editInvoice)}
+    {invoiceId} />
 {/if}

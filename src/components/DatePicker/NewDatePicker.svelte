@@ -95,17 +95,10 @@
           renderCalendar()
         }, 0)
         pickedDate.updateSelectedDate(clickedDate)
-        console.log($pickedDate)
-        
         dispatch('updateInvoiceDate', {
-          id: "invoiceDate",
           date: clickedDate
         })
-
         dispatch('closeDatepicker')
-
-        console.log(clickedDate)
-
       }
     })
   })
@@ -225,6 +218,7 @@ const previousMonth = () => {
 </style>
 
 <div class="calendar-container" transition:fly={{y:-50, duration:250}}>
+
   <div class="calendar__header">
     <button type="button" class="back-arrow arrow" on:click={previousMonth}>
       <img src="./assets/icon-arrow-left.svg" alt="left arrow" />

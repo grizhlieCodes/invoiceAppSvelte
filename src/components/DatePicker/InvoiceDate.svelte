@@ -33,11 +33,8 @@
     pickedDate.nullify()
   })
 
-  onMount(() => {
-    if (!dateFromInvoice) {
-      dispatch('updateDateAsToday', date)
-    }
-  })
+  console.log($pickedDate)
+
 </script>
 
 <style lang="scss">

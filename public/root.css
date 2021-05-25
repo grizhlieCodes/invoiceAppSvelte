@@ -100,7 +100,10 @@
 	--invoices-checkbox-tick: var(--white);
 	--invoices-checkbox-border: var(--purple-500);
 
-	
+	/* Edit Invoice */
+	--h2-item-list-col: var(--purple-350);
+
+
 	/* Sidebar */
 	--invoices-sidebar-bg: var(--purple-600);
 	--invoices-sidebar-split: var(--purple-550);
@@ -169,5 +172,5 @@
 	--invoice-tab-quantity-col: var(--purple-350);
 
 
-	/* Edit Invoice */
+
 }

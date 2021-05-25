@@ -6,6 +6,8 @@
   import InvoicesArray from '../../invoices/testing' //Data source, will be replaced
   import InvoiceDate from '../DatePicker/InvoiceDate.svelte'
   import PaymentTerms from './PaymentTerms.svelte'
+  import Button from '../Button.svelte'
+  import ListItem from './ListItem.svelte'
   const size = getContext('size')
   const dispatch = createEventDispatcher()
 
@@ -34,6 +36,10 @@
     description,
     paymentTerms,
     paymentDue
+
+  //list item dummy data
+  let items = []
+  
 
   let data = {}
 
@@ -73,8 +79,7 @@
     console.log(data)
   }
 
-  const updateInvoiceDate = (e) => {
-    const id = e.detail.id
+  const updateInvoiceDateAndDateDue = (e) => {
     const date = e.detail.date
     let dueDate = new Date(date).addDays(dispatchedPaymentTerms)
     createdAt = `${date}`
@@ -216,6 +221,18 @@
       padding-right: 1.6rem;
     }
   }
+
+  .items {
+    width: 100%;
+
+    h2 {
+      font-size: 1.8rem;
+      font-weight: v(font-bold);
+      line-height: 3.2rem;
+      letter-spacing: -0.38px;
+      color: v(h2-item-list-col);
+    }
+  }
 </style>
 
 <div
@@ -329,7 +346,7 @@
       <InvoiceDate
         flex="f-half"
         dateFromInvoice={createdAt}
-        on:updateInvoiceDate={updateInvoiceDate}/>
+        on:updateInvoiceDate={updateInvoiceDateAndDateDue}/>
       <PaymentTerms
         flex="f-half"
         on:updateDateDue={updateDateDue}
@@ -344,6 +361,14 @@
         flex="f-full"
         value={description}
         on:input={updateVariable} />
+        <div class="items">
+          <h2 class="item-list">
+            Item List
+          </h2>
+          <Button type="button" on:click btnClass="large" content="+ Add New Item" />
+          <ListItem />
+        </div>
+
     </section>
   </form>
 </div>
