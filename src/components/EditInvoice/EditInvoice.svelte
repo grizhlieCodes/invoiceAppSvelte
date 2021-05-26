@@ -111,6 +111,7 @@
     createdAt = invoice.createdAt
     paymentTerms = invoice.paymentTerms
     description = invoice.description
+    items = invoice.items
   }
 
   const submitForm = () => {}
@@ -141,21 +142,34 @@
     items = [
       ...items,
       {
-        name: null,
-        quantity: null,
-        price: null,
-        total: null,
+        name: '',
+        quantity: 0,
+        price: 0,
+        total: 0,
       },
     ]
   }
 
   const updateItemName = (index) => {
-
+    let itemName = event.target.value
+    items[index].name = itemName
   }
-  const updateItemQuantity = (index) => {}
-  const updateItemPrice = (index) => {}
-  const updateItemTotal = (index) => {}
-  const deleteItem = (index) => {}
+
+  const updateItemQuantity = (index) => {
+    let itemQuantity = event.target.value
+    items[index].quantity = itemQuantity
+    items[index].total = items[index].price * items[index].quantity
+  }
+
+  const updateItemPrice = (index) => {
+    let itemPrice = event.target.value
+    items[index].price = itemPrice
+    items[index].total = items[index].price * items[index].quantity
+  }
+
+  const deleteItem = (index) => {
+    items = items.filter((item, index) => index !== index)
+  }
 </script>
 
 <style lang="scss">
@@ -395,13 +409,14 @@
           on:click={addNewItem}
           btnClass="large"
           content="+ Add New Item" />
+          
         {#each items as item, i}
-          <ListItem
+          <ListItem   
             on:updateItemName={updateItemName.bind(this, i)}
             on:updateItemQuantity={updateItemQuantity.bind(this, i)}
             on:updateItemPrice={updateItemPrice.bind(this, i)}
-            on:updateItemTotal={updateItemTotal.bind(this, i)}
-            on:deleteItem={deleteItem.bind(this, i)} 
+            on:updateItemTotal
+            on:deleteItem={deleteItem.bind(this, i)}    
             name={item.name}
             quantity={item.quantity}
             price={item.price}

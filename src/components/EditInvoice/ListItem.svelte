@@ -15,7 +15,7 @@
     align-items: center;
     column-gap: 1.6rem;
     max-width: 50.4rem;
-    overflow-x: scroll;
+    // overflow-x: scroll;
 
 
 
@@ -28,7 +28,7 @@
 
       @include mq(tablet){
           flex: 1 0 auto;
-        //   max-width: 21rem;
+          max-width: 21rem;
       }
     }
 
@@ -37,8 +37,9 @@
       
       @include mq(tablet){
         flex: 0 0 auto;
-        // max-width: 6rem;
+        max-width: 6rem;
       }
+
     }
 
     .price-container {
@@ -46,14 +47,14 @@
             
       @include mq(tablet){
         flex: 1 0 auto;
-        // max-width: 10rem;
+        max-width: 10rem;
       }
     }
 
     .total-container {
       flex: 1 0 8rem;
       @include mq(tablet){
-        flex: 1 1 auto;
+        flex: 1 0 6rem;
       }
     }
              

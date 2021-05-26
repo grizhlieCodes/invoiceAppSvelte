@@ -53,21 +53,20 @@
   }
 
   .mobileItemListLabel {
-    @include mq(tablet){
+    @include mq(tablet) {
       display: none;
     }
   }
 
-  input#total{
+  input#total {
     border: none;
     background: none;
     padding: 0;
   }
 
-  input.item {
-    width: min-content;
-  }
-
+  // input.item {
+  //   width: min-content;
+  // }
 </style>
 
 {#if !listItem}
@@ -83,7 +82,7 @@
       {value} />
   </div>
 {:else}
-<div class="form-item">
+  <div class="form-item">
     <label for={id} class="mobileItemListLabel">{label}</label>
     <input
       autocomplete="nope"

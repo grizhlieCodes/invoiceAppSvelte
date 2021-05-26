@@ -1,9 +1,9 @@
 <script>
   import { onMount } from 'svelte'
   import pickedDate from '../../stores/pickedDate.js'
-  import {fly} from 'svelte/transition'
+  import { fly } from 'svelte/transition'
   import { createEventDispatcher } from 'svelte'
-  const dispatch = createEventDispatcher();
+  const dispatch = createEventDispatcher()
   export let existingDate
 
   let calendar
@@ -22,16 +22,6 @@
     'November',
     'December',
   ]
-  const weekDayNames = [
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-    'Sunday',
-  ]
-  //                       0   1   2   3   4   5   6   7   8   9   10  11
   const totalDayInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
   //Core Date Variables
@@ -87,16 +77,18 @@
       let el = e.target
       let elIsCurrentMonth = el.classList.contains('cur-month')
 
-      if(elIsCurrentMonth){
+      if (elIsCurrentMonth) {
         chosenDateDay = parseInt(el.textContent, 10)
-        let chosenDateMonthIndex = monthIndex
-        clickedDate = new Date(year, chosenDateMonthIndex, chosenDateDay)
+        // let chosenDateMonthIndex = monthIndex
+        clickedDate = new Date(year, monthIndex, chosenDateDay)
+
         setTimeout(() => {
           renderCalendar()
         }, 0)
+
         pickedDate.updateSelectedDate(clickedDate)
         dispatch('updateInvoiceDate', {
-          date: clickedDate
+          date: clickedDate,
         })
         dispatch('closeDatepicker')
       }
@@ -107,13 +99,12 @@
     let nextMonthIndex = monthIndex === 11 ? 0 : monthIndex + 1
     let yearIndex = nextMonthIndex === 0 ? year + 1 : year
     selectedDate = new Date(yearIndex, nextMonthIndex, 1)
-
     setTimeout(() => {
       renderCalendar()
     }, 0)
   }
 
-const previousMonth = () => {
+  const previousMonth = () => {
     let previousMonthIndex = monthIndex === 0 ? 11 : monthIndex - 1
     let yearIndex = previousMonthIndex === 11 ? year - 1 : year
     selectedDate = new Date(yearIndex, previousMonthIndex, 1)
@@ -217,7 +208,7 @@ const previousMonth = () => {
   }
 </style>
 
-<div class="calendar-container" transition:fly={{y:-50, duration:250}}>
+<div class="calendar-container" transition:fly={{ y: -50, duration: 250 }}>
 
   <div class="calendar__header">
     <button type="button" class="back-arrow arrow" on:click={previousMonth}>
@@ -238,5 +229,5 @@ const previousMonth = () => {
     <p class="dayName">S</p>
     <p class="dayName">S</p>
   </div>
-  <div class="calendar"/>
+  <div class="calendar" />
 </div>
