@@ -38,6 +38,7 @@
     border-radius: 0.4rem;
     padding: 0 2rem;
     transition: color 250ms ease-in-out, background 250ms ease-in-out;
+    font-weight: v(font-bold);
 
     &:focus-within {
       box-shadow: 0 0 1pt 1pt v(input-outline);
@@ -50,6 +51,23 @@
   .f-share {
     flex: 1 0 15.2rem;
   }
+
+  .mobileItemListLabel {
+    @include mq(tablet){
+      display: none;
+    }
+  }
+
+  input#total{
+    border: none;
+    background: none;
+    padding: 0;
+  }
+
+  input.item {
+    width: min-content;
+  }
+
 </style>
 
 {#if !listItem}
@@ -65,7 +83,8 @@
       {value} />
   </div>
 {:else}
-  <div class="form-item {flex}">
+<div class="form-item">
+    <label for={id} class="mobileItemListLabel">{label}</label>
     <input
       autocomplete="nope"
       {type}

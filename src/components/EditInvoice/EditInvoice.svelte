@@ -8,6 +8,7 @@
   import PaymentTerms from './PaymentTerms.svelte'
   import Button from '../Button.svelte'
   import ListItem from './ListItem.svelte'
+  import visualiseDate from '../../helpers/realDateToInvoiceVisual.js'
   const size = getContext('size')
   const dispatch = createEventDispatcher()
 
@@ -39,7 +40,6 @@
 
   //list item dummy data
   let items = []
-  
 
   let data = {}
 
@@ -125,10 +125,37 @@
         ...data,
         paymentDue,
       }
-      console.log(data)
     } else {
+      createdAt = new Date()
+      paymentDue = new Date().addDays(dispatchedPaymentTerms)
+      console.log(createdAt, paymentDue)
+      data = {
+        ...data,
+        createdAt: new Date(),
+        paymentDue: paymentDue,
+      }
     }
   }
+
+  const addNewItem = () => {
+    items = [
+      ...items,
+      {
+        name: null,
+        quantity: null,
+        price: null,
+        total: null,
+      },
+    ]
+  }
+
+  const updateItemName = (index) => {
+
+  }
+  const updateItemQuantity = (index) => {}
+  const updateItemPrice = (index) => {}
+  const updateItemTotal = (index) => {}
+  const deleteItem = (index) => {}
 </script>
 
 <style lang="scss">
@@ -346,11 +373,11 @@
       <InvoiceDate
         flex="f-half"
         dateFromInvoice={createdAt}
-        on:updateInvoiceDate={updateInvoiceDateAndDateDue}/>
+        on:updateInvoiceDate={updateInvoiceDateAndDateDue} />
       <PaymentTerms
         flex="f-half"
         on:updateDateDue={updateDateDue}
-        {paymentTerms} />
+        paymentTermsFromInvoice={paymentTerms} />
 
       <Input
         type="text"
@@ -361,13 +388,26 @@
         flex="f-full"
         value={description}
         on:input={updateVariable} />
-        <div class="items">
-          <h2 class="item-list">
-            Item List
-          </h2>
-          <Button type="button" on:click btnClass="large" content="+ Add New Item" />
-          <ListItem />
-        </div>
+      <div class="items">
+        <h2 class="item-list">Item List</h2>
+        <Button
+          type="button"
+          on:click={addNewItem}
+          btnClass="large"
+          content="+ Add New Item" />
+        {#each items as item, i}
+          <ListItem
+            on:updateItemName={updateItemName.bind(this, i)}
+            on:updateItemQuantity={updateItemQuantity.bind(this, i)}
+            on:updateItemPrice={updateItemPrice.bind(this, i)}
+            on:updateItemTotal={updateItemTotal.bind(this, i)}
+            on:deleteItem={deleteItem.bind(this, i)} 
+            name={item.name}
+            quantity={item.quantity}
+            price={item.price}
+            total={item.total} />
+        {/each}
+      </div>
 
     </section>
   </form>

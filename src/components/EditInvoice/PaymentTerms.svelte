@@ -7,12 +7,12 @@
     placeholder,
     flex
 
-  export let paymentTerms
+  export let paymentTermsFromInvoice
 
   let showPaymentTerms = false
-  let currentOption = paymentTerms ? paymentTerms : null
+  let currentOption = paymentTermsFromInvoice ? paymentTermsFromInvoice : null
 
-  $: selectedOption = !currentOption ? 30 : currentOption
+  $: paymentOption = !currentOption ? 30 : currentOption
   
 
   const paymentTermDays = [1, 7, 14, 30]
@@ -28,7 +28,7 @@
   }
 
   onMount(async () => {
-    dispatch('updateDateDue', selectedOption)
+    dispatch('updateDateDue', paymentOption)
   })
 </script>
 
@@ -134,8 +134,8 @@
       }}
       {placeholder}
       id="paymentTerms"
-      data-payment-term={selectedOption}>
-      Net {selectedOption} {selectedOption === 1 ? 'Day' : 'Days'}
+      data-payment-term={paymentOption}>
+      Net {paymentOption} {paymentOption === 1 ? 'Day' : 'Days'}
     </button>
     <img src="./assets/icon-arrow-down.svg" alt="down arrow icon" />
   </div>
@@ -145,7 +145,7 @@
         <button
           type="button"
           on:click={() => selectPaymentOption(option)}
-          class:currentlySelected={option === selectedOption}>
+          class:currentlySelected={option === paymentOption}>
           Net {option} {option === 1 ? 'Day' : 'Days'}
         </button>
       {/each}
