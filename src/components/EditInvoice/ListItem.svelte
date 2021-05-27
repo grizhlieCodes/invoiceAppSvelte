@@ -106,7 +106,7 @@
     <Input
       listItem="true"
       label="Price"
-      type="number"
+      type="text"
       on:input={() => dispatch('updateItemPrice')}
       placeholder=""
       id="price"
