@@ -28,16 +28,16 @@
 
   let dispatchedPaymentTerms
 
-  let clientName,
-    clientEmail,
-    clientStreet,
-    clientCity,
-    clientPostCode,
-    clientCountry,
-    createdAt,
-    description,
-    paymentTerms,
-    paymentDue
+  let clientName = '',
+    clientEmail  = '',
+    clientStreet  = '',
+    clientCity  = '',
+    clientPostCode  = '',
+    clientCountry  = '',
+    createdAt  = '',
+    description  = '',
+    paymentTerms = 0,
+    paymentDue = ''
 
   //list item dummy data
   let items = []
