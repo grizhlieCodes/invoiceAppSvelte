@@ -38,6 +38,7 @@
     font-size: 1.2rem;
     letter-spacing: -0.025rem;
     line-height: 1.5rem;
+    position: relative;
   }
   label {
     color: v(label-text);
@@ -48,7 +49,7 @@
     margin-bottom: 1rem;
   }
   button {
-    margin: 1rem 0rem 0 0rem;
+    margin: 1rem 0rem 0rem 0rem;
     background: v(input-background);
     border: 1px solid v(input-border);
     color: v(input-text);
@@ -96,6 +97,9 @@
     width: 24rem;
     border-radius: 0.8rem;
     overflow: hidden;
+    width: 100%;
+    position: absolute;
+    margin-top: 1.6rem;
 
     button {
       margin: 0;
