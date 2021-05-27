@@ -10,8 +10,18 @@
     align-items: center;
     cursor: pointer;
 
+    &:hover {
+      .checkbox {
+        border: 2px solid v(purple-500);
+
+        svg {
+          opacity: 0.2;
+        }
+      }
+    }
+
     p {
-    color: v(main-text-color);
+      color: v(main-text-color);
       font-weight: v(font-bold);
     }
 
