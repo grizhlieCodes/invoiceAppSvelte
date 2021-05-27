@@ -118,8 +118,9 @@
   //Main Grid Area + Main container styling
   .calendar-container {
     background: v(datePicker-bg);
-    width: 240px;
+    width: 100%;
     height: auto;
+    // min-height: 315px;
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     grid-template-rows: min-content min-content 1fr;
@@ -131,6 +132,9 @@
     font-weight: v(font-bold);
     border-radius: 0.8rem;
     margin-top: 1.6rem;
+    transition: height 250ms ease;
+    position: absolute;
+    z-index: 500;
 
     .calendar__header {
       grid-area: calHead;
@@ -141,6 +145,13 @@
     .calendar {
       grid-area: cal;
     }
+  }
+
+  .calendar__header, .weekDays , .calendar {
+    width: 100%;
+    justify-self: center;
+    max-width: 24rem;
+    transition: height 250ms ease;
   }
 
   .calendar__header {
