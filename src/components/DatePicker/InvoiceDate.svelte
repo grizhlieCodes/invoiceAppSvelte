@@ -4,9 +4,17 @@
   import pickedDate from '../../stores/pickedDate.js'
   import { onMount, onDestroy, createEventDispatcher } from 'svelte'
   const dispatch = createEventDispatcher()
-  
+
   //Basic Variables
   let showDatepicker = false
+  let allowWindowListener = false
+  $: if(showDatepicker){
+    setTimeout(() => {
+      allowWindowListener = true
+    }, 100)
+  } else {
+    allowWindowListener = false
+  }
 
   export let inputClass = '',
     placeholder,
@@ -20,12 +28,15 @@
 
   //if we have a stored date create a visualisation of that date.
   //pickedDate.visualiseDate($pickedDate) === Grabs long date and outputs 'dd-mmm-yyyy'
-  $: dateVisualised = $pickedDate ? visualiseDate($pickedDate) : visualiseDate(new Date())
+  $: dateVisualised = $pickedDate
+    ? visualiseDate($pickedDate)
+    : visualiseDate(new Date())
 
-  $: if(dateFromInvoice) dateVisualised = pickedDate.visualiseDate(existingDate)
-  $: if(dateFromInvoice) pickedDate.updateSelectedDate(existingDate)
-  $: if(dateFromInvoice) date = existingDate
-  
+  $: if (dateFromInvoice)
+    dateVisualised = pickedDate.visualiseDate(existingDate)
+  $: if (dateFromInvoice) pickedDate.updateSelectedDate(existingDate)
+  $: if (dateFromInvoice) date = existingDate
+
   const toggleDatepicker = () => {
     showDatepicker = !showDatepicker
   }
@@ -35,6 +46,13 @@
 
   console.log($pickedDate)
 
+  window.addEventListener('click', (e) => {
+    if (allowWindowListener && !e.target.closest('.calendar')) {
+      setTimeout(() => {
+        showDatepicker = !showDatepicker
+      }, 250)
+    }
+  })
 </script>
 
 <style lang="scss">
@@ -43,6 +61,7 @@
     font-size: 1.2rem;
     letter-spacing: -0.025rem;
     line-height: 1.5rem;
+    position: relative;
   }
   label {
     color: v(label-text);
@@ -129,6 +148,10 @@
       {dateVisualised}
       {existingDate}
       on:updateInvoiceDate
-      on:closeDatepicker={() => (showDatepicker = !showDatepicker)} />
+      on:closeDatepicker={() => {
+        setTimeout(() => {
+          showDatepicker = !showDatepicker
+        }, 250)
+      }} />
   {/if}
 </div>
