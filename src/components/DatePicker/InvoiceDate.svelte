@@ -46,11 +46,20 @@
 
   console.log($pickedDate)
 
-  window.addEventListener('click', (e) => {
-    if (allowWindowListener && !e.target.closest('.calendar')) {
+  document.addEventListener('click', (e) => {
+    let datepicker = document.querySelector('.calendar-container')
+    let actualElement = e.target
+    let closestCalPicker = actualElement.closest('.calendar-container')
+    let clickedOutsideDatepicker = datepicker != closestCalPicker
+    
+
+    if (clickedOutsideDatepicker && allowWindowListener) {
+      console.log('Closing Datepicker')
       setTimeout(() => {
-        showDatepicker = !showDatepicker
-      }, 250)
+        showDatepicker = false
+      }, 100)
+    } else {
+      console.log('Not Closing Datepicker')
     }
   })
 </script>
