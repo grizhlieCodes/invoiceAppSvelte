@@ -58,8 +58,6 @@
       setTimeout(() => {
         showDatepicker = false
       }, 100)
-    } else {
-      console.log('Not Closing Datepicker')
     }
   })
 </script>
