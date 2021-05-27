@@ -12,7 +12,7 @@
 
     &:hover {
       .checkbox {
-        border: 2px solid v(purple-500);
+        border: 1px solid v(purple-400);
 
         svg {
           opacity: 0.2;
@@ -23,6 +23,7 @@
     p {
       color: v(main-text-color);
       font-weight: v(font-bold);
+      transition: color 200ms ease;
     }
 
     .checkbox {
@@ -30,8 +31,8 @@
       height: 1.6rem;
       margin-right: 1.3rem;
       background: v(invoices-checkbox-bg);
-      transition: background 250ms ease;
       border: 1px solid v(invoices-checkbox-border);
+      transition: background 200ms ease, border 200ms ease;
       border-radius: 2px;
       position: relative;
       display: grid;
@@ -39,7 +40,7 @@
 
       svg {
         opacity: 0;
-        transition: opacity 250ms ease;
+        transition: opacity 200ms ease;
       }
 
       &.checked {
