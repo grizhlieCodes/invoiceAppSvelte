@@ -50,6 +50,7 @@
 
     p {
       color: v(login-or-text);
+      transition: color 200ms ease;
     }
   }
 

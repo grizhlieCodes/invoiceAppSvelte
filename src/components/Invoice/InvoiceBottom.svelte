@@ -9,6 +9,7 @@
   .invoice-bottom {
     grid-area: invoiceBottom;
     background: v(invoice-tile-bg);
+    transition: background 200ms ease;
     width: calc(2.4rem + 2.4rem + 100%);
     height: 9.1rem;
     transform: translate(-2.4rem, 0);

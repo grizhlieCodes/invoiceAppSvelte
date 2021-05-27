@@ -21,7 +21,7 @@
     font-size: 1.2rem;
     letter-spacing: -0.025rem;
     line-height: 1.5rem;
-    transition: color 250ms ease-in-out;
+    transition: color 200ms ease;
     margin-bottom: 1rem;
   }
   input {
@@ -37,7 +37,7 @@
     height: 4.8rem;
     border-radius: 0.4rem;
     padding: 0 2rem;
-    transition: color 250ms ease-in-out, background 250ms ease-in-out;
+    transition: color 200ms ease, background 200ms ease;
     font-weight: v(font-bold);
 
     &:focus-within {

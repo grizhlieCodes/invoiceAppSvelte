@@ -14,6 +14,7 @@
   .invoice-top {
     grid-area: invoiceTop;
     background: v(invoice-tile-bg);
+    transition: background 200ms ease;
     width: 100%;
     height: 100%;
     padding: 2.4rem;
@@ -34,6 +35,7 @@
         line-height: 1.5rem;
         letter-spacing: -0.25px;
         color: v(invoice-status-text-col);
+        transition: color 200ms ease;
       }
     }
 

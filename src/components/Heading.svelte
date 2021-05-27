@@ -28,6 +28,7 @@
         color: var(--main-text-color);
         letter-spacing: -0.0063rem;
         font-weight: var(--font-bold);
+        transition: color 200ms ease;
 
         @include mq(tablet){
             font-size: 3.2rem;
@@ -38,6 +39,7 @@
         font-family: var(--spartan);
         font-size: 2rem;
         color: var(--main-text-color);
+        transition: color 200ms ease;
         letter-spacing: -0.0063rem;
         font-weight: var(--font-bold);
     }
@@ -46,6 +48,7 @@
         font-size: 1.6rem;
         line-height: 2.4rem;
         color: var(--main-text-color);
+        transition: color 200ms ease;
         letter-spacing: -0.008rem;
         font-weight: var(--font-bold);
     }
@@ -54,6 +57,7 @@
         font-size: 1.2rem;
         line-height: 1.5rem;
         color: var(--main-text-color);
+        transition: color 200ms ease;
         letter-spacing: -0.0025rem;
         font-weight: var(--font-bold);
     }

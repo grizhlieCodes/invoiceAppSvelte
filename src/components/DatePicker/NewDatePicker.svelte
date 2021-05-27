@@ -132,7 +132,7 @@
     font-weight: v(font-bold);
     border-radius: 0.8rem;
     margin-top: 1.6rem;
-    transition: height 250ms ease;
+    transition: height 250ms ease, background 200ms ease;
     position: absolute;
     z-index: 500;
 
@@ -170,6 +170,7 @@
 
     .selectedMonth {
       color: v(datePicker-normal-text-col);
+      transition: color 200ms ease;
     }
   }
 
@@ -181,6 +182,7 @@
     align-items: center;
     user-select: none;
     margin-bottom: 2.3rem;
+    transition: color 200ms ease;
 
     .dayName {
       width: 100%;
@@ -197,9 +199,11 @@
     place-items: center;
     // row-gap: 16px;
     color: v(datePicker-normal-text-col);
+    transition: color 200ms ease;
 
     :global(p.prev-month, p.next-month) {
       color: v(datePicker-grey-text-col);
+      transition: color 200ms ease;
     }
 
     :global(p.prev-month, p.next-month, p.cur-month) {
@@ -215,6 +219,7 @@
     :global(p.cur-month.selected) {
       background: v(datePicker-accent);
       color: v(white);
+      transition: color 200ms ease;
     }
   }
 </style>

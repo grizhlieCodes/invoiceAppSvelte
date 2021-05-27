@@ -97,9 +97,11 @@
       margin: 0;
       padding: 0;
       color: v(main-text-color);
+      transition: color 200ms ease;
     }
     p {
       color: v(invoices-light-accent-text);
+      transition: color 200ms ease;
       flex: 0;
       height: 1.5rem;
       margin: 0;

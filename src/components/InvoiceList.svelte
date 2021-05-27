@@ -65,6 +65,7 @@ import { crossfade } from 'svelte/transition'
     padding: 2.4rem;
     display: grid;
     background: v(invoices-invoice-bg);
+    transition: background 200ms ease;
     border-radius: 0.8rem;
     box-shadow: 0px 10px 10px -10px rgba(72, 84, 159, 0.100397);
     grid-template-columns: 1fr 1fr;
@@ -98,24 +99,28 @@ import { crossfade } from 'svelte/transition'
   .id {
     font-weight: v(font-bold);
     color: v(main-text-color);
+    transition: color 200ms ease;
     flex: 0 0 2.4rem;
     grid-area: id;
 
     &::before {
       content: '#';
       color: v(invoices-hash);
+      transition: color 200ms ease;
     }
   }
 
   .dueDate {
     font-weight: v(font-medium);
     color: v(invoices-date);
+    transition: color 200ms ease;
     grid-area: dueDate;
   }
 
   .customer {
     font-weight: v(font-medium);
     color: v(invoices-customer);
+    transition: color 200ms ease;
     grid-area: customer;
     justify-self: end;
   }
@@ -123,6 +128,7 @@ import { crossfade } from 'svelte/transition'
   .invoiceValue {
     font-weight: v(font-bold);
     color: v(main-text-color);
+    transition: color 200ms ease;
     font-size: 1.6rem;
     letter-spacing: -0.08rem;
     line-height: 2.4rem;

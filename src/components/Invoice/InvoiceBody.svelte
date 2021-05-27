@@ -25,12 +25,16 @@
       color: v(#{$col});
       line-height: #{$lineHeight}rem;
       letter-spacing: -0.25px;
+      transition: color 200ms ease;
+
     } @else {
       font-size: #{$fontSize}rem;
       font-weight: v(#{$fontWeight});
       color: v(#{$col});
       line-height: #{$lineHeight}rem;
       letter-spacing: #{$letterSpacing}px;
+      transition: color 200ms ease;
+
     }
   }
 
@@ -137,7 +141,7 @@
 
     .items {
       background: v(invoice-items-bg);
-      transition: background 250ms ease;
+      transition: background 200ms ease;
       padding: 2.4rem;
     }
 
@@ -176,7 +180,7 @@
 
     .grandTotal {
       background: v(invoice-total-bg);
-      transition: background 250ms ease;
+      transition: background 200ms ease;
       padding: 2.4rem;
       display: flex;
       align-items: center;
@@ -248,17 +252,14 @@
 
     .id {
       @include txt(1.2, font-bold, invoice-plain-text-col, 1.5, 0);
-      transition: color 250ms ease;
       &::before {
         content: '#';
         color: v(invoice-id-hash-col);
-        transition: color 250ms ease;
       }
     }
 
     .description {
       @include txt(1.2, font-med, invoice-accent-text-col, 1.5, 0);
-      transition: color 250ms ease;
     }
 
   }
@@ -266,37 +267,31 @@
   .senderAddress,
   .clientAddress {
     @include txt(1.1, font-med, invoice-accent-text-col, 1.8, 0);
-    transition: color 250ms ease;
   }
 
   .dateLabel,
   .label {
     @include txt(1.2, font-med, invoice-accent-text-col, 1.5, 0);
-    transition: color 250ms ease;
   }
   
   .date,
   .clientName,
   .clientEmail {
     @include txt(1.5, font-med, invoice-plain-text-col, 2, -0.31);
-    transition: color 250ms ease;
   }
 
   .body-bottom {
     .items {
       .headers {
         @include txt(1.1, font-med, invoice-accent-text-col, 1.8, -0.23);
-        transition: color 250ms ease;
       }
 
       .item {
         .itemName {
           @include txt(1.2, font-bold, invoice-plain-text-col, 1.5, -0.25);
-          transition: color 250ms ease;
         }
         .quantity {
           @include txt(1.2, font-bold, invoice-quantity-col, 1.5, -0.25);
-          transition: color 250ms ease;
           &::after {
             content: ' x ';
             white-space: pre;
@@ -304,7 +299,6 @@
         }
         .price {
           @include txt(1.2, font-bold, invoice-quantity-col, 1.5, -0.25);
-          transition: color 250ms ease;
           &::before {
             content: '£ ';
             white-space: pre;
@@ -312,7 +306,6 @@
         }
         .total {
           @include txt(1.2, font-bold, invoice-plain-text-col, 1.5, -0.25);
-          transition: color 250ms ease;
           &::before {
             content: '£ ';
             white-space: pre;
@@ -324,7 +317,6 @@
     .grandTotal {
       .total {
         @include txt(2, font-bold, invoice-total-col, 3.2, -0.42);
-        transition: color 250ms ease;
         &::before {
           content: '£ ';
           white-space: pre;

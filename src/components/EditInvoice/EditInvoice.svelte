@@ -206,6 +206,7 @@
     height: 100%;
     width: clamp(37.5rem, 100%, 61.6rem);
     background: v(edit-invoice-bg);
+    transition: background 200ms ease;
     padding: 3.2rem 0.8rem 3.2rem 0.8rem;
 
     @include mq(tablet) {
@@ -245,7 +246,7 @@
       font-weight: v(font-bold);
       color: v(main-text-color);
       margin-bottom: 2.4rem;
-      transition: color 400ms ease;
+      transition: color 200ms ease;
     }
 
     h3 {
@@ -255,7 +256,7 @@
       font-weight: v(font-bold);
       color: v(edit-invoice-accent);
       margin-bottom: 2.4rem;
-      transition: color 400ms ease;
+      transition: color 200ms ease;
     }
 
     @include mq(tablet) {
@@ -273,6 +274,7 @@
       line-height: 3.2rem;
       letter-spacing: -0.38px;
       color: v(h2-item-list-col);
+      transition: color 200ms ease;
     }
   }
 </style>

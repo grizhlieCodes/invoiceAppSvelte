@@ -1,5 +1,5 @@
 <script>
-    export let status
+  export let status
 </script>
 
 <style lang="scss">
@@ -25,7 +25,13 @@
     }
   }
 
+  .status {
+    transition: color 200ms ease, background 200ms ease;
 
+    div {
+      transition: background 200ms ease;
+    }
+  }
 
   .status.paid {
     color: v(invoices-paid-status-text);
@@ -51,7 +57,6 @@
 </style>
 
 <div class="status {status}">
-    <div/>
-    <p class="normal">{status}</p>
+  <div />
+  <p class="normal">{status}</p>
 </div>
-

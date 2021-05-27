@@ -238,14 +238,15 @@
       'cal cal cal cal cal cal cal';
     padding: 1rem;
     border-radius: 0.8rem;
+    transition: background 200ms ease;
 
     .white {
       color: white;
-      //this
+      transition: color 200ms ease;
     }
     .accent {
       color: v(datePicker-accent);
-      //this
+      transition: color 200ms ease;
     }
 
     .top {
@@ -275,6 +276,7 @@
       .dayName {
         font-size: 10px;
         color: v(light);
+        transition: color 200ms ease;
         text-align: center;
         width: 100%;
         color: white;
@@ -302,6 +304,7 @@
 
         &.cur-month {
           color: v(light);
+          transition: color 200ms ease;
         }
 
         &.cur-month.selected {
@@ -321,6 +324,7 @@
             width: 100%;
             transform: translateY(-58%);
             background: v(calSelected);
+            transition: background 200ms ease;
             z-index: -1;
             border-radius: 5px;
           }
@@ -333,6 +337,7 @@
 
         &:hover {
           color: v(accent);
+          transition: color 200ms ease;
         }
       }
     }

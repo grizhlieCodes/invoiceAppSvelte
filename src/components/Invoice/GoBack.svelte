@@ -18,7 +18,7 @@
         p {
           color: v(main-text-color);
           margin-left: 2.3rem;
-          transition: color 250ms ease;
+          transition: color 200ms ease;
           font-weight: v(font-bold);
         }
 

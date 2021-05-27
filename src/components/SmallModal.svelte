@@ -10,6 +10,7 @@
     max-width: 400px;
     border-radius: 1rem;
     background: v(modal-container-bg);
+    transition: background 200ms ease;
     padding: 2rem 1.5rem;
     height: 600px;
     display: flex;

@@ -68,6 +68,7 @@
   p.normal {
     color: v(main-text-color);
     font-weight: v(font-bold);
+    transition: color 200ms ease;
   }
 
   .selection {
@@ -96,7 +97,7 @@
         width: 0.623rem;
         height: 0.2rem;
         background: v(invoices-accent);
-        transition: background 250ms ease;
+        transition: background 200ms ease;
 
         &:nth-child(1) {
           left: 0.25px;
@@ -127,7 +128,7 @@
     justify-content: center;
     align-items: flex-start;
     background: v(invoices-selection-bg);
-    transition: background 250ms ease;
+    transition: background 200ms ease, box-shadow 200ms ease;
     padding: 0 0 0 2.4rem;
     margin: 0;
     row-gap: 1.6rem;

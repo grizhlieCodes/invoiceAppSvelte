@@ -67,6 +67,7 @@
       width: 7.2rem;
       height: 7.2rem;
       background: var(--invoices-sidebar-logo-bg);
+      transition: color 200ms ease, background 200ms ease;
       display: grid;
       place-items: center;
       position: relative;
@@ -79,6 +80,7 @@
         bottom: 0;
         left: 0;
         background: var(--invoices-sidebar-logo-span-bg);
+        transition: color 200ms ease, background 200ms ease;
         border-radius: 20px 0 20px 0;
       }
 

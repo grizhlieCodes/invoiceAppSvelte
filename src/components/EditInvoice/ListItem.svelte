@@ -71,6 +71,7 @@
 
         .delete-icon {
             &:hover {
+              transition: fill 200ms ease;
                 fill: v(red-500);
             }
         }
