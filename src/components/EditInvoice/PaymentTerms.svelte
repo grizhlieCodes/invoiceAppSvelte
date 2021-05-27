@@ -10,6 +10,14 @@
   export let paymentTermsFromInvoice
 
   let showPaymentTerms = false
+  let allowWindowListener = false
+  $: if(showPaymentTerms){
+    setTimeout(() => {
+      allowWindowListener = true
+    }, 100)
+  } else {
+    allowWindowListener = false
+  }
   let currentOption = paymentTermsFromInvoice ? paymentTermsFromInvoice : null
 
   $: paymentOption = !currentOption ? 30 : currentOption
@@ -29,6 +37,23 @@
 
   onMount(async () => {
     dispatch('updateDateDue', paymentOption)
+  })
+
+  document.addEventListener('click', (e) => {
+    let paymentTerms = document.querySelector('.paymentTerms')
+    let actualElement = e.target
+    let closestPaymentTerms = actualElement.closest('.paymentTerms')
+    let clickedOutsidePaymentTerms = paymentTerms != closestPaymentTerms
+    
+
+    if (clickedOutsidePaymentTerms && allowWindowListener) {
+      console.log('Closing Payment Terms')
+      setTimeout(() => {
+        showPaymentTerms = false
+      }, 100)
+    } else {
+      console.log('Not Closing Payment Terms')
+    }
   })
 </script>
 
