@@ -60,6 +60,7 @@
              
     .button-container {
       flex: 0 0 1rem;
+      transform: translateY(-33%);
 
       button {
         background: none;

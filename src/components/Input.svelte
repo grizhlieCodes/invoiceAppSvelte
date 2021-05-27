@@ -1,4 +1,6 @@
 <script>
+  import { createEventDispatcher } from 'svelte'
+  const dispatch = createEventDispatcher()
   export let type,
     inputClass = '',
     placeholder,
@@ -7,6 +9,8 @@
     flex,
     value = '',
     listItem = false
+
+  let touched = false
 </script>
 
 <style lang="scss">
@@ -85,9 +89,14 @@
   <div class="form-item">
     <label for={id} class="mobileItemListLabel">{label}</label>
     <input
+      on:blur={() => {
+        dispatch('touched')
+        touched = true
+      }}
       autocomplete="nope"
       {type}
       class="{inputClass} item"
+      class:touched
       on:input
       {placeholder}
       {id}
