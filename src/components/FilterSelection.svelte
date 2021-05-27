@@ -6,6 +6,15 @@
   const dispatch = createEventDispatcher()
 
   let filterOpen = false
+  let allowWindowListener = false
+  $: if (filterOpen) {
+    setTimeout(() => {
+      allowWindowListener = true
+    }, 100)
+  } else {
+    allowWindowListener = false
+  }
+
   let checkboxChecked = false
   let currentFilter = ''
   const size = getContext('size')
@@ -27,7 +36,10 @@
       currentFilter = selectedFilter
       checkboxChecked = !checkboxChecked
     }
-    filterOpen = !filterOpen
+    setTimeout(() => {
+      filterOpen = !filterOpen
+    }, 300)
+
     dispatch('filter', currentFilter)
   }
 
@@ -36,6 +48,20 @@
   $: pendingChecked = checkboxChecked && currentFilter === 'pending'
   $: noFilter = currentFilter === '' && !checkboxChecked
 
+  document.addEventListener('click', (e) => {
+    let filterSelections = document.querySelector('.filterSelections')
+    let actualElement = e.target
+    let closestFilterSelections = actualElement.closest('.filterSelections')
+    let clickedOutsideFilterSelections =
+      filterSelections != closestFilterSelections
+
+    if (clickedOutsideFilterSelections && allowWindowListener) {
+      console.log('Closing Filter Selection')
+      setTimeout(() => {
+        filterOpen = false
+      }, 100)
+    }
+  })
 </script>
 
 <style lang="scss">
@@ -135,7 +161,7 @@
   </div>
 
   {#if filterOpen}
-    <div class="filterSelections" transition:fly={{ y: -20, duration: 250 }}>
+    <div class="filterSelections" transition:fly={{ y: -20, duration: 300 }}>
       <FilterItem
         itemChecked={draftChecked}
         content="Draft"
