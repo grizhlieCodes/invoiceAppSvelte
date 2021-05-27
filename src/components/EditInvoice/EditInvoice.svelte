@@ -9,6 +9,7 @@
   import Button from '../Button.svelte'
   import ListItem from './ListItem.svelte'
   import visualiseDate from '../../helpers/realDateToInvoiceVisual.js'
+  import formatValue from '../../helpers/invoiceValueFormat.js'
   const size = getContext('size')
   const dispatch = createEventDispatcher()
 
@@ -279,7 +280,7 @@
 <div
   class="overlay"
   on:click={() => dispatch('openModal')}
-  transition:fade={{ duration: 200 }} />
+  transition:fade={{ duration: 200 }} /> 
 
 <div class="editInvoice" transition:fly={{ x: -200, duration: 400 }}>
   {#if $size === 'mobile'}
@@ -404,24 +405,25 @@
         on:input={updateVariable} />
       <div class="items">
         <h2 class="item-list">Item List</h2>
+
+        {#each items as item, i}
+          <ListItem
+            on:updateItemName={updateItemName.bind(this, i)}
+            on:updateItemQuantity={updateItemQuantity.bind(this, i)}
+            on:updateItemPrice={updateItemPrice.bind(this, i)}
+            on:updateItemTotal
+            on:deleteItem={deleteItem.bind(this, i)}
+            name={item.name}
+            quantity={item.quantity}
+            price={formatValue(item.price)}
+            total={formatValue(item.total)} />
+        {/each}
+
         <Button
           type="button"
           on:click={addNewItem}
           btnClass="large"
           content="+ Add New Item" />
-          
-        {#each items as item, i}
-          <ListItem   
-            on:updateItemName={updateItemName.bind(this, i)}
-            on:updateItemQuantity={updateItemQuantity.bind(this, i)}
-            on:updateItemPrice={updateItemPrice.bind(this, i)}
-            on:updateItemTotal
-            on:deleteItem={deleteItem.bind(this, i)}    
-            name={item.name}
-            quantity={item.quantity}
-            price={item.price}
-            total={item.total} />
-        {/each}
       </div>
 
     </section>
