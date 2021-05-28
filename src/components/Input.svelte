@@ -18,6 +18,8 @@
     font-size: 1.2rem;
     letter-spacing: -0.025rem;
     line-height: 1.5rem;
+    padding: 1px;
+
   }
   label {
     color: v(label-text);
@@ -36,7 +38,7 @@
     letter-spacing: -0.025rem;
     line-height: 1.5rem;
     outline: none;
-    width: 100%;
+    width: calc(100% - 0.2rem);
     height: 4.8rem;
     border-radius: 0.4rem;
     padding: 0 2rem;
@@ -54,13 +56,6 @@
   .f-share {
     flex: 1 0 15.2rem;
   }
-
-  .mobileItemListLabel {
-    @include mq(tablet) {
-      display: none;
-    }
-  }
-
   input#total {
     border: none;
     background: none;
@@ -86,7 +81,7 @@
   </div>
 {:else}
   <div class="form-item">
-    <label for={id} class="mobileItemListLabel">{label}</label>
+    <label for={id} >{label}</label>
     <input
       on:blur
       on:focus
