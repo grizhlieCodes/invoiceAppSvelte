@@ -52,6 +52,9 @@
 	--paymentTerms-dividing-line: var(--purple-100);
 	--paymentTerms-accent: var(--purple-500);
 
+	/* InvoiceItems */
+	--invoiceItem-divider-line-bg: var(--purple-100);
+
 	/* Reds */
 	--red-500: #ec5555;
 	--red-200: #ff9999; 
