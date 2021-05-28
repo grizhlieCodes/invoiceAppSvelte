@@ -7,7 +7,9 @@
 
   //Basic Variables
   let showDatepicker = false
+
   let allowWindowListener = false
+
   $: if(showDatepicker){
     setTimeout(() => {
       allowWindowListener = true
@@ -48,11 +50,9 @@
 
   document.addEventListener('click', (e) => {
     let datepicker = document.querySelector('.calendar-container')
-    let actualElement = e.target
-    let closestCalPicker = actualElement.closest('.calendar-container')
-    let clickedOutsideDatepicker = datepicker != closestCalPicker
+    let closestDatePicker = e.target.closest('.calendar-container')
+    let clickedOutsideDatepicker = datepicker != closestDatePicker
     
-
     if (clickedOutsideDatepicker && allowWindowListener) {
       console.log('Closing Datepicker')
       setTimeout(() => {
