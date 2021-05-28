@@ -11,65 +11,58 @@
     total = '',
     id
 
-
-    let priceFocused = false
-    $: transformedPrice = invoiceValue(price) //number: 5000 -> "5,000.00"
-    $: priceForInput = priceFocused ? price : transformedPrice //priceFocused ? 5000 : "5,000.00"
-    $: priceType = priceFocused ? 'number' : 'text'
-
+  let priceFocused = false
+  $: transformedPrice = invoiceValue(price) //number: 5000 -> "5,000.00"
+  $: priceForInput = priceFocused ? price : transformedPrice //priceFocused ? 5000 : "5,000.00"
+  $: priceType = priceFocused ? 'number' : 'text'
 </script>
 
 <style lang="scss">
   .listItemContainer {
-    display: flex;
-    flex-flow: row wrap;
+    position: relative;
+    overflow-x: scroll;
     align-items: center;
     column-gap: 1.6rem;
-    max-width: 50.4rem;
-    // overflow-x: scroll;
+    display: grid;
+    grid:
+      'name name name name' min-content
+      'quantity price total delete' min-content
+      / minmax(6.4rem, 0.5fr) minmax(10rem, 1fr) minmax(10rem, 1fr) min-content;
 
     @include mq(tablet) {
-      flex-flow: row nowrap;
+      grid:
+        'name name name name' min-content
+        'quantity price total delete' min-content
+        / minmax(13rem, 0.5fr) minmax(13rem, 1fr) minmax(13rem, 1fr) min-content;
     }
 
     .name-container {
-      flex: 1 1 100%;
-
-      @include mq(tablet) {
-        flex: 1 0 auto;
-        max-width: 21rem;
-      }
+      grid-area: name;
     }
 
     .quantity-container {
-      flex: 0 0 6.4rem;
-
-      @include mq(tablet) {
-        flex: 0 0 auto;
-        max-width: 6rem;
-      }
+      grid-area: quantity;
     }
 
     .price-container {
-      flex: 1 0 auto;
-
-      @include mq(tablet) {
-        flex: 1 0 auto;
-        max-width: 10rem;
-      }
+      grid-area: price;
     }
 
     .total-container {
-      flex: 1 0 8rem;
-      @include mq(tablet) {
-        flex: 1 0 6rem;
-      }
+      grid-area: total;
     }
 
     .button-container {
-      flex: 0 0 1rem;
-      transform: translateY(-33%);
+      grid-area: delete;
 
+      // flex: 0 0 1rem;
+      // transform: translateY(-33%);
+      &:hover {
+        .delete-icon {
+          transition: fill 200ms ease;
+          fill: v(red-500);
+        }
+      }
       button {
         background: none;
         outline: none;
@@ -77,13 +70,23 @@
         &:hover {
           cursor: pointer;
         }
+      }
+    }
+  }
 
-        .delete-icon {
-          &:hover {
-            transition: fill 200ms ease;
-            fill: v(red-500);
-          }
-        }
+  .listItemContainer {
+    &:not(:nth-last-child(2)) {
+      margin-bottom: 1rem;
+
+      &::after {
+        content: '';
+        width: 100%;
+        height: 1px;
+        position: absolute;
+        background: v(invoiceItem-divider-line-bg);
+        transition: background 200ms ease;
+        bottom: 0;
+        left: 0;
       }
     }
   }
@@ -100,7 +103,9 @@
       placeholder=""
       id="name"
       value={name} />
+
   </div>
+
   <div class="quantity-container input-container">
     <Input
       listItem="true"
@@ -111,6 +116,7 @@
       id="quantity"
       value={quantity} />
   </div>
+
   <div class="price-container input-container">
 
     <Input
@@ -118,13 +124,14 @@
       label="Price"
       type={priceType}
       on:input={() => dispatch('updateItemPrice')}
-      on:focus={() => priceFocused = true}
-      on:blur={() => priceFocused = false}
+      on:focus={() => (priceFocused = true)}
+      on:blur={() => (priceFocused = false)}
       placeholder=""
       id="price-{id}"
       value={priceForInput} />
 
   </div>
+
   <div class="total-container input-container">
     <Input
       listItem="true"
@@ -135,6 +142,7 @@
       id="total"
       value={total} />
   </div>
+
   <div class="button-container input-container">
     <button on:click={() => dispatch('deleteItem')}>
       <svg width="13" height="16" xmlns="http://www.w3.org/2000/svg">
@@ -148,4 +156,5 @@
       </svg>
     </button>
   </div>
+
 </div>
