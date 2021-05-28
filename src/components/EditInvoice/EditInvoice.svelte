@@ -163,7 +163,7 @@
   }
 
   const updateItemPrice = (index) => {
-    let itemPrice = event.target.value
+    let itemPrice = parseInt(event.target.value, 10)
     items[index].price = itemPrice
     items[index].total = items[index].price * items[index].quantity
   }
@@ -417,8 +417,9 @@
             on:deleteItem={deleteItem.bind(this, i)}
             name={item.name}
             quantity={item.quantity}
-            price={formatValue(item.price)}
-            total={formatValue(item.total)} />
+            price={item.price}
+            total={formatValue(item.total)} 
+            id="price-{i}"/>
         {/each}
 
         <Button
