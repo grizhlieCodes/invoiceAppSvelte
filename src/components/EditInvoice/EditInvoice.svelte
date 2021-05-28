@@ -10,6 +10,7 @@
   import ListItem from './ListItem.svelte'
   import visualiseDate from '../../helpers/realDateToInvoiceVisual.js'
   import formatValue from '../../helpers/invoiceValueFormat.js'
+  import { createPublicKey } from 'crypto'
   const size = getContext('size')
   const dispatch = createEventDispatcher()
 
@@ -29,18 +30,25 @@
   let dispatchedPaymentTerms
 
   let clientName = '',
-    clientEmail  = '',
-    clientStreet  = '',
-    clientCity  = '',
-    clientPostCode  = '',
-    clientCountry  = '',
-    createdAt  = '',
-    description  = '',
+    clientEmail = '',
+    clientStreet = '',
+    clientCity = '',
+    clientPostCode = '',
+    clientCountry = '',
+    createdAt = '',
+    description = '',
     paymentTerms = 0,
     paymentDue = ''
 
   //list item dummy data
-  let items = []
+  let items = [
+    {
+      name: 'Potato',
+      quantity: 5,
+      price: 1000,
+      total: 5000,
+    },
+  ]
 
   let data = {}
 
@@ -168,8 +176,9 @@
     items[index].total = items[index].price * items[index].quantity
   }
 
-  const deleteItem = (index) => {
-    items = items.filter((item, index) => index !== index)
+  //Variable shadowing - same name - different scope, same bullshit
+  const deleteItem = (i) => {
+    items = items.filter((item, index) => index !== i)
   }
 </script>
 
@@ -208,9 +217,26 @@
     background: v(edit-invoice-bg);
     transition: background 200ms ease;
     padding: 3.2rem 0.8rem 3.2rem 0.8rem;
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 30rem;
+      pointer-events: none;
+      background: rgb(255, 255, 255);
+      background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(0, 0, 0, 0.31976540616246496) 100%
+      );
+    }
 
     @include mq(tablet) {
-      padding: 5.6rem 3.2rem 5.6rem 3.2rem;
+      padding: 5.6rem 3.2rem 12rem 3.2rem;
     }
 
     @include mq(desktop) {
@@ -277,12 +303,46 @@
       transition: color 200ms ease;
     }
   }
+
+  .buttons-container {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    width: 100%;
+    padding: 3.2rem 5.7rem;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: v(edit-invoice-bg);
+    transition: background 200ms ease;
+    border-radius: 0 0.8rem 0 0;
+
+    box-shadow: 0px 10px 10px -10px rgba(72, 84, 159, 0.100397);
+
+    .discard-button {
+      // justify-content: flex-start;
+      flex: 1 0 auto;
+    }
+    .draft-button {
+      // justify-content: flex-end;
+      margin-right: 0.8rem;
+    }
+    .save-button {
+      // justify-content: flex-end;
+    }
+  }
+
+  :global(body.dark) {
+    .buttons-container {
+      box-shadow: 0px 10px 10px -10px rgba(72, 84, 159, 0.100397);
+    }
+  }
 </style>
 
 <div
   class="overlay"
   on:click={() => dispatch('openModal')}
-  transition:fade={{ duration: 200 }} /> 
+  transition:fade={{ duration: 200 }} />
 
 <div class="editInvoice" transition:fly={{ x: -200, duration: 400 }}>
   {#if $size === 'mobile'}
@@ -418,8 +478,8 @@
             name={item.name}
             quantity={item.quantity}
             price={item.price}
-            total={formatValue(item.total)} 
-            id="price-{i}"/>
+            total={formatValue(item.total)}
+            id="price-{i}" />
         {/each}
 
         <Button
@@ -428,7 +488,19 @@
           btnClass="large"
           content="+ Add New Item" />
       </div>
-
     </section>
   </form>
+
+  <div class="buttons-container">
+    <div class="discard-button">
+      <Button content="Discard" on:click btnClass="dark" />
+    </div>
+    <div class="draft-button">
+      <Button content="Save as Draft" on:click btnClass="dark" />
+    </div>
+    <div class="save-button">
+      <Button content="Save and Send" on:click btnClass="primary" />
+    </div>
+  </div>
+
 </div>
