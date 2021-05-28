@@ -132,6 +132,9 @@
 
     // Edit Invoice
     --h2-item-list-col: var(--purple-350);
+
+    // InvoiceItems 
+	  --invoiceItem-divider-line-bg: var(--purple-100);
   }
 
   :global(body) {
