@@ -10,7 +10,6 @@
     value = '',
     listItem = false
 
-  let touched = false
 </script>
 
 <style lang="scss">
@@ -89,14 +88,11 @@
   <div class="form-item">
     <label for={id} class="mobileItemListLabel">{label}</label>
     <input
-      on:blur={() => {
-        dispatch('touched')
-        touched = true
-      }}
+      on:blur
+      on:focus
       autocomplete="nope"
       {type}
       class="{inputClass} item"
-      class:touched
       on:input
       {placeholder}
       {id}
