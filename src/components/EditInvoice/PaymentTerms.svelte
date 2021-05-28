@@ -47,12 +47,9 @@
     
 
     if (clickedOutsidePaymentTerms && allowWindowListener) {
-      console.log('Closing Payment Terms')
       setTimeout(() => {
         showPaymentTerms = false
       }, 100)
-    } else {
-      console.log('Not Closing Payment Terms')
     }
   })
 </script>
