@@ -1,11 +1,22 @@
 <script>
   import Input from '../Input.svelte'
   import invoiceValue from '../../helpers/invoiceValueFormat.js'
-  import {createEventDispatcher} from 'svelte'
-  import {fly} from 'svelte/transition'
-  const dispatch= createEventDispatcher()
+  import { createEventDispatcher, onMount } from 'svelte'
+  import { fly } from 'svelte/transition'
+  const dispatch = createEventDispatcher()
 
-  export let name = '', quantity = '', price = '', total = ''
+  export let name = '',
+    quantity = '',
+    price = 0, //always a string
+    total = '',
+    id
+
+
+    let priceFocused = false
+    $: transformedPrice = invoiceValue(price) //number: 5000 -> "5,000.00"
+    $: priceForInput = priceFocused ? price : transformedPrice //priceFocused ? 5000 : "5,000.00"
+    $: priceType = priceFocused ? 'number' : 'text'
+
 </script>
 
 <style lang="scss">
@@ -17,35 +28,32 @@
     max-width: 50.4rem;
     // overflow-x: scroll;
 
-
-
     @include mq(tablet) {
-        flex-flow: row nowrap;
+      flex-flow: row nowrap;
     }
 
     .name-container {
       flex: 1 1 100%;
 
-      @include mq(tablet){
-          flex: 1 0 auto;
-          max-width: 21rem;
+      @include mq(tablet) {
+        flex: 1 0 auto;
+        max-width: 21rem;
       }
     }
 
     .quantity-container {
       flex: 0 0 6.4rem;
-      
-      @include mq(tablet){
+
+      @include mq(tablet) {
         flex: 0 0 auto;
         max-width: 6rem;
       }
-
     }
 
     .price-container {
       flex: 1 0 auto;
-            
-      @include mq(tablet){
+
+      @include mq(tablet) {
         flex: 1 0 auto;
         max-width: 10rem;
       }
@@ -53,11 +61,11 @@
 
     .total-container {
       flex: 1 0 8rem;
-      @include mq(tablet){
+      @include mq(tablet) {
         flex: 1 0 6rem;
       }
     }
-             
+
     .button-container {
       flex: 0 0 1rem;
       transform: translateY(-33%);
@@ -71,17 +79,17 @@
         }
 
         .delete-icon {
-            &:hover {
-              transition: fill 200ms ease;
-                fill: v(red-500);
-            }
+          &:hover {
+            transition: fill 200ms ease;
+            fill: v(red-500);
+          }
         }
       }
     }
   }
 </style>
 
-<div class="listItemContainer" transition:fly={{y: -20, duration: 200}}>
+<div class="listItemContainer" transition:fly={{ y: -20, duration: 200 }}>
   <div class="name-container input-container">
 
     <Input
@@ -104,14 +112,18 @@
       value={quantity} />
   </div>
   <div class="price-container input-container">
+
     <Input
       listItem="true"
       label="Price"
-      type="text"
+      type={priceType}
       on:input={() => dispatch('updateItemPrice')}
+      on:focus={() => priceFocused = true}
+      on:blur={() => priceFocused = false}
       placeholder=""
-      id="price"
-      value={price} />
+      id="price-{id}"
+      value={priceForInput} />
+
   </div>
   <div class="total-container input-container">
     <Input
@@ -126,7 +138,8 @@
   <div class="button-container input-container">
     <button on:click={() => dispatch('deleteItem')}>
       <svg width="13" height="16" xmlns="http://www.w3.org/2000/svg">
-        <path class="delete-icon"
+        <path
+          class="delete-icon"
           d="M11.583 3.556v10.666c0 .982-.795 1.778-1.777 1.778H2.694a1.777
           1.777 0 01-1.777-1.778V3.556h10.666zM8.473
           0l.888.889h3.111v1.778H.028V.889h3.11L4.029 0h4.444z"
