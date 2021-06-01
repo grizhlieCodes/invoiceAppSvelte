@@ -6,6 +6,8 @@
   import EditInvoice from './components/EditInvoice/EditInvoice.svelte'
   import darkMode from './stores/darkModeStore.js'
   import initialiseFirebaseAuth from './stores/initialiseFirebase.js'
+  import Button from './components/Button.svelte'
+  import InvoicesStore from './stores/InvoicesStore.js'
   initialiseFirebaseAuth()
 
   let body = document.body
@@ -28,16 +30,39 @@
     $size = 'mobile'
   }
 
-  let editInvoice = true //THIS
+  let editInvoice = false //<- THIS
   let invoiceId
   const editActualInvoice = (e) => {
+    console.log(`This is my id at editActualInvoice: ${e.detail}`)
     let id = e.detail
     invoiceId = id
     editInvoice = !editInvoice
   }
+
+  // let showDeletionConfirmation = false
+  // let invoiceIdForDelete
+
+  // const showDeleteModal = (e) => {
+  //   showDeletionConfirmation = !showDeletionConfirmation
+  //   invoiceIdForDelete = e.detail
+  //   console.log(invoiceIdForDelete)
+  // }
+
+  // const cancelDeletion = () => {
+  //   showDeletionConfirmation = !showDeletionConfirmation
+  //   invoiceIdForDelete = ''
+  // }
+
+  // const deleteInvoice = () => {
+  //   InvoicesStore.deleteInvoice(invoiceIdForDelete)  
+  //   showDeletionConfirmation = !showDeletionConfirmation
+  //   invoiceIdForDelete = ''
+  // }
 </script>
 
 <style lang="scss">
+  //root? does variable exist? use variable <- not used
+  //body? does var exist? use variable <- used
   :global(body.dark) {
     //Main
     --main-text-color: var(--white);
@@ -133,14 +158,16 @@
     // Edit Invoice
     --h2-item-list-col: var(--purple-350);
 
-    // InvoiceItems 
-	  --invoiceItem-divider-line-bg: var(--purple-100);
+    // InvoiceItems
+    --invoiceItem-divider-line-bg: var(--purple-700);
   }
 
   :global(body) {
     transition: background 250ms ease;
     background: var(--page-bg);
   }
+
+
 </style>
 
 <svelte:window bind:innerWidth />
@@ -161,3 +188,19 @@
     on:click={() => (editInvoice = !editInvoice)}
     {invoiceId} />
 {/if}
+<!-- {#if showDeletionConfirmation}
+  <div class="delete-overlay" transition:fade={{duration: 200}} />
+  <div class="delete-modal">
+    <div class="inner-container" transition:fly={{duration: 200, x: -50}}>
+      <h2>Confirm Deletion</h2>
+      <p>
+        Are you sure you want to delete invoice #{invoiceIdForDelete}? This
+        action cannot be undone.
+      </p>
+      <div class="buttons">
+        <Button content="Cancel" btnClass="light" on:click={cancelDeletion} />
+        <Button content="Delete" btnClass="red" on:click={deleteInvoice} />
+      </div>
+    </div>
+  </div>
+{/if} -->
