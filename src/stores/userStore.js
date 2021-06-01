@@ -41,6 +41,7 @@ const customUser = {
             }).catch(err => (console.log(err)))
     },
     signInUser: (email, password) => {
+        console.log("change this: ",email, password)
         firebase.auth().signInWithEmailAndPassword(email, password)
             .then((userCredential) => {
                 // Signed in
