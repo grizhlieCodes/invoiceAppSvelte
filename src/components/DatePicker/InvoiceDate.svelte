@@ -19,9 +19,9 @@
   }
 
   export let inputClass = '',
-    placeholder,
-    flex,
-    dateFromInvoice
+    placeholder = '',
+    flex = '',
+    dateFromInvoice = ''
 
   $: existingDate = dateFromInvoice ? new Date(dateFromInvoice) : new Date()
 
