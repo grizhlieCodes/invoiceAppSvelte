@@ -3,11 +3,29 @@
   import { getContext } from 'svelte'
   import StatusCard from '../StatusCard.svelte'
   import { createEventDispatcher } from 'svelte'
+  import InvoicesStore from '../../stores/InvoicesStore.js'
   const dispatch = createEventDispatcher()
 
   const size = getContext('size')
 
   export let status, id
+
+  const deleteInvoice = () => {
+    dispatch('deleteInvoice')
+    //Need to edit the below code. I need to create a modal that gets user confirmation if they really want to delete the invoice.
+    // dispatch('closeInvoice')
+  }
+
+  const markInvoiceAsPaid = () => {
+    InvoicesStore.markInvoiceAsPaid(id)
+    status = 'paid'
+  }
+
+  const markInvoiceAsUnpaid = () => {
+    InvoicesStore.markInvoiceAsUnpaid(id)
+    status = 'pending'
+  }
+
 </script>
 
 <style lang="scss">
@@ -63,8 +81,12 @@
   {#if $size !== 'mobile'}
     <div class="buttons">
       <Button content="Edit" btnClass="light" on:click={() => dispatch('editInvoice', id)} />
-      <Button content="Delete" btnClass="red" on:click />
-      <Button content="Mark as Paid" btnClass="primary" on:click />
+      <Button content="Delete" btnClass="red" on:click={deleteInvoice} />
+      {#if status === 'pending'}
+         <Button content="Mark as Paid" btnClass="primary" on:click={markInvoiceAsPaid} />
+      {:else if status === 'paid'}
+      <Button content="Mark as Unpaid" btnClass="primary" on:click={markInvoiceAsUnpaid} />
+      {/if}
     </div>
   {/if}
 </div>

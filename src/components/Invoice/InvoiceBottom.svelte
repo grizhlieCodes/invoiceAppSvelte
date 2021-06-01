@@ -1,8 +1,25 @@
 <script>
   import { createEventDispatcher } from 'svelte'
+  import InvoicesStore from '../../stores/InvoicesStore.js'
   const dispatch = createEventDispatcher()
   import Button from '../Button.svelte'
-  export let id
+  export let status, id
+
+  const deleteInvoice = () => {
+    dispatch('deleteInvoice')
+  }
+
+  const markInvoiceAsPaid = () => {
+    InvoicesStore.markInvoiceAsPaid(id)
+    status = 'paid'
+    dispatch('markInvoiceAsPaid', status)
+  }
+
+  const markInvoiceAsUnpaid = () => {
+    InvoicesStore.markInvoiceAsUnpaid(id)
+    status = 'pending'
+    dispatch('markInvoiceAsUnpaid', status)
+  }
 </script>
 
 <style lang="scss">
@@ -28,8 +45,21 @@
 
 <div class="invoice-bottom">
   <div class="buttons">
-    <Button content="Edit" btnClass="light" on:click={() => dispatch('editInvoiceBottom', id)} />
-    <Button content="Delete" btnClass="red" on:click />
-    <Button content="Mark as Paid" btnClass="primary" on:click/>
+    <Button
+      content="Edit"
+      btnClass="light"
+      on:click={() => dispatch('editInvoiceBottom', id)} />
+    <Button content="Delete" btnClass="red" on:click={deleteInvoice} />
+    {#if status === 'pending'}
+      <Button
+        content="Mark as Paid"
+        btnClass="primary"
+        on:click={markInvoiceAsPaid} />
+    {:else if status === 'paid'}
+      <Button
+        content="Mark as Unpaid"
+        btnClass="primary"
+        on:click={markInvoiceAsUnpaid} />
+    {/if}
   </div>
 </div>
