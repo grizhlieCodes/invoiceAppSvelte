@@ -16,11 +16,8 @@ function initialiseFirebaseAuth(){
         if(firebaseUser){
             //what to do if signed in
             userStore.setUser(firebaseUser)
-            console.log(firebaseUser)
         } else {
-            console.log(firebaseUser)
             userStore.setUser(firebaseUser)
-            console.log('User signed out')
         }
         
     })
