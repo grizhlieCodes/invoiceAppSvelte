@@ -1,20 +1,22 @@
 <script>
-  export let id,
-    description,
-    senderAddress,
-    createdAt,
-    paymentDue,
-    clientName,
-    clientAddress,
-    clientEmail,
-    items,
-    total
+  export let id = 'Needs updating',
+    description = 'Needs updating',
+    senderAddress = 'Needs updating',
+    createdAt = 'Needs updating',
+    paymentDue = 'Needs updating',
+    clientName = 'Needs updating',
+    clientAddress = 'Needs updating',
+    clientEmail = 'Needs updating',
+    items = 'Needs updating',
+    total = 'Needs updating'
 
-  import dateFormat from '../../helpers/dateFormat.js'
+  import dateFormat from '../../helpers/realDateToInvoiceVisual.js'
   import priceFormat from '../../helpers/invoiceValueFormat.js'
   import { getContext } from 'svelte'
 
   const size = getContext('size')
+
+  console.log(items, total)
 </script>
 
 <style lang="scss">
@@ -334,10 +336,10 @@
   </div>
 
   <div class="senderAddress">
-    <p class="address">{senderAddress.street}</p>
-    <p class="address">{senderAddress.city}</p>
-    <p class="address">{senderAddress.postCode}</p>
-    <p class="address">{senderAddress.country}</p>
+    <p class="address">{senderAddress.senderStreet}</p>
+    <p class="address">{senderAddress.senderCity}</p>
+    <p class="address">{senderAddress.senderPostCode}</p>
+    <p class="address">{senderAddress.senderCountry}</p>
   </div>
 
   <div class="dates">
@@ -350,10 +352,10 @@
   <div class="clientAddress">
     <p class="label">Bill To</p>
     <p class="clientName">{clientName}</p>
-    <p class="address">{clientAddress.street}</p>
-    <p class="address">{clientAddress.city}</p>
-    <p class="address">{clientAddress.postCode}</p>
-    <p class="address">{clientAddress.country}</p>
+    <p class="address">{clientAddress.clientStreet}</p>
+    <p class="address">{clientAddress.clientCity}</p>
+    <p class="address">{clientAddress.clientPostCode}</p>
+    <p class="address">{clientAddress.clientCountry}</p>
   </div>
 
   <div class="email">
