@@ -7,8 +7,6 @@
   let userId
   let localUserInfo = []
 
-  console.log(localUserInfo)
-
   const signOutUser = () => {
     User.signOutUser()
   }
@@ -31,7 +29,6 @@
   const togglePopup = async () => {
     showPopup = !showPopup
       let fetchedUserData = await fetchUserInfo($User.uid)
-      console.log(fetchedUserData)
       for (const key in fetchedUserData) {
         localUserInfo = {
           ...fetchedUserData[key],
@@ -196,6 +193,7 @@
     transform: scale(0.2, 0.2);
     border-radius: 0 0 15px 15px;
     box-shadow: 0px 10px 20px rgba(72, 84, 159, 0.25);
+    pointer-events: none;
 
     &.tablet {
       top: 8rem;
@@ -214,7 +212,6 @@
       left: 12rem;
       width: 50rem;
       border-radius: 15px;
-
       
       h1 {
         font-size: 2rem;
@@ -224,6 +221,7 @@
     &.show {
       opacity: 1;
       transform: scale(1, 1);
+      pointer-events: auto;
     }
 
     h1 {
