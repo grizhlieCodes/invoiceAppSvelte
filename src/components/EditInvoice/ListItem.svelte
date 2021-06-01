@@ -140,7 +140,8 @@
       on:input={() => dispatch('updateItemTotal')}
       placeholder=""
       id="total"
-      value={total} />
+      value={total} 
+      disabled="true"/>
   </div>
 
   <div class="button-container input-container">
