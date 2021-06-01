@@ -39,7 +39,7 @@ body {
     "sidebar sidebar sidebar"
     ".....    .....    ....."
     ".....     main    .....";
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 @media screen and (min-width: 768px) {
