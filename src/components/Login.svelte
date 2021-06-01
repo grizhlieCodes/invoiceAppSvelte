@@ -5,11 +5,15 @@
   import Input from './Input.svelte'
   import { fade, fly } from 'svelte/transition'
   import SmallModal from './SmallModal.svelte'
+  import {onMount} from 'svelte'
 
   let showLogin = true
 
-  let email, password, name
+  //==================================================
+  //Update for default user for printscreen then remove
 
+  let email = "", password = "" , name
+  //==================================================
   const updatePassword = (event) => {
     let val = event.target.value
     password = val
@@ -36,6 +40,14 @@
 
   const signInUser = () => authStore.signInUser(email, password)
   const signUpUser = () => authStore.signUpUser(email, password, name)
+
+  //==================================================
+  //UPDATE FOR DEFAULT USER
+  // onMount(() => {
+  //   const clickMoi = document.querySelector('.clickMoi')
+  //   clickMoi.click()
+  // })
+  //==================================================
 </script>
 
 <style lang="scss">
@@ -96,18 +108,14 @@
         <Input
           type="email"
           on:input={updateEmail}
-          placeholder="
-          "
           id="email"
-          label="Email" />
+          label="Email"/>
         <Input
           type="password"
           on:input={updatePassword}
-          placeholder="
-          "
           id="password"
-          label="Password" />
-        <Button content="Sign In" type="submit" btnClass="primary" />
+          label="Password"/>
+        <Button content="Sign In" type="submit" btnClass="primary clickMoi" />
       </form>
     {:else}
       <form
@@ -118,8 +126,6 @@
         <Input
           type="text"
           on:input={updateName}
-          placeholder="
-          "
           id="name"
           label="Name" />
         <Input
