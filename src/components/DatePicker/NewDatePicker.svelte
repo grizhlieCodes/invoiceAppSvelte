@@ -39,8 +39,8 @@
   $: lastDayOfMonth = new Date(year, monthIndex + 1, 0).getDay() //1 (Sun -> Sat)
   $: totalDaysToLoopFront = 7 - lastDayOfMonth
   let clickedDate
-  let chosenDateDay = selectedDate.getDate()
-  let chosenDateMonthIndex = selectedDate.getMonth()
+  $: chosenDateDay = selectedDate.getDate()
+  $: chosenDateMonthIndex = selectedDate.getMonth()
 
   function renderCalendar() {
     calendar.innerHTML = ''
