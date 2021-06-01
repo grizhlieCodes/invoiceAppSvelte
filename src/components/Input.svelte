@@ -1,14 +1,15 @@
 <script>
   import { createEventDispatcher } from 'svelte'
   const dispatch = createEventDispatcher()
-  export let type,
+  export let type = "text",
     inputClass = '',
-    placeholder,
-    id,
-    label,
-    flex,
+    placeholder = '',
+    id = '',
+    label = '',
+    flex = '',
     value = '',
-    listItem = false
+    listItem = false,
+    disabled = false
 
 </script>
 
@@ -91,6 +92,7 @@
       on:input
       {placeholder}
       {id}
-      {value} />
+      {value} 
+      {disabled}/>
   </div>
 {/if}
