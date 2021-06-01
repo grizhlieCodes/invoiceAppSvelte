@@ -11,6 +11,9 @@
   import visualiseDate from '../../helpers/realDateToInvoiceVisual.js'
   import formatValue from '../../helpers/invoiceValueFormat.js'
   import { createPublicKey } from 'crypto'
+  import createInvoiceID from '../../helpers/createInvoiceID.js'
+  import Invoices from '../../stores/InvoicesStore.js'
+
   const size = getContext('size')
   const dispatch = createEventDispatcher()
 
@@ -20,74 +23,89 @@
     return date
   }
 
+  function grabIDsFromInvoices() {
+    let invoices = [...$Invoices] //Needs to be updated once i create invoices of my own
+    let idList = []
+    invoices.forEach((invoice) => {
+      idList = [...idList, invoice.id]
+    })
+    return idList
+  }
+
+  
   export let invoiceId = undefined
-
-  let senderStreet = '',
-    senderCity = '',
-    senderPostCode = '',
-    senderCountry = ''
-
+  
+  let invoiceIDList = grabIDsFromInvoices()
   let dispatchedPaymentTerms
 
-  let clientName = '',
-    clientEmail = '',
-    clientStreet = '',
-    clientCity = '',
-    clientPostCode = '',
-    clientCountry = '',
-    createdAt = '',
-    description = '',
-    paymentTerms = 0,
-    paymentDue = ''
-
-  //list item dummy data
-  let items = [
-    {
-      name: 'Potato',
-      quantity: 5,
-      price: 1000,
-      total: 5000,
-    },
-  ]
+  let senderStreet = ''
+  let senderCity = ''
+  let senderPostCode = ''
+  let senderCountry = ''
+  let clientName = ''
+  let clientEmail = ''
+  let clientStreet = ''
+  let clientCity = ''
+  let clientPostCode = ''
+  let clientCountry = ''
+  let createdAt = ''
+  let paymentTerms = ''
+  let paymentDue = 0
+  let description = ''
+  let items = ''
+  let status = 0
+  let total = []
+  let id = invoiceId ? invoiceId : ''
 
   let data = {}
 
-  const updateVariable = (e) => {
-    const id = e.target.id
+  const updateSenderStreet = (e) => {
     const val = e.target.value
-    if (id === 'senderStreet') senderStreet = val
-    else if (id === 'senderCity') senderCity = val
-    else if (id === 'senderPostCode') senderPostCode = val
-    else if (id === 'senderCountry') senderCountry = val
-    else if (id === 'clientName') clientName = val
-    else if (id === 'clientEmail') clientEmail = val
-    else if (id === 'clientStreet') clientStreet = val
-    else if (id === 'clientCity') clientCity = val
-    else if (id === 'clientPostCode') clientPostCode = val
-    else if (id === 'clientCountry') clientCountry = val
-    else if (id === 'description') description = val
-
-    data = {
-      ...data,
-      senderAddress: {
-        senderStreet,
-        senderCity,
-        senderPostCode,
-        senderCountry,
-      },
-      clientAddress: {
-        clientStreet,
-        clientCity,
-        clientPostCode,
-        clientCountry,
-      },
-      clientName,
-      clientEmail,
-      description,
-    }
-    console.log(data)
+    senderStreet = val
+    data = { ...data, senderStreet }
+  }
+  const updateSenderPostCode = (e) => {
+    const val = e.target.value
+    senderPostCode = val
+  }
+  const updateSenderCity = (e) => {
+    const val = e.target.value
+    senderCity = val
+  }
+  const updateSenderCountry = (e) => {
+    const val = e.target.value
+    senderCountry = val
+  }
+  const updateClientName = (e) => {
+    const val = e.target.value
+    clientName = val
+  }
+  const updateClientEmail = (e) => {
+    const val = e.target.value
+    clientEmail = val
+  }
+  const updateClientStreet = (e) => {
+    const val = e.target.value
+    clientStreet = val
+  }
+  const updateClientCity = (e) => {
+    const val = e.target.value
+    clientCity = val
+  }
+  const updateClientPostCode = (e) => {
+    const val = e.target.value
+    clientPostCode = val
+  }
+  const updateClientCountry = (e) => {
+    const val = e.target.value
+    senderStreet = val
+  }
+  const updateDescription = (e) => {
+    const val = e.target.value
+    description = val
   }
 
+  //This too (<CLASS>)
   const updateInvoiceDateAndDateDue = (e) => {
     const date = e.detail.date
     let dueDate = new Date(date).addDays(dispatchedPaymentTerms)
@@ -99,34 +117,34 @@
       createdAt,
       paymentDue,
     }
-    console.log(data)
   }
 
   //Load invoice information if we have an ID.
   //We can only have an ID if we arrive from a specific invoice.
   if (invoiceId) {
-    let invoice = InvoicesArray.find((invoice) => invoice.id === invoiceId)
-    console.log(invoice)
-    senderStreet = invoice.senderAddress.street
-    senderCity = invoice.senderAddress.city
-    senderPostCode = invoice.senderAddress.postCode
-    senderCountry = invoice.senderAddress.country
+    let invoice = $Invoices.find((invoice) => invoice.id === invoiceId)
+    senderStreet = invoice.senderAddress.senderStreet
+    senderCity = invoice.senderAddress.senderCity
+    senderPostCode = invoice.senderAddress.senderPostCode
+    senderCountry = invoice.senderAddress.senderCountry
     clientName = invoice.clientName
     clientEmail = invoice.clientEmail
-    clientStreet = invoice.clientAddress.street
-    clientCity = invoice.clientAddress.city
-    clientPostCode = invoice.clientAddress.postCode
-    clientCountry = invoice.clientAddress.country
+    clientStreet = invoice.clientAddress.clientStreet
+    clientCity = invoice.clientAddress.clientCity
+    clientPostCode = invoice.clientAddress.clientPostCode
+    clientCountry = invoice.clientAddress.clientCountry
     createdAt = invoice.createdAt
     paymentTerms = invoice.paymentTerms
+    paymentDue = invoice.paymentDue
     description = invoice.description
     items = invoice.items
+    status = invoice.status
+    total = invoice.total
   }
 
-  const submitForm = () => {}
-
+  //This too (<CLASS>)
   const updateDateDue = (e) => {
-    let paymentTerms = e.detail
+    paymentTerms = e.detail
     dispatchedPaymentTerms = paymentTerms
     paymentTerms = dispatchedPaymentTerms
     if (data.createdAt) {
@@ -138,7 +156,6 @@
     } else {
       createdAt = new Date()
       paymentDue = new Date().addDays(dispatchedPaymentTerms)
-      console.log(createdAt, paymentDue)
       data = {
         ...data,
         createdAt: new Date(),
@@ -147,6 +164,7 @@
     }
   }
 
+  //This too (<CLASS>)
   const addNewItem = () => {
     items = [
       ...items,
@@ -157,28 +175,127 @@
         total: 0,
       },
     ]
+    data = {
+      ...data,
+      items,
+    }
   }
-
+  //This too (<CLASS>)
   const updateItemName = (index) => {
     let itemName = event.target.value
     items[index].name = itemName
-  }
 
+    data = {
+      ...data,
+      items,
+    }
+  }
+  //This too (<CLASS>)
   const updateItemQuantity = (index) => {
-    let itemQuantity = event.target.value
+    let itemQuantity = parseInt(event.target.value, 10)
     items[index].quantity = itemQuantity
     items[index].total = items[index].price * items[index].quantity
-  }
 
+    data = {
+      ...data,
+      items,
+    }
+  }
+  //This too (<CLASS>)
   const updateItemPrice = (index) => {
     let itemPrice = parseInt(event.target.value, 10)
     items[index].price = itemPrice
     items[index].total = items[index].price * items[index].quantity
-  }
 
+    data = {
+      ...data,
+      items,
+    }
+  }
+  //This too (<CLASS>)
   //Variable shadowing - same name - different scope, same bullshit
   const deleteItem = (i) => {
     items = items.filter((item, index) => index !== i)
+
+    data = {
+      ...data,
+      items,
+    }
+  }
+
+  const updateDataWithAllVariables = (saveAsNew) => {
+    let updatedTotal = 0
+    if (items.length >= 1) {
+      items.forEach((item) => {
+        updatedTotal = updatedTotal + item.total
+      })
+    }
+    if (!saveAsNew) {
+      data = {
+        clientAddress: {
+          clientStreet,
+          clientCity,
+          clientPostCode,
+          clientCountry,
+        },
+        clientEmail,
+        clientName,
+        createdAt,
+        description,
+        id: invoiceId,
+        paymentDue,
+        paymentTerms,
+        senderAddress: {
+          senderStreet,
+          senderCity,
+          senderPostCode,
+          senderCountry,
+        },
+        status,
+        items,
+        total: updatedTotal
+      }
+    } else {
+      data = {
+        clientAddress: {
+          clientStreet,
+          clientCity,
+          clientPostCode,
+          clientCountry,
+        },
+        clientEmail,
+        clientName,
+        id: createInvoiceID(invoiceIDList),
+        createdAt,
+        status: 'pending',
+        total: updatedTotal,
+        description,
+        paymentDue,
+        paymentTerms,
+        items,
+        senderAddress: {
+          senderStreet,
+          senderCity,
+          senderPostCode,
+          senderCountry,
+        },
+      }
+    }
+  }
+
+  const saveNewInvoice = () => {
+    updateDataWithAllVariables(true)
+    let invoice = data
+    invoice = {...invoice }
+    Invoices.addInvoice(invoice)
+  }
+
+
+  const saveEditedInvoice = () => {
+    updateDataWithAllVariables(false)
+    let invoice = data
+    invoice = { ...invoice }
+    Invoices.editInvoice(invoice, invoice.id)
   }
 </script>
 
@@ -222,7 +339,7 @@
     &::before {
       content: '';
       position: absolute;
-      bottom: 0;
+      bottom: 10rem;
       left: 0;
       right: 0;
       height: 30rem;
@@ -320,15 +437,12 @@
     box-shadow: 0px 10px 10px -10px rgba(72, 84, 159, 0.100397);
 
     .discard-button {
-      // justify-content: flex-start;
       flex: 1 0 auto;
     }
     .draft-button {
-      // justify-content: flex-end;
       margin-right: 0.8rem;
     }
     .save-button {
-      // justify-content: flex-end;
     }
   }
 
@@ -336,6 +450,10 @@
     .buttons-container {
       box-shadow: 0px 10px 10px -10px rgba(72, 84, 159, 0.100397);
     }
+  }
+
+  .clientInfoContainer {
+    margin-bottom: 20rem;
   }
 </style>
 
@@ -350,103 +468,74 @@
       <GoBack on:click />
     </div>
   {/if}
-  <form on:submit|preventDefault={submitForm} autocomplete="off">
+  <form on:submit|preventDefault autocomplete="off">
     <h1>{!invoiceId ? 'New Invoice' : `Edit #${invoiceId}`}</h1>
     <section class="senderInfoContainer flexContainer section">
       <h3>Bill From</h3>
       <Input
-        type="text"
-        placeholder="
-        "
         id="senderStreet"
         label="Street Address"
         flex="f-full"
         value={senderStreet}
-        on:input={updateVariable} />
+        on:input={updateSenderStreet} />
       <Input
-        type="text"
-        placeholder="
-        "
         id="senderCity"
         label="City"
         flex="f-share"
         value={senderCity}
-        on:input={updateVariable} />
+        on:input={updateSenderCity} />
       <Input
-        type="text"
-        placeholder="
-        "
         id="senderPostCode"
         label="Post Code"
         flex="f-share"
         value={senderPostCode}
-        on:input={updateVariable} />
+        on:input={updateSenderPostCode} />
       <Input
-        type="text"
-        placeholder="
-        "
         id="senderCountry"
         label="Country"
         flex="f-share"
         value={senderCountry}
-        on:input={updateVariable} />
+        on:input={updateSenderCountry} />
     </section>
     <section class="clientInfoContainer flexContainer section">
       <h3>Bill To</h3>
       <Input
-        type="text"
-        placeholder="
-        "
         id="clientName"
         label="Client's Name"
         flex="f-full"
         value={clientName}
-        on:input={updateVariable} />
+        on:input={updateClientName} />
       <Input
         type="email"
-        placeholder="
-        "
         id="clientEmail"
         label="Client's Email"
         flex="f-full"
         value={clientEmail}
-        on:input={updateVariable} />
+        on:input={updateClientEmail} />
       <Input
-        type="text"
-        placeholder="
-        "
         id="clientStreet"
         label="Street Address"
         flex="f-full"
         value={clientStreet}
-        on:input={updateVariable} />
+        on:input={updateClientStreet} />
       <Input
-        type="text"
-        placeholder="
-        "
         id="clientCity"
         label="City"
         flex="f-share"
         value={clientCity}
-        on:input={updateVariable} />
+        on:input={updateClientCity} />
       <Input
-        type="text"
-        placeholder="
-        "
         id="clientPostCode"
         label="Post Code"
         flex="f-share"
         value={clientPostCode}
-        on:input={updateVariable} />
+        on:input={updateClientPostCode} />
       <Input
-        type="text"
-        placeholder="
-        "
         id="clientCountry"
         label="Country"
         flex="f-share"
         value={clientCountry}
-        on:input={updateVariable} />
+        on:input={updateClientCountry} />
       <InvoiceDate
         flex="f-half"
         dateFromInvoice={createdAt}
@@ -457,17 +546,13 @@
         paymentTermsFromInvoice={paymentTerms} />
 
       <Input
-        type="text"
-        placeholder="
-        "
         id="description"
         label="Project Description"
         flex="f-full"
         value={description}
-        on:input={updateVariable} />
+        on:input={updateDescription} />
       <div class="items">
         <h2 class="item-list">Item List</h2>
-
         {#each items as item, i}
           <ListItem
             on:updateItemName={updateItemName.bind(this, i)}
@@ -491,16 +576,34 @@
     </section>
   </form>
 
-  <div class="buttons-container">
-    <div class="discard-button">
-      <Button content="Discard" on:click btnClass="dark" />
+  {#if !invoiceId}
+    <!-- content here -->
+    <div class="buttons-container">
+      <div class="discard-button">
+        <Button content="Discard" on:click btnClass="dark" />
+      </div>
+      <div class="draft-button">
+        <Button content="Save as Draft" on:click btnClass="dark" />
+      </div>
+      <div class="save-button">
+        <Button
+          content="Save and Send"
+          on:click={saveNewInvoice}
+          btnClass="primary" />
+      </div>
     </div>
-    <div class="draft-button">
-      <Button content="Save as Draft" on:click btnClass="dark" />
+  {:else if invoiceId}
+    <div class="buttons-container">
+      <div class="discard-button">
+        <Button content="Cancel" on:click btnClass="dark" />
+      </div>
+      <div class="save-button">
+        <Button
+          content="Save Changes"
+          on:click={saveEditedInvoice}
+          btnClass="primary" />
+      </div>
     </div>
-    <div class="save-button">
-      <Button content="Save and Send" on:click btnClass="primary" />
-    </div>
-  </div>
+  {/if}
 
 </div>
