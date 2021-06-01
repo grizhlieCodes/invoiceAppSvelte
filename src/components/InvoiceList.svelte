@@ -3,14 +3,15 @@
   import { getContext } from 'svelte'
   import { flip } from 'svelte/animate'
   import { quintOut } from 'svelte/easing'
-import { crossfade } from 'svelte/transition'
-  import { createEventDispatcher } from 'svelte'
+  import { crossfade } from 'svelte/transition'
   import StatusCard from './StatusCard.svelte'
+  import { createEventDispatcher, onMount } from 'svelte'
   const dispatch = createEventDispatcher()
-  import { onMount } from 'svelte'
   const size = getContext('size')
   import invoiceValueFormat from '../helpers/invoiceValueFormat.js'
-  import dateFormat from '../helpers/dateFormat.js'
+  import dateFormat from '../helpers/realDateToInvoiceVisual.js'
+  import Invoices from '../stores/InvoicesStore.js'
+  import SelectedInvoice from '../stores/selectedInvoice.js'
 
   const [send, receive] = crossfade({
     duration: (d) => Math.sqrt(d * 400),
@@ -30,24 +31,40 @@ import { crossfade } from 'svelte/transition'
 
   export let filter = ''
 
-  let invoices = [...InvoicesArray]
+
+  //Create store for data.
+  //onMount -> save [...InvoicesArray] and store in localstorage. Then create the data flow.
+
+  $: invoices = $Invoices
+  $: console.log(invoices)
 
   $: dispatch('invoiceQuantity', invoices.length)
 
   $: if (filter !== '') {
-    invoices = InvoicesArray.filter((item) => item.status === filter)
+    invoices = $Invoices.filter((item) => item.status === filter)
   } else if (filter === '') {
-    invoices = InvoicesArray
+    invoices = $Invoices
   }
 
   onMount(() => {
     dispatch('invoiceQuantity', invoices.length)
   })
 
+
+  //Different way of viewing invoice
+
+  //OLD
+  // const viewInvoice = (invoiceId) => {
+  //   console.log(invoiceId)
+  //   let invoice = invoices.find((invoice) => invoice.id === invoiceId)
+  //   dispatch('openInvoice', invoice)
+  //   console.log(invoice)
+  // }
+
   const viewInvoice = (invoiceId) => {
     let invoice = invoices.find((invoice) => invoice.id === invoiceId)
-    dispatch('openInvoice', invoice)
-    console.log(invoice)
+    SelectedInvoice.setInvoice(invoice)
+    dispatch('openInvoice')
   }
 </script>
 
@@ -90,7 +107,7 @@ import { crossfade } from 'svelte/transition'
     }
   }
 
-  :global(body.dark){
+  :global(body.dark) {
     .invoice {
       box-shadow: 0px 10px 10px -10px rgba(72, 84, 159, 0.100397);
     }
@@ -197,9 +214,8 @@ import { crossfade } from 'svelte/transition'
       <p class="invoiceValue">{invoiceValueFormat(invoice.total)}</p>
 
       <div class="status-container">
-        <StatusCard status={invoice.status}/>
+        <StatusCard status={invoice.status} />
       </div>
-
 
       <div class="arrow-container {$size}">
         <svg width="7" height="10" xmlns="http://www.w3.org/2000/svg">
