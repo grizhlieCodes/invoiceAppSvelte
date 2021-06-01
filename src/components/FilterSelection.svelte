@@ -56,7 +56,6 @@
       filterSelections != closestFilterSelections
 
     if (clickedOutsideFilterSelections && allowWindowListener) {
-      console.log('Closing Filter Selection')
       setTimeout(() => {
         filterOpen = false
       }, 100)
