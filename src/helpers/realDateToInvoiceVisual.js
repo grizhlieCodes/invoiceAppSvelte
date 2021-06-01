@@ -15,9 +15,10 @@ const monthNames = [
   
   
   function returnVisualDate(date) {
-    const day = date.getDate();
-    const month = monthNames[date.getMonth()].substring(0,3);
-    const year = date.getFullYear();
+    const givenDate = new Date(date)
+    const day = givenDate.getDate();
+    const month = monthNames[givenDate.getMonth()].substring(0,3);
+    const year = givenDate.getFullYear();
     const visualDate = `${day} ${month} ${year}`
     return visualDate
   }
