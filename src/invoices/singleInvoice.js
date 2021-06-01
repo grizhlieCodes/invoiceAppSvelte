@@ -79,7 +79,6 @@ let jsonObject =
       "total": 556.00
     }
 
-  console.log(jsonObject)
   
   
 
