@@ -39,14 +39,19 @@
   let invoiceShown = false //-->this
   let invoiceData //-->this
 
+  //Dispatched from InvoiceList.
+  //I want to replace this with a store variable.
   const openInvoice = (event) => {
     filter = ''
-    let invoice = { invoice: event.detail }
-    for (const key in invoice) {
-      invoiceData = {
-        ...invoice[key],
-      }
-    }
+    // let invoice = { invoice: event.detail }
+    // console.log(event.detail)
+    // console.log(invoice)
+    // for (const key in invoice) {
+    //   invoiceData = {
+    //     ...invoice[key],
+    //   }
+    // }
+    // console.log(invoiceData)
     invoiceShown = true
   }
 
@@ -54,7 +59,7 @@
 
   const closeInvoice = () => {
     invoiceShown = !invoiceShown
-    invoiceData = {}
+    // invoiceData = {}
   }
 </script>
 
@@ -140,7 +145,7 @@
 
       </div>
       <div class="right">
-        <FilterSelection on:filter={updateFilter} {invoiceShown}/>
+        <FilterSelection on:filter={updateFilter} {invoiceShown} />
         <Button
           type="button"
           content={buttonContent}
@@ -155,5 +160,9 @@
       on:openInvoice={openInvoice} />
   </div>
 {:else}
-  <Invoice {...invoiceData} on:closeInvoice={closeInvoice} on:editInvoice on:editInvoiceBottom/>
+  <Invoice
+    {...invoiceData}
+    on:closeInvoice={closeInvoice}
+    on:editInvoice
+    on:editInvoiceBottom/>
 {/if}
