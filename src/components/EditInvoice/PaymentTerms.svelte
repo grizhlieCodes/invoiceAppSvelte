@@ -7,7 +7,7 @@
     placeholder,
     flex
 
-  export let paymentTermsFromInvoice
+  export let paymentTermsFromInvoice = 30
 
   let showPaymentTerms = false
   let allowWindowListener = false
