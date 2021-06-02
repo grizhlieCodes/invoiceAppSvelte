@@ -146,7 +146,7 @@
     font-weight: v(font-bold);
     color: v(main-text-color);
     transition: color 200ms ease;
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     letter-spacing: -0.08rem;
     line-height: 2.4rem;
     grid-area: value;
