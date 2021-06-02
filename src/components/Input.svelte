@@ -9,7 +9,9 @@
     flex = '',
     value = '',
     listItem = false,
-    disabled = false
+    disabled = false,
+    valid = true,
+    saveAndSendClicked = false
 
 </script>
 
@@ -21,6 +23,15 @@
     line-height: 1.5rem;
     padding: 1px;
 
+  }
+
+  .label-container {
+    display: flex;
+    justify-content: space-between;
+
+    p {
+      color: v(red-500);
+    }
   }
   label {
     color: v(label-text);
@@ -51,6 +62,10 @@
     }
   }
 
+  input.invalid {
+    border: 1px solid v(red-500);
+  }
+
   .f-full {
     flex: 1 0 100%;
   }
@@ -70,11 +85,19 @@
 
 {#if !listItem}
   <div class="form-item {flex}">
-    <label for={id}>{label}</label>
+    <div class="label-container">
+      <label for={id}>{label}</label>
+      {#if !valid && saveAndSendClicked}
+         <p class="invalid-message">
+           * required
+         </p>
+      {/if}
+    </div>
     <input
       autocomplete="nope"
       {type}
       class={inputClass}
+      class:invalid={!valid && saveAndSendClicked}
       on:input
       {placeholder}
       {id}
