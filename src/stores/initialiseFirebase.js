@@ -1,4 +1,5 @@
 import userStore from './userStore.js'
+import invoiceStore from './InvoicesStore'
 
 function initialiseFirebaseAuth(){
     var firebaseConfig = {
@@ -16,8 +17,9 @@ function initialiseFirebaseAuth(){
         if(firebaseUser){
             //what to do if signed in
             userStore.setUser(firebaseUser)
+            invoiceStore.updateLocalUser(firebaseUser)
         } else {
-            userStore.setUser(firebaseUser)
+            userStore.setUser(null)
         }
         
     })
