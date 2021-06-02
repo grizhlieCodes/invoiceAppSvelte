@@ -13,6 +13,10 @@
   import { createPublicKey } from 'crypto'
   import createInvoiceID from '../../helpers/createInvoiceID.js'
   import Invoices from '../../stores/InvoicesStore.js'
+  import {
+    isNotEmpty,
+    itemsNotEmpty,
+  } from '../../helpers/validateInputLength.js'
 
   const size = getContext('size')
   const dispatch = createEventDispatcher()
@@ -32,9 +36,8 @@
     return idList
   }
 
-  
   export let invoiceId = undefined
-  
+
   let invoiceIDList = grabIDsFromInvoices()
   let dispatchedPaymentTerms
 
@@ -48,14 +51,46 @@
   let clientCity = ''
   let clientPostCode = ''
   let clientCountry = ''
-  let createdAt = ''
-  let paymentTerms = ''
-  let paymentDue = 0
+  let createdAt = '' //ignore during validation
+  let paymentTerms = '' //ignore during validation
+  let paymentDue = 0 //ignore during validation
   let description = ''
   let items = ''
   let status = 0
   let total = []
   let id = invoiceId ? invoiceId : ''
+
+  // VALIDATION VARIABLES
+
+  let saveAndSendClicked = false
+
+  $: senderStreetValid = isNotEmpty(senderStreet)
+  $: senderCityValid = isNotEmpty(senderCity)
+  $: senderPostCodeValid = isNotEmpty(senderPostCode)
+  $: senderCountryValid = isNotEmpty(senderCountry)
+  $: clientNameValid = isNotEmpty(clientName)
+  $: clientEmailValid = isNotEmpty(clientEmail)
+  $: clientStreetValid = isNotEmpty(clientStreet)
+  $: clientCityValid = isNotEmpty(clientCity)
+  $: clientPostCodeValid = isNotEmpty(clientPostCode)
+  $: clientCountryValid = isNotEmpty(clientCountry)
+  $: descriptionValid = isNotEmpty(description)
+  $: itemsValid = itemsNotEmpty(items)
+  $: formValid =
+    senderStreetValid &&
+    senderCityValid &&
+    senderPostCodeValid &&
+    senderCountryValid &&
+    clientNameValid &&
+    clientEmailValid &&
+    clientStreetValid &&
+    clientCityValid &&
+    clientPostCodeValid &&
+    clientCountryValid &&
+    descriptionValid &&
+    itemsValid
+
+  $: console.log(formValid)
 
   let data = {}
 
@@ -98,14 +133,13 @@
   }
   const updateClientCountry = (e) => {
     const val = e.target.value
-    senderStreet = val
+    clientCountry = val
   }
   const updateDescription = (e) => {
     const val = e.target.value
     description = val
   }
 
-  //This too (<CLASS>)
   const updateInvoiceDateAndDateDue = (e) => {
     const date = e.detail.date
     let dueDate = new Date(date).addDays(dispatchedPaymentTerms)
@@ -142,7 +176,6 @@
     total = invoice.total
   }
 
-  //This too (<CLASS>)
   const updateDateDue = (e) => {
     paymentTerms = e.detail
     dispatchedPaymentTerms = paymentTerms
@@ -164,7 +197,6 @@
     }
   }
 
-  //This too (<CLASS>)
   const addNewItem = () => {
     items = [
       ...items,
@@ -180,7 +212,6 @@
       items,
     }
   }
-  //This too (<CLASS>)
   const updateItemName = (index) => {
     let itemName = event.target.value
     items[index].name = itemName
@@ -190,7 +221,6 @@
       items,
     }
   }
-  //This too (<CLASS>)
   const updateItemQuantity = (index) => {
     let itemQuantity = parseInt(event.target.value, 10)
     items[index].quantity = itemQuantity
@@ -201,7 +231,6 @@
       items,
     }
   }
-  //This too (<CLASS>)
   const updateItemPrice = (index) => {
     let itemPrice = parseInt(event.target.value, 10)
     items[index].price = itemPrice
@@ -212,8 +241,6 @@
       items,
     }
   }
-  //This too (<CLASS>)
-  //Variable shadowing - same name - different scope, same bullshit
   const deleteItem = (i) => {
     items = items.filter((item, index) => index !== i)
 
@@ -223,79 +250,101 @@
     }
   }
 
-  const updateDataWithAllVariables = (saveAsNew) => {
+  const updateDataWithAllVariables = (saveInvoiceAs) => {
     let updatedTotal = 0
     if (items.length >= 1) {
       items.forEach((item) => {
         updatedTotal = updatedTotal + item.total
       })
     }
-    if (!saveAsNew) {
+    data = {
+      clientAddress: {
+        clientStreet,
+        clientCity,
+        clientPostCode,
+        clientCountry,
+      },
+      clientEmail,
+      clientName,
+      createdAt,
+      description,
+      paymentDue,
+      paymentTerms,
+      senderAddress: {
+        senderStreet,
+        senderCity,
+        senderPostCode,
+        senderCountry,
+      },
+      items,
+      total: updatedTotal,
+    }
+    if (saveInvoiceAs === 'saveAsNew') {
       data = {
-        clientAddress: {
-          clientStreet,
-          clientCity,
-          clientPostCode,
-          clientCountry,
-        },
-        clientEmail,
-        clientName,
-        createdAt,
-        description,
-        id: invoiceId,
-        paymentDue,
-        paymentTerms,
-        senderAddress: {
-          senderStreet,
-          senderCity,
-          senderPostCode,
-          senderCountry,
-        },
-        status,
-        items,
-        total: updatedTotal
-      }
-    } else {
-      data = {
-        clientAddress: {
-          clientStreet,
-          clientCity,
-          clientPostCode,
-          clientCountry,
-        },
-        clientEmail,
-        clientName,
-        id: createInvoiceID(invoiceIDList),
-        createdAt,
+        ...data,
         status: 'pending',
-        total: updatedTotal,
-        description,
-        paymentDue,
-        paymentTerms,
-        items,
-        senderAddress: {
-          senderStreet,
-          senderCity,
-          senderPostCode,
-          senderCountry,
-        },
+        id: createInvoiceID(invoiceIDList),
+      }
+    } else if (saveInvoiceAs === 'saveAsEdit') {
+      data = {
+        ...data,
+        status,
+        id: createInvoiceID(invoiceIDList),
+      }
+    } else if (saveInvoiceAs === 'saveAsDraft') {
+      data = {
+        ...data,
+        status: 'draft',
+        id: createInvoiceID(invoiceIDList),
+      }
+    } else if (saveInvoiceAs === 'submitDraftToSend') {
+      data = {
+        ...data,
+        status: 'pending',
+        id: invoiceId,
       }
     }
   }
 
   const saveNewInvoice = () => {
-    updateDataWithAllVariables(true)
-    let invoice = data
-    invoice = {...invoice }
-    Invoices.addInvoice(invoice)
+    saveAndSendClicked = true
+    if (formValid) {
+      updateDataWithAllVariables('saveAsNew')
+      let invoice = data
+      Invoices.addInvoice(invoice)
+      closeModalAndClearData()
+    }
   }
 
-
   const saveEditedInvoice = () => {
-    updateDataWithAllVariables(false)
+    updateDataWithAllVariables('saveAsEdit')
     let invoice = data
-    invoice = { ...invoice }
     Invoices.editInvoice(invoice, invoice.id)
+    closeModalAndClearData()
+  }
+
+  const saveInvoiceAsDraft = () => {
+    updateDataWithAllVariables('saveAsDraft')
+    let invoice = data
+    console.log(invoice)
+    Invoices.addInvoice(invoice)
+    closeModalAndClearData()
+  }
+
+  const saveDraftToSend = () => {
+    saveAndSendClicked = true
+    if (formValid) {
+      updateDataWithAllVariables('submitDraftToSend')
+      let invoice = data
+      console.log(invoice)
+      Invoices.editInvoice(invoice, invoice.id)
+      closeModalAndClearData()
+    }
+  }
+
+  const closeModalAndClearData = () => {
+    invoiceId = undefined
+    dispatch('closeInvoiceAndClearId')
   }
 </script>
 
@@ -371,6 +420,14 @@
     margin-bottom: 1.6rem;
   }
 
+  .clientInfoContainer {
+    margin-bottom: 3rem;
+  }
+
+  section:nth-last-child(1) {
+    margin-bottom: 20rem;
+  }
+
   form {
     width: 100%;
     height: 100%;
@@ -411,6 +468,19 @@
   .items {
     width: 100%;
 
+    .heading-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .error-message {
+        color: v(red-500);
+        font-size: 1.2rem;
+        letter-spacing: -0.25px;
+        line-height: 1.5rem;
+      }
+    }
+
     h2 {
       font-size: 1.8rem;
       font-weight: v(font-bold);
@@ -433,6 +503,7 @@
     background: v(edit-invoice-bg);
     transition: background 200ms ease;
     border-radius: 0 0.8rem 0 0;
+    column-gap: 0.8rem;
 
     box-shadow: 0px 10px 10px -10px rgba(72, 84, 159, 0.100397);
 
@@ -452,14 +523,20 @@
     }
   }
 
-  .clientInfoContainer {
-    margin-bottom: 20rem;
+  section.error-messages {
+    p {
+      color: v(red-500);
+      font-size: 1rem;
+      font-weight: v(font-semi-bold);
+      line-height: 1.5rem;
+      letter-spacing: -0.21px;
+    }
   }
 </style>
 
 <div
   class="overlay"
-  on:click={() => dispatch('openModal')}
+  on:click={() => dispatch('toggleModal')}
   transition:fade={{ duration: 200 }} />
 
 <div class="editInvoice" transition:fly={{ x: -200, duration: 400 }}>
@@ -477,24 +554,32 @@
         label="Street Address"
         flex="f-full"
         value={senderStreet}
+        valid={senderStreetValid}
+        {saveAndSendClicked}
         on:input={updateSenderStreet} />
       <Input
         id="senderCity"
         label="City"
         flex="f-share"
         value={senderCity}
+        valid={senderCityValid}
+        {saveAndSendClicked}
         on:input={updateSenderCity} />
       <Input
         id="senderPostCode"
         label="Post Code"
         flex="f-share"
         value={senderPostCode}
+        valid={senderPostCodeValid}
+        {saveAndSendClicked}
         on:input={updateSenderPostCode} />
       <Input
         id="senderCountry"
         label="Country"
         flex="f-share"
         value={senderCountry}
+        valid={senderCountryValid}
+        {saveAndSendClicked}
         on:input={updateSenderCountry} />
     </section>
     <section class="clientInfoContainer flexContainer section">
@@ -504,6 +589,8 @@
         label="Client's Name"
         flex="f-full"
         value={clientName}
+        valid={clientNameValid}
+        {saveAndSendClicked}
         on:input={updateClientName} />
       <Input
         type="email"
@@ -511,30 +598,40 @@
         label="Client's Email"
         flex="f-full"
         value={clientEmail}
+        valid={clientEmailValid}
+        {saveAndSendClicked}
         on:input={updateClientEmail} />
       <Input
         id="clientStreet"
         label="Street Address"
         flex="f-full"
         value={clientStreet}
+        valid={clientStreetValid}
+        {saveAndSendClicked}
         on:input={updateClientStreet} />
       <Input
         id="clientCity"
         label="City"
         flex="f-share"
         value={clientCity}
+        valid={clientCityValid}
+        {saveAndSendClicked}
         on:input={updateClientCity} />
       <Input
         id="clientPostCode"
         label="Post Code"
         flex="f-share"
         value={clientPostCode}
+        valid={clientPostCodeValid}
+        {saveAndSendClicked}
         on:input={updateClientPostCode} />
       <Input
         id="clientCountry"
         label="Country"
         flex="f-share"
         value={clientCountry}
+        valid={clientCountryValid}
+        {saveAndSendClicked}
         on:input={updateClientCountry} />
       <InvoiceDate
         flex="f-half"
@@ -550,9 +647,16 @@
         label="Project Description"
         flex="f-full"
         value={description}
+        valid={descriptionValid}
+        {saveAndSendClicked}
         on:input={updateDescription} />
       <div class="items">
-        <h2 class="item-list">Item List</h2>
+        <div class="heading-container">
+          <h2 class="item-list">Item List</h2>
+          {#if !itemsValid && saveAndSendClicked}
+            <p class="error-message">* Add an item</p>
+          {/if}
+        </div>
         {#each items as item, i}
           <ListItem
             on:updateItemName={updateItemName.bind(this, i)}
@@ -574,16 +678,37 @@
           content="+ Add New Item" />
       </div>
     </section>
+    {#if !formValid && saveAndSendClicked}
+      <section class="error-messages">
+        {#if !formValid}
+          <p>
+            - All fields must be added
+          </p>
+        {/if}
+        {#if !itemsValid}
+          <p>
+            - An item must be added
+          </p>
+        {/if}
+      </section>
+    {/if}
+
   </form>
 
   {#if !invoiceId}
     <!-- content here -->
     <div class="buttons-container">
       <div class="discard-button">
-        <Button content="Discard" on:click btnClass="dark" />
+        <Button
+          content="Discard"
+          on:click={closeModalAndClearData}
+          btnClass="dark" />
       </div>
       <div class="draft-button">
-        <Button content="Save as Draft" on:click btnClass="dark" />
+        <Button
+          content="Save as Draft"
+          on:click={saveInvoiceAsDraft}
+          btnClass="dark" />
       </div>
       <div class="save-button">
         <Button
@@ -595,14 +720,34 @@
   {:else if invoiceId}
     <div class="buttons-container">
       <div class="discard-button">
-        <Button content="Cancel" on:click btnClass="dark" />
-      </div>
-      <div class="save-button">
         <Button
-          content="Save Changes"
-          on:click={saveEditedInvoice}
-          btnClass="primary" />
+          content="Cancel"
+          on:click={closeModalAndClearData}
+          btnClass="dark" />
       </div>
+
+      {#if status !== 'draft'}
+        <div class="save-final-button">
+          <Button
+            content="Save and Send"
+            on:click={saveDraftToSend}
+            btnClass="primary" />
+        </div>
+      {/if}
+      {#if status === 'draft'}
+        <div class="save-button">
+          <Button
+            content="Save Changes"
+            on:click={saveEditedInvoice}
+            btnClass="dark" />
+        </div>
+        <div class="save-final-button">
+          <Button
+            content="Save and Send"
+            on:click={saveDraftToSend}
+            btnClass="primary" />
+        </div>
+      {/if}
     </div>
   {/if}
 
