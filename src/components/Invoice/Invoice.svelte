@@ -108,9 +108,10 @@
     width: 100%;
     height: 100%;
     background: black;
-    opacity: 0.3;
+    opacity: 0.6;
     left: 0;
     top: 0;
+    z-index: 500;
   }
 
   .delete-modal {
@@ -121,6 +122,7 @@
     place-items: center;
     left: 0;
     top: 0;
+    z-index: 600;
 
     .inner-container {
       width: clamp(32.7rem, 50%, 48rem);
@@ -145,7 +147,7 @@
     }
 
     p {
-      color: v(purple-250);
+      color: v(invoice-delete-modal-par-col);
       font-weight: v(font-medium);
       transition: color 200ms ease;
       font-size: 1.2rem;
