@@ -17,6 +17,9 @@
     isNotEmpty,
     itemsNotEmpty,
   } from '../../helpers/validateInputLength.js'
+  import LocalUser from '../../stores/userStore.js'
+
+  let userID = $LocalUser.uid
 
   const size = getContext('size')
   const dispatch = createEventDispatcher()
@@ -311,7 +314,7 @@
     if (formValid) {
       updateDataWithAllVariables('saveAsNew')
       let invoice = data
-      Invoices.addInvoice(invoice)
+      Invoices.addInvoice(invoice, userID)
       closeModalAndClearData()
     }
   }
