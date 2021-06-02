@@ -1,16 +1,17 @@
 <script>
   import Main from './components/Main.svelte'
   import { writable } from 'svelte/store'
-  import { setContext } from 'svelte'
+  import { setContext, onMount } from 'svelte'
   import Nav from './components/Nav.svelte'
   import EditInvoice from './components/EditInvoice/EditInvoice.svelte'
   import darkMode from './stores/darkModeStore.js'
   import initialiseFirebaseAuth from './stores/initialiseFirebase.js'
-  import Button from './components/Button.svelte'
-  import InvoicesStore from './stores/InvoicesStore.js'
-  initialiseFirebaseAuth()
+  import User from './stores/userStore.js'
+  import InvoicesStore from './stores/invoicesStore.js'
 
   let body = document.body
+
+  $: console.log($User)
 
   $: if ($darkMode === true) {
     body.classList.add('dark')
@@ -30,7 +31,7 @@
     $size = 'mobile'
   }
 
-  let editInvoice = true //<- THIS
+  let editInvoice = false //<- THIS
   let invoiceId
   const editActualInvoice = (e) => {
     console.log(`This is my id at editActualInvoice: ${e.detail}`)
@@ -43,6 +44,11 @@
     editInvoice = false
     invoiceId = undefined
   }
+
+  onMount(() => {
+    initialiseFirebaseAuth()
+    // InvoicesStore.fetchFirebaseInvoicesForUser($User.uid)
+  })
 
 
 </script>
