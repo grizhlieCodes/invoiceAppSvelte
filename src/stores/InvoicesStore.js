@@ -1,21 +1,38 @@
 import { writable } from 'svelte/store'
 import SelectedInvoice from './selectedInvoice.js'
+import User from './userStore'
 const invoices = writable([])
 
-if (localStorage.getItem('invoices')) {
-    let localInvoices = JSON.parse(localStorage.getItem('invoices'))
-    invoices.set(localInvoices)
-}
+let loadedInvoices = []
+let userID
+
+// if (localStorage.getItem('invoices')) {
+//     let localInvoices = JSON.parse(localStorage.getItem('invoices'))
+//     invoices.set(localInvoices)
+// }
 
 const customInvoices = {
     subscribe: invoices.subscribe,
-    addInvoice: (invoice) => {
+    addInvoice: (invoice, userID) => {
         let allInvoices
         invoices.update(items => {
             allInvoices = [...items, invoice]
             return allInvoices
         })
         localStorage.setItem('invoices', JSON.stringify(allInvoices))
+        console.log(JSON.stringify({ ...invoice }))
+        const options = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({...invoice})
+        }
+        console.log(invoice, userID)
+        fetch(`https://invoiceappfementor-default-rtdb.europe-west1.firebasedatabase.app/invoices/${userID}.json`, options)
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(`Couldn't save new invoice`)
+                }
+            }).catch(err => console.log(err))
     },
     editInvoice: (invoice, invoiceID) => {
         let allInvoices
@@ -57,6 +74,23 @@ const customInvoices = {
             return allInvoices
         })
     },
+    updateLocalUser: (user) => {
+        userID = user.uid
+        customInvoices.fetchFirebaseInvoicesForUser()
+    },
+    fetchFirebaseInvoicesForUser: () => {
+        fetch(`https://invoiceappfementor-default-rtdb.europe-west1.firebasedatabase.app/invoices/${userID}.json`)
+        .then(data => data.json())
+        .then(invoiceData => {
+            for(const invoice in invoiceData){
+                loadedInvoices = [
+                    ...loadedInvoices,
+                    invoiceData[invoice]
+                ]
+            }
+            invoices.set(loadedInvoices)
+        })
+    }
 }
 
 export default customInvoices
