@@ -3,12 +3,12 @@
   import LoginModal from './Login.svelte'
   import User from '../stores/userStore.js'
   import Invoices from './Invoices.svelte'
-  let showInvoices = true
+  let showInvoices = false
 
-    $: if($showLoginModal && $User){
-        // showInvoices = false
-    } else {
+    $: if(!$showLoginModal && $User){
       showInvoices = true
+    } else {
+      showInvoices = false
     }
 
 </script>
