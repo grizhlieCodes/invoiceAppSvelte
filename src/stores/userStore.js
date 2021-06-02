@@ -6,7 +6,9 @@ const customUser = {
     subscribe: user.subscribe,
     setUser: (firebaseUser) => {
         user.set(firebaseUser)
+        console.log(firebaseUser)
     },
+
     signUpUser: (email, password, name) => {
         console.log(name)
         firebase.auth().createUserWithEmailAndPassword(email, password)
@@ -20,19 +22,13 @@ const customUser = {
                 console.log(errorCode, errorMessage)
             });
     },
+
     updateName: (name, id, email) => {
         const options = {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                name,
-                id,
-                email
-            })
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({name, id, email})
         }
-
         fetch(`https://invoiceappfementor-default-rtdb.europe-west1.firebasedatabase.app/users/${id}.json`, options)
             .then(res => {
                 if(!res.ok){
@@ -40,6 +36,7 @@ const customUser = {
                 }
             }).catch(err => (console.log(err)))
     },
+
     signInUser: (email, password) => {
         console.log("change this: ",email, password)
         firebase.auth().signInWithEmailAndPassword(email, password)
@@ -53,11 +50,12 @@ const customUser = {
                 var errorMessage = error.message;
             });
     },
+
     signOutUser: () => {
         firebase.auth().signOut().then(() => {
             user.set(null)
           }).catch((error) => {
-            // An error happened.
+            console.log(error)
           });
     }
 }
