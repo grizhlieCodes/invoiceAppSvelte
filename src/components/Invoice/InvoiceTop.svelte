@@ -3,7 +3,7 @@
   import { getContext } from 'svelte'
   import StatusCard from '../StatusCard.svelte'
   import { createEventDispatcher } from 'svelte'
-  import InvoicesStore from '../../stores/invoicesStore.js'
+  import invoicesStore from '../../stores/invoicesStore.js'
   const dispatch = createEventDispatcher()
 
   const size = getContext('size')
@@ -17,12 +17,12 @@
   }
 
   const markInvoiceAsPaid = () => {
-    InvoicesStore.markInvoiceAsPaid(id)
+    invoicesStore.markInvoiceAsPaid(id)
     status = 'paid'
   }
 
   const markInvoiceAsUnpaid = () => {
-    InvoicesStore.markInvoiceAsUnpaid(id)
+    invoicesStore.markInvoiceAsUnpaid(id)
     status = 'pending'
   }
 

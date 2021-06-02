@@ -1,6 +1,6 @@
 <script>
   import { createEventDispatcher } from 'svelte'
-  import InvoicesStore from '../../stores/invoicesStore.js'
+  import invoicesStore from '../../stores/invoicesStore.js'
   const dispatch = createEventDispatcher()
   import Button from '../Button.svelte'
   export let status, id
@@ -10,13 +10,13 @@
   }
 
   const markInvoiceAsPaid = () => {
-    InvoicesStore.markInvoiceAsPaid(id)
+    invoicesStore.markInvoiceAsPaid(id)
     status = 'paid'
     dispatch('markInvoiceAsPaid', status)
   }
 
   const markInvoiceAsUnpaid = () => {
-    InvoicesStore.markInvoiceAsUnpaid(id)
+    invoicesStore.markInvoiceAsUnpaid(id)
     status = 'pending'
     dispatch('markInvoiceAsUnpaid', status)
   }

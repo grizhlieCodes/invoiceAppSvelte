@@ -11,7 +11,7 @@
   import SelectedInvoice from '../../stores/selectedInvoice.js'
   import Button from '../Button.svelte'
   // import {fly, fade} from 'svelte/transition'
-  import InvoicesStore from '../../stores/invoicesStore.js'
+  import invoicesStore from '../../stores/invoicesStore.js'
 
   import { createEventDispatcher, onDestroy } from 'svelte'
   const dispatch = createEventDispatcher()
@@ -73,7 +73,7 @@
   }
 
   const deleteInvoice = () => {
-    InvoicesStore.deleteInvoice(id)
+    invoicesStore.deleteInvoice(id)
     showDeletionConfirmation = !showDeletionConfirmation
     dispatch('closeInvoice')
   }
