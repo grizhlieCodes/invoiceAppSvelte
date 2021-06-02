@@ -3,9 +3,8 @@
   import User from '../stores/userStore.js'
   import Button from './Button.svelte'
   import Input from './Input.svelte'
-  import { fade, fly } from 'svelte/transition'
+  import { fly } from 'svelte/transition'
   import SmallModal from './SmallModal.svelte'
-  import {onMount} from 'svelte'
 
   let showLogin = true
 
