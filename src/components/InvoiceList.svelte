@@ -10,7 +10,7 @@
   const size = getContext('size')
   import invoiceValueFormat from '../helpers/invoiceValueFormat.js'
   import dateFormat from '../helpers/realDateToInvoiceVisual.js'
-  import Invoices from '../stores/InvoicesStore.js'
+  import Invoices from '../stores/invoicesStore.js'
   import SelectedInvoice from '../stores/selectedInvoice.js'
 
   const [send, receive] = crossfade({

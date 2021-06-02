@@ -7,7 +7,6 @@
   import darkMode from './stores/darkModeStore.js'
   import initialiseFirebaseAuth from './stores/initialiseFirebase.js'
   import User from './stores/userStore.js'
-  import InvoicesStore from './stores/invoicesStore.js'
 
   let body = document.body
 
@@ -47,7 +46,6 @@
 
   onMount(() => {
     initialiseFirebaseAuth()
-    // InvoicesStore.fetchFirebaseInvoicesForUser($User.uid)
   })
 
 
