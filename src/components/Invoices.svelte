@@ -99,10 +99,11 @@
     h1 {
       flex: 0;
       height: 2.2rem;
-      margin: 0;
+      margin: 0 0 0.8rem 0;
       padding: 0;
       color: v(main-text-color);
       transition: color 200ms ease;
+      font-weight: v(font-bold);
     }
     p {
       color: v(invoices-light-accent-text);
