@@ -30,7 +30,7 @@
     $size = 'mobile'
   }
 
-  let editInvoice = false //<- THIS
+  let editInvoice = true //<- THIS
   let invoiceId
   const editActualInvoice = (e) => {
     console.log(`This is my id at editActualInvoice: ${e.detail}`)
@@ -39,25 +39,12 @@
     editInvoice = !editInvoice
   }
 
-  // let showDeletionConfirmation = false
-  // let invoiceIdForDelete
+  const closeInvoiceAndClearId = () => {
+    editInvoice = false
+    invoiceId = undefined
+  }
 
-  // const showDeleteModal = (e) => {
-  //   showDeletionConfirmation = !showDeletionConfirmation
-  //   invoiceIdForDelete = e.detail
-  //   console.log(invoiceIdForDelete)
-  // }
 
-  // const cancelDeletion = () => {
-  //   showDeletionConfirmation = !showDeletionConfirmation
-  //   invoiceIdForDelete = ''
-  // }
-
-  // const deleteInvoice = () => {
-  //   InvoicesStore.deleteInvoice(invoiceIdForDelete)  
-  //   showDeletionConfirmation = !showDeletionConfirmation
-  //   invoiceIdForDelete = ''
-  // }
 </script>
 
 <style lang="scss">
@@ -160,6 +147,9 @@
 
     // InvoiceItems
     --invoiceItem-divider-line-bg: var(--purple-700);
+
+    /* Invoice Delete Modal */
+	--invoice-delete-modal-par-col: var(--purple-100);
   }
 
   :global(body) {
@@ -181,26 +171,12 @@
 
 {#if editInvoice}
   <EditInvoice
-    on:openModal={() => {
+    on:toggleModal={() => {
+      console.log('Toggling invoice')
       invoiceId = undefined
       editInvoice = !editInvoice
     }}
     on:click={() => (editInvoice = !editInvoice)}
-    {invoiceId} />
+    {invoiceId} 
+    on:closeInvoiceAndClearId={closeInvoiceAndClearId}/>
 {/if}
-<!-- {#if showDeletionConfirmation}
-  <div class="delete-overlay" transition:fade={{duration: 200}} />
-  <div class="delete-modal">
-    <div class="inner-container" transition:fly={{duration: 200, x: -50}}>
-      <h2>Confirm Deletion</h2>
-      <p>
-        Are you sure you want to delete invoice #{invoiceIdForDelete}? This
-        action cannot be undone.
-      </p>
-      <div class="buttons">
-        <Button content="Cancel" btnClass="light" on:click={cancelDeletion} />
-        <Button content="Delete" btnClass="red" on:click={deleteInvoice} />
-      </div>
-    </div>
-  </div>
-{/if} -->
