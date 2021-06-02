@@ -1,5 +1,5 @@
 import {writable} from 'svelte/store'
-import customInvoices from './InvoicesStore'
+import customInvoices from './invoicesStore'
 
 const invoice = writable()
 

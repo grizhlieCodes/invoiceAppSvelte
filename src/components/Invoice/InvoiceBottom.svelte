@@ -1,6 +1,6 @@
 <script>
   import { createEventDispatcher } from 'svelte'
-  import InvoicesStore from '../../stores/InvoicesStore.js'
+  import InvoicesStore from '../../stores/invoicesStore.js'
   const dispatch = createEventDispatcher()
   import Button from '../Button.svelte'
   export let status, id

@@ -11,7 +11,7 @@
   import SelectedInvoice from '../../stores/selectedInvoice.js'
   import Button from '../Button.svelte'
   // import {fly, fade} from 'svelte/transition'
-  import InvoicesStore from '../../stores/InvoicesStore.js'
+  import InvoicesStore from '../../stores/invoicesStore.js'
 
   import { createEventDispatcher, onDestroy } from 'svelte'
   const dispatch = createEventDispatcher()

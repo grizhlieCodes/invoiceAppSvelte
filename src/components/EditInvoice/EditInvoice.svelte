@@ -12,7 +12,7 @@
   import formatValue from '../../helpers/invoiceValueFormat.js'
   import { createPublicKey } from 'crypto'
   import createInvoiceID from '../../helpers/createInvoiceID.js'
-  import Invoices from '../../stores/InvoicesStore.js'
+  import Invoices from '../../stores/invoicesStore.js'
   import {
     isNotEmpty,
     itemsNotEmpty,

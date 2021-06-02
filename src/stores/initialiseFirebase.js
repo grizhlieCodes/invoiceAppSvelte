@@ -1,5 +1,5 @@
 import userStore from './userStore.js'
-import invoiceStore from './InvoicesStore'
+import invoiceStore from './invoicesStore'
 
 function initialiseFirebaseAuth(){
     var firebaseConfig = {

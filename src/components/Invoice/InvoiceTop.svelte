@@ -3,7 +3,7 @@
   import { getContext } from 'svelte'
   import StatusCard from '../StatusCard.svelte'
   import { createEventDispatcher } from 'svelte'
-  import InvoicesStore from '../../stores/InvoicesStore.js'
+  import InvoicesStore from '../../stores/invoicesStore.js'
   const dispatch = createEventDispatcher()
 
   const size = getContext('size')
