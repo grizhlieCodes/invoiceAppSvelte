@@ -85,12 +85,22 @@ const customInvoices = {
             for(const invoice in invoiceData){
                 loadedInvoices = [
                     ...loadedInvoices,
-                    invoiceData[invoice]
+                    {
+                        ...invoiceData[invoice],
+                        invoiceUid: invoice,
+                    }
                 ]
             }
             invoices.set(loadedInvoices)
         })
-    }
+    },
+    // updateInvoiceStatus = (status, invoiceUid) => {
+    //     const options = {
+    //         method: 'PATCH',
+    //         headers: {'Content-type': 'application/json'},
+    //         body: JSON.parse({})
+    //     }
+    // }
 }
 
 export default customInvoices

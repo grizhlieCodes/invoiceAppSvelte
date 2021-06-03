@@ -41,6 +41,7 @@
   $: clientEmail = invoice.clientEmail
   $: items = invoice.items
   $: total = invoice.total
+  $: invoiceUid = invoice.invoiceUid
 
   $: status = $SelectedInvoice.status
   $: console.log(status)
@@ -184,7 +185,8 @@
       {status}
       on:deleteInvoice={showDeleteModal} 
       on:markInvoiceAsPaid={(e) => status = e.detail} 
-      on:markInvoiceAsUnpaid={(e) => status = e.detail}/>
+      on:markInvoiceAsUnpaid={(e) => status = e.detail}
+      {invoiceUid} />
   {/if}
 </div>
 {#if showDeletionConfirmation}

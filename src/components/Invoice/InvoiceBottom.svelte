@@ -3,7 +3,7 @@
   import invoicesStore from '../../stores/invoicesStore.js'
   const dispatch = createEventDispatcher()
   import Button from '../Button.svelte'
-  export let status, id
+  export let status, id, invoiceUid
 
   const deleteInvoice = () => {
     dispatch('deleteInvoice')
