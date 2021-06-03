@@ -504,7 +504,7 @@
   on:click={() => dispatch('toggleModal')}
   transition:fade={{ duration: 200 }} />
 
-<div class="editInvoice" transition:fly={{ x: -200, duration: 400 }}>
+<div class="editInvoice" in:fly={{ x: -150, duration: 300 }} out:fly={{ x: -150, duration: 300 }}>
   {#if $size === 'mobile'}
     <div class="goBackContainer">
       <GoBack on:click={closeModalAndClearData} />

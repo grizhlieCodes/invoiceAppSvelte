@@ -159,7 +159,7 @@
 <svelte:head>
   <title>InnVoice: {id}</title>
 </svelte:head>
-<div class="invoice" transition:fly={{ x: 50, duration: 350 }}>
+<div class="invoice" in:fly={{ x: -200, duration: 300 }} out:fly={{ x: -200, duration: 300 }}>
   <GoBack on:click={() => dispatch('closeInvoice')} />
   <InvoiceTop
     {status}

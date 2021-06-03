@@ -114,7 +114,7 @@
 </svelte:head>
 
 {#if !invoiceShown}
-  <div class="invoices-container" transition:fly={{ x: 20, duration: 200 }}>
+  <div class="invoices-container" in:fly={{ x: -200, duration: 300 }} out:fly={{ x: -200, duration: 300 }}>
     <div class="top {$size}">
       <div class="left">
         <h1>Invoices</h1>
