@@ -42,7 +42,7 @@
   export let invoiceId = undefined
 
   let invoiceIDList = grabIDsFromInvoices()
-  let dispatchedPaymentTerms
+
 
   let senderStreet = ''
   let senderCity = ''
@@ -55,15 +55,15 @@
   let clientPostCode = ''
   let clientCountry = ''
   let createdAt = '' //ignore during validation
-  let paymentTerms = '' //ignore during validation
-  let paymentDue = 0 //ignore during validation
+  let paymentTerms = 30 //ignore during validation
+  let paymentDue = '' //ignore during validation
   let description = ''
   let items = ''
   let status = 0
   let total = []
   let id = invoiceId ? invoiceId : ''
   let invoiceUid = ''
-
+  
   // VALIDATION VARIABLES
 
   let saveAndSendClicked = false
@@ -144,19 +144,15 @@
 
   const updateInvoiceDateAndDateDue = (e) => {
     const date = e.detail.date
-    let dueDate = new Date(date).addDays(dispatchedPaymentTerms)
+    let dueDate = new Date(date).addDays(paymentTerms)
     createdAt = `${date}`
     paymentDue = `${dueDate}`
-
-    data = {
-      ...data,
-      createdAt,
-      paymentDue,
-    }
   }
 
-  //Load invoice information if we have an ID.
-  //We can only have an ID if we arrive from a specific invoice.
+  const setCreatedAtAsToday = () => {
+    createdAt = new Date()
+  }
+
   if (invoiceId) {
     let invoice = $Invoices.find((invoice) => invoice.id === invoiceId)
     senderStreet = invoice.senderAddress.senderStreet
@@ -181,23 +177,9 @@
 
   const updateDateDue = (e) => {
     paymentTerms = e.detail
-    dispatchedPaymentTerms = paymentTerms
-    paymentTerms = dispatchedPaymentTerms
-    if (data.createdAt) {
-      paymentDue = new Date(data.createdAt).addDays(dispatchedPaymentTerms)
-      data = {
-        ...data,
-        paymentDue,
-      }
-    } else {
-      createdAt = new Date()
-      paymentDue = new Date().addDays(dispatchedPaymentTerms)
-      data = {
-        ...data,
-        createdAt: new Date(),
-        paymentDue: paymentDue,
-      }
-    }
+    if (createdAt != '') {
+      paymentDue = new Date(createdAt).addDays(paymentTerms)
+    } 
   }
 
   const addNewItem = () => {
@@ -210,47 +192,23 @@
         total: 0,
       },
     ]
-    data = {
-      ...data,
-      items,
-    }
   }
   const updateItemName = (index) => {
     let itemName = event.target.value
     items[index].name = itemName
-
-    data = {
-      ...data,
-      items,
-    }
   }
   const updateItemQuantity = (index) => {
     let itemQuantity = parseInt(event.target.value, 10)
     items[index].quantity = itemQuantity
     items[index].total = items[index].price * items[index].quantity
-
-    data = {
-      ...data,
-      items,
-    }
   }
   const updateItemPrice = (index) => {
     let itemPrice = parseInt(event.target.value, 10)
     items[index].price = itemPrice
     items[index].total = items[index].price * items[index].quantity
-
-    data = {
-      ...data,
-      items,
-    }
   }
   const deleteItem = (i) => {
     items = items.filter((item, index) => index !== i)
-
-    data = {
-      ...data,
-      items,
-    }
   }
 
   const updateDataWithAllVariables = (saveInvoiceAs) => {
@@ -339,7 +297,7 @@
     if (formValid) {
       updateDataWithAllVariables('submitDraftToSend')
       let invoice = data
-      Invoices.editInvoice(invoice, invoice.id)
+      Invoices.editInvoice(invoice, invoiceUid)
       closeModalAndClearData()
     }
   }
@@ -522,8 +480,6 @@
     .draft-button {
       margin-right: 0.8rem;
     }
-    .save-button {
-    }
   }
 
   :global(body.dark) {
@@ -645,7 +601,8 @@
       <InvoiceDate
         flex="f-half"
         dateFromInvoice={createdAt}
-        on:updateInvoiceDate={updateInvoiceDateAndDateDue} />
+        on:updateInvoiceDate={updateInvoiceDateAndDateDue} 
+        on:setCreatedAtAsToday={setCreatedAtAsToday}/>
       <PaymentTerms
         flex="f-half"
         on:updateDateDue={updateDateDue}
