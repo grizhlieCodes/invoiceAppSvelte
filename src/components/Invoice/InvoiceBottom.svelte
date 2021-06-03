@@ -9,16 +9,12 @@
     dispatch('deleteInvoice')
   }
 
-  const markInvoiceAsPaid = () => {
-    invoicesStore.markInvoiceAsPaid(id)
-    status = 'paid'
-    dispatch('markInvoiceAsPaid', status)
-  }
-
-  const markInvoiceAsUnpaid = () => {
-    invoicesStore.markInvoiceAsUnpaid(id)
-    status = 'pending'
-    dispatch('markInvoiceAsUnpaid', status)
+  const updateInvoiceStatus = (newStatus) => {
+    status = newStatus
+    console.log(status)
+    invoicesStore.updateInvoiceStatusLocal(id, status)
+    invoicesStore.updateInvoiceStatusFirebase(status, invoiceUid)
+    dispatch('updateInvoiceStatus', status)
   }
 </script>
 
@@ -54,12 +50,12 @@
       <Button
         content="Mark as Paid"
         btnClass="primary"
-        on:click={markInvoiceAsPaid} />
+        on:click={() => updateInvoiceStatus('paid')} />
     {:else if status === 'paid'}
       <Button
         content="Mark as Unpaid"
         btnClass="primary"
-        on:click={markInvoiceAsUnpaid} />
+        on:click={() => updateInvoiceStatus('pending')} />
     {/if}
   </div>
 </div>

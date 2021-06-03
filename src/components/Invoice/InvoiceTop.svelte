@@ -3,29 +3,24 @@
   import { getContext } from 'svelte'
   import StatusCard from '../StatusCard.svelte'
   import { createEventDispatcher } from 'svelte'
-  import invoicesStore from '../../stores/invoicesStore.js'
+import invoicesStore from '../../stores/invoicesStore.js'
   const dispatch = createEventDispatcher()
 
   const size = getContext('size')
 
-  export let status, id
+  export let status, id, invoiceUid
 
   const deleteInvoice = () => {
     dispatch('deleteInvoice')
-    //Need to edit the below code. I need to create a modal that gets user confirmation if they really want to delete the invoice.
-    // dispatch('closeInvoice')
   }
 
-  const markInvoiceAsPaid = () => {
-    invoicesStore.markInvoiceAsPaid(id)
-    status = 'paid'
+  const updateInvoiceStatus = (newStatus) => {
+    status = newStatus
+    console.log(status)
+    invoicesStore.updateInvoiceStatusLocal(id, status)
+    invoicesStore.updateInvoiceStatusFirebase(status, invoiceUid)
+    dispatch('updateInvoiceStatus', status)
   }
-
-  const markInvoiceAsUnpaid = () => {
-    invoicesStore.markInvoiceAsUnpaid(id)
-    status = 'pending'
-  }
-
 </script>
 
 <style lang="scss">
@@ -83,9 +78,9 @@
       <Button content="Edit" btnClass="light" on:click={() => dispatch('editInvoice', id)} />
       <Button content="Delete" btnClass="red" on:click={deleteInvoice} />
       {#if status === 'pending'}
-         <Button content="Mark as Paid" btnClass="primary" on:click={markInvoiceAsPaid} />
+         <Button content="Mark as Paid" btnClass="primary" on:click={() => updateInvoiceStatus('paid')} />
       {:else if status === 'paid'}
-      <Button content="Mark as Unpaid" btnClass="primary" on:click={markInvoiceAsUnpaid} />
+      <Button content="Mark as Unpaid" btnClass="primary" on:click={() => updateInvoiceStatus('pending')} />
       {/if}
     </div>
   {/if}

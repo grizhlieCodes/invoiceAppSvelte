@@ -6,30 +6,16 @@
   import { getContext } from 'svelte'
   import { fly, fade } from 'svelte/transition'
   let size = getContext('size')
-  // import invoiceValueFormat from '../helpers/invoiceValueFormat.js'
-  // import dateFormat from '../helpers/dateFormat.js'
   import SelectedInvoice from '../../stores/selectedInvoice.js'
   import Button from '../Button.svelte'
-  // import {fly, fade} from 'svelte/transition'
   import invoicesStore from '../../stores/invoicesStore.js'
 
   import { createEventDispatcher, onDestroy } from 'svelte'
   const dispatch = createEventDispatcher()
 
-  // export let id,
-  //   status,
-  //   description,
-  //   clientAddress,
-  //   createdAt,
-  //   paymentDue,
-  //   clientEmail,
-  //   items,
-  //   total,
-  //   senderAddress,
-  //   clientName,
-  //   paymentTerms
-
   $: invoice = $SelectedInvoice
+
+  console.log($SelectedInvoice)
 
   $: id = invoice.id
   $: description = invoice.description
@@ -74,10 +60,17 @@
   }
 
   const deleteInvoice = () => {
-    invoicesStore.deleteInvoice(id)
+    console.log(invoiceUid)
+    invoicesStore.deleteInvoice(invoiceUid)
     showDeletionConfirmation = !showDeletionConfirmation
     dispatch('closeInvoice')
   }
+
+  const updateInvoiceStatus = (e) => {
+    status = e.detail
+  }
+
+
 </script>
 
 <style lang="scss">
@@ -176,7 +169,8 @@
     on:editInvoice
     {id}
     on:closeInvoice
-    on:deleteInvoice={showDeleteModal} />
+    on:deleteInvoice={showDeleteModal} 
+    {invoiceUid} />
   <InvoiceBody {...invoiceData} />
   {#if $size === 'mobile'}
     <InvoiceBottom
@@ -184,8 +178,7 @@
       {id}
       {status}
       on:deleteInvoice={showDeleteModal} 
-      on:markInvoiceAsPaid={(e) => status = e.detail} 
-      on:markInvoiceAsUnpaid={(e) => status = e.detail}
+      on:updateInvoiceStatus={updateInvoiceStatus} 
       {invoiceUid} />
   {/if}
 </div>
