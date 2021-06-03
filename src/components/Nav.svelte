@@ -107,6 +107,15 @@
 
       img {
         z-index: v(nav-logo);
+        @include mq(tablet){
+          width: 3.1rem;
+          height: 2.9rem;
+        }
+        @include mq(desktop){
+          width: 4rem;
+          height: 3.771rem;
+        }
+
       }
     }
 
@@ -147,6 +156,11 @@
         height: 3.2rem;
         border-radius: 50%;
         cursor: pointer;
+
+        @include mq(tablet){
+          width: 4rem;
+          height: 4rem;
+        }
       }
     }
   }
