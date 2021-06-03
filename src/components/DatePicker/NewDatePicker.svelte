@@ -25,7 +25,7 @@
   const totalDayInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
   //Core Date Variables
-  let date = existingDate ? existingDate : new Date()
+  let date = existingDate ? new Date(existingDate) : new Date()
   let selectedDate = $pickedDate ? $pickedDate : date
   $: year = selectedDate.getFullYear()
   $: monthIndex = selectedDate.getMonth()

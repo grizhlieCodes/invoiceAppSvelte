@@ -2,7 +2,7 @@
   import DatePicker from './NewDatePicker.svelte'
   import visualiseDate from '../../helpers/realDateToInvoiceVisual.js'
   import pickedDate from '../../stores/pickedDate.js'
-  import { onMount, onDestroy, createEventDispatcher } from 'svelte'
+  import {  onDestroy, createEventDispatcher } from 'svelte'
   const dispatch = createEventDispatcher()
 
   //Basic Variables
@@ -22,26 +22,14 @@
     placeholder = '',
     flex = '',
     dateFromInvoice = ''
-
-  $: existingDate = dateFromInvoice ? new Date(dateFromInvoice) : new Date()
-
-  //if we have clicked on a date and stored it in a store then update Date
-  $: date = $pickedDate ? $pickedDate : new Date()
-
-  //if we have a stored date create a visualisation of that date.
-  //pickedDate.visualiseDate($pickedDate) === Grabs long date and outputs 'dd-mmm-yyyy'
-  $: dateVisualised = $pickedDate
-    ? visualiseDate($pickedDate)
-    : visualiseDate(new Date())
-
-  $: if (dateFromInvoice)
-    dateVisualised = pickedDate.visualiseDate(existingDate)
-  $: if (dateFromInvoice) pickedDate.updateSelectedDate(existingDate)
-  $: if (dateFromInvoice) date = existingDate
+  
+  let date =  dateFromInvoice ? new Date(dateFromInvoice) : new Date()
+  $: dateVisualised = pickedDate.visualiseDate(date)
 
   const toggleDatepicker = () => {
     showDatepicker = !showDatepicker
   }
+
   onDestroy(() => {
     pickedDate.nullify()
   })
@@ -60,6 +48,12 @@
       }, 100)
     }
   })
+
+  const updateInvoiceDate = (e) => {
+    let newDate = new Date(e.detail.date)
+    date = new Date(newDate)
+    dispatch('updateInvoiceDate', {date: newDate})
+  }
 </script>
 
 <style lang="scss">
@@ -153,8 +147,8 @@
   {#if showDatepicker}
     <DatePicker
       {dateVisualised}
-      {existingDate}
-      on:updateInvoiceDate
+      existingDate={date}
+      on:updateInvoiceDate={updateInvoiceDate}
       on:closeDatepicker={() => {
         setTimeout(() => {
           showDatepicker = !showDatepicker
