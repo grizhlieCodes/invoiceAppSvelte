@@ -61,6 +61,7 @@
     letter-spacing: -0.025rem;
     line-height: 1.5rem;
     position: relative;
+    z-index: 400;
   }
   label {
     color: v(label-text);
@@ -122,6 +123,7 @@
     width: 100%;
     position: absolute;
     margin-top: 1.6rem;
+    box-shadow: 1px 1px 15px 1px hsla(0, 0%, 0%, 0.445);
 
     button {
       margin: 0;
