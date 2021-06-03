@@ -58,6 +58,7 @@
     grid-row: 1/2;
     grid-column: 1/2;
     margin-top: 3.4rem;
+    height: 100%;
   }
 
   .top {
@@ -107,6 +108,38 @@
     display: flex;
     align-items: center;
   }
+
+  .empty-container {
+    height: 100%;
+    display: grid;
+    justify-items: center;
+    padding-top: 20%;
+
+    .inner-container {
+      width: clamp(21.7rem, 50%, 24rem);
+      text-align: center;
+
+      img {
+        margin-bottom: 4rem;
+      }
+
+      h2 {
+        color: v(main-text-color);
+        font-weight: v(font-bold);
+        font-size: 2rem;
+        letter-spacing: -0.63px;
+        line-height: 2rem;
+        margin: 0 auto 2.4rem auto;
+      }
+      p {
+        color: v(invoice-delete-modal-par-col);
+        width: clamp(21rem, 30%, 22.5rem);
+        font-size: 1.2rem;
+        line-height: 1.5rem;
+        margin: auto;
+      }
+    }
+  }
 </style>
 
 <svelte:head>
@@ -114,7 +147,10 @@
 </svelte:head>
 
 {#if !invoiceShown}
-  <div class="invoices-container" in:fly={{ x: -200, duration: 300 }} out:fly={{ x: -200, duration: 300 }}>
+  <div
+    class="invoices-container"
+    in:fly={{ x: -200, duration: 300 }}
+    out:fly={{ x: -200, duration: 300 }}>
     <div class="top {$size}">
       <div class="left">
         <h1>Invoices</h1>
@@ -146,6 +182,16 @@
       {filter}
       on:invoiceQuantity={updateInvoiceQuant}
       on:openInvoice={openInvoice} />
+
+    {#if invoiceQuantity === 0}
+      <div class="empty-container">
+        <div class="inner-container">
+          <img src="./assets/illustration-empty.svg" alt="">
+          <h2>There is nothing here</h2>
+          <p>Create an invocie by clicking the {$size === 'mobile' ? 'New' : 'New Invoice'} button and get started</p>
+        </div>
+      </div>
+    {/if}
   </div>
 {:else}
   <Invoice
