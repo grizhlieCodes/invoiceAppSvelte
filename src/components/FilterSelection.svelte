@@ -74,6 +74,7 @@
     height: 100%;
     position: relative;
     z-index: 1;
+    flex-grow: 0;
   }
 
   .selection-toggle {
@@ -84,11 +85,12 @@
     justify-content: flex-end;
     cursor: pointer;
 
+
     .span-container {
       height: 100%;
       position: relative;
       width: 10px;
-      margin: 0 3rem 0 2.1rem;
+      margin: 0 0 0 2.1rem;
       transition: transform 250ms ease-in-out;
 
       span {

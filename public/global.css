@@ -33,7 +33,7 @@ body {
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-columns: 2.4rem minmax(32.7rem, 1fr) 2.4rem;
+  grid-template-columns: 2.4rem minmax(min-content, 1fr) 2.4rem;
   grid-template-rows: 7.2rem 3.2rem 1fr;
   grid-template-areas:
     "sidebar sidebar sidebar"

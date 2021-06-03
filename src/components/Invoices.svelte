@@ -107,6 +107,13 @@
     width: auto;
     display: flex;
     align-items: center;
+    flex: 1 0 0;
+    justify-content: flex-end;
+    padding-left: 1rem;
+
+    .button-container {
+      margin-left: clamp(0.5rem, 3vw, 4rem);
+    }
   }
 
   .empty-container {
@@ -170,11 +177,13 @@
       </div>
       <div class="right">
         <FilterSelection on:filter={updateFilter} {invoiceShown} />
-        <Button
-          type="button"
-          content={buttonContent}
-          btnClass="addition"
-          on:click />
+        <div class="button-container">
+          <Button
+            type="button"
+            content={buttonContent}
+            btnClass="addition"
+            on:click />
+        </div>
       </div>
     </div>
 
@@ -186,9 +195,12 @@
     {#if invoiceQuantity === 0}
       <div class="empty-container">
         <div class="inner-container">
-          <img src="./assets/illustration-empty.svg" alt="">
+          <img src="./assets/illustration-empty.svg" alt="" />
           <h2>There is nothing here</h2>
-          <p>Create an invocie by clicking the {$size === 'mobile' ? 'New' : 'New Invoice'} button and get started</p>
+          <p>
+            Create an invocie by clicking the {$size === 'mobile' ? 'New' : 'New Invoice'}
+            button and get started
+          </p>
         </div>
       </div>
     {/if}
