@@ -28,14 +28,38 @@
 
   const togglePopup = async () => {
     showPopup = !showPopup
-      let fetchedUserData = await fetchUserInfo($User.uid)
-      for (const key in fetchedUserData) {
-        localUserInfo = {
-          ...fetchedUserData[key],
-        }
+    let fetchedUserData = await fetchUserInfo($User.uid)
+    for (const key in fetchedUserData) {
+      localUserInfo = {
+        ...fetchedUserData[key],
       }
+    }
   }
 
+  let allowWindowListener = false
+
+  $: if (showPopup) {
+    setTimeout(() => {
+      allowWindowListener = true
+    }, 100)
+  } else {
+    allowWindowListener = false
+  }
+
+  document.addEventListener('click', (e) => {
+    let popup = document.querySelector('.popup')
+    let userImageContainer = document.querySelector('.user-image-container')
+    let actualElement = e.target
+    let closestPopup = actualElement.closest('.popup')
+    let closestuserImageContainer = actualElement.closest('.user-image-container')
+    let clickedOutsidePopup = popup != closestPopup || userImageContainer != closestuserImageContainer
+
+    if (clickedOutsidePopup && allowWindowListener) {
+      setTimeout(() => {
+        showPopup = false
+      }, 100)
+    }
+  })
 </script>
 
 <style lang="scss">
@@ -50,7 +74,7 @@
     align-items: center;
     background: var(--invoices-sidebar-bg);
     transition: background 250ms ease;
-    z-index: 500;
+    z-index: v(nav-navigation);
 
     .options-container {
       height: 100%;
@@ -82,7 +106,7 @@
       }
 
       img {
-        z-index: 5;
+        z-index: v(nav-logo);
       }
     }
 
@@ -174,8 +198,9 @@
   }
 
 
+
   .popup {
-    z-index: 500;
+    z-index: v(nav-popup);
     position: absolute;
     display: flex;
     flex-flow: column nowrap;
@@ -188,7 +213,7 @@
     width: 35rem;
     padding: 4rem;
     opacity: 0;
-    transition: transform 250ms ease, opacity 250ms ease, background 250ms ease;
+    transition: transform 250ms ease, opacity 250ms ease, background 200ms ease;
     transform-origin: 100% 0%;
     transform: scale(0.2, 0.2);
     border-radius: 0 0 15px 15px;
@@ -212,7 +237,7 @@
       left: 12rem;
       width: 50rem;
       border-radius: 15px;
-      
+
       h1 {
         font-size: 2rem;
       }
@@ -231,15 +256,13 @@
       color: v(main-text-color);
       transition: color 250ms ease;
     }
-
   }
 
-  :global(body.dark){
+  :global(body.dark) {
     .popup {
       box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.25);
     }
   }
-
 </style>
 
 <div class="navigation {$size}">
@@ -304,14 +327,14 @@
     <div class="user-image-container" on:click={togglePopup}>
       <img src="./assets/image-avatar.jpg" alt="" />
       {#if $User}
-         <div class="popup {showPopup ? 'show' : ''} {$size}">
-           <h1>Hello {localUserInfo.name}. Would you like to sign out?</h1>
-           <Button
-             type="button"
-             on:click={signOutUser}
-             btnClass="dark"
-             content="Sign Out" />
-         </div>
+        <div class="popup {showPopup ? 'show' : ''} {$size}">
+          <h1>Hello {localUserInfo.name}. Would you like to sign out?</h1>
+          <Button
+            type="button"
+            on:click={signOutUser}
+            btnClass="dark"
+            content="Sign Out" />
+        </div>
       {/if}
     </div>
   </div>
