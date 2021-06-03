@@ -16,7 +16,6 @@
 
   const size = getContext('size')
 
-  console.log(items, total)
 </script>
 
 <style lang="scss">

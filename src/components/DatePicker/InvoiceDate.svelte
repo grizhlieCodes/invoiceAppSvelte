@@ -1,8 +1,7 @@
 <script>
   import DatePicker from './NewDatePicker.svelte'
-  import visualiseDate from '../../helpers/realDateToInvoiceVisual.js'
   import pickedDate from '../../stores/pickedDate.js'
-  import {  onDestroy, createEventDispatcher } from 'svelte'
+  import {  onDestroy, createEventDispatcher, onMount } from 'svelte'
   const dispatch = createEventDispatcher()
 
   //Basic Variables
@@ -29,31 +28,34 @@
   const toggleDatepicker = () => {
     showDatepicker = !showDatepicker
   }
-
-  onDestroy(() => {
-    pickedDate.nullify()
-  })
-
-  console.log($pickedDate)
-
+  
   document.addEventListener('click', (e) => {
     let datepicker = document.querySelector('.calendar-container')
     let closestDatePicker = e.target.closest('.calendar-container')
     let clickedOutsideDatepicker = datepicker != closestDatePicker
     
     if (clickedOutsideDatepicker && allowWindowListener) {
-      console.log('Closing Datepicker')
       setTimeout(() => {
         showDatepicker = false
       }, 100)
     }
   })
-
+  
   const updateInvoiceDate = (e) => {
     let newDate = new Date(e.detail.date)
     date = new Date(newDate)
     dispatch('updateInvoiceDate', {date: newDate})
   }
+
+  onMount(() => {
+    if(dateFromInvoice === ''){
+      dispatch('setCreatedAtAsToday')
+    }
+  })
+
+  onDestroy(() => {
+    pickedDate.nullify()
+  })
 </script>
 
 <style lang="scss">

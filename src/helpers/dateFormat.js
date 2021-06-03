@@ -14,7 +14,6 @@ const monthNames = [
 ];
 
 const createDateArray = (givenDate) => {
-    console.log(givenDate)
     const array = givenDate.split('-')
     return array
 }

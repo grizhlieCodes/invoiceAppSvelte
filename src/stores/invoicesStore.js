@@ -20,13 +20,11 @@ const customInvoices = {
             return allInvoices
         })
         localStorage.setItem('invoices', JSON.stringify(allInvoices))
-        console.log(JSON.stringify({ ...invoice }))
         const options = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ ...invoice })
         }
-        console.log(invoice, userID)
         fetch(`https://invoiceappfementor-default-rtdb.europe-west1.firebasedatabase.app/invoices/${userID}.json`, options)
             .then(res => {
                 if (!res.ok) {
@@ -39,7 +37,6 @@ const customInvoices = {
     editInvoice: (invoice, invoiceUid) => {
         let allInvoices
         let editedInvoice
-        console.log(invoiceUid)
         invoices.update(items => {
             editedInvoice = { ...invoice }
             allInvoices = [...items]
@@ -71,8 +68,6 @@ const customInvoices = {
             localStorage.setItem('invoices', JSON.stringify(allInvoices))
             return allInvoices
         })
-        console.log(invoiceUid)
-        console.log(userID)
         fetch(`https://invoiceappfementor-default-rtdb.europe-west1.firebasedatabase.app/invoices/${userID}/${invoiceUid}.json`, {
             method: 'DELETE'
         }).then(res => {if(!res.ok) { 
@@ -107,10 +102,8 @@ const customInvoices = {
         fetch(`https://invoiceappfementor-default-rtdb.europe-west1.firebasedatabase.app/invoices/${userID}.json`)
             .then(data => data.json())
             .then(invoiceData => {
-                console.log(loadedInvoices)
                 loadedInvoices = []
                 for (const invoice in invoiceData) {
-                    console.log(loadedInvoices)
                     loadedInvoices = [
                         ...loadedInvoices,
                         {
@@ -118,10 +111,8 @@ const customInvoices = {
                             invoiceUid: invoice,
                         }
                     ]
-                    console.log(loadedInvoices)
                 }
                 invoices.set(loadedInvoices)
-                console.log(loadedInvoices)
 
             })
     },

@@ -35,9 +35,6 @@
   //Create store for data.
   //onMount -> save [...InvoicesArray] and store in localstorage. Then create the data flow.
 
-  $: invoices = $Invoices
-  $: console.log(invoices)
-
   $: dispatch('invoiceQuantity', invoices.length)
 
   $: if (filter !== '') {
@@ -49,18 +46,7 @@
   onMount(() => {
     dispatch('invoiceQuantity', invoices.length)
   })
-
-
-  //Different way of viewing invoice
-
-  //OLD
-  // const viewInvoice = (invoiceId) => {
-  //   console.log(invoiceId)
-  //   let invoice = invoices.find((invoice) => invoice.id === invoiceId)
-  //   dispatch('openInvoice', invoice)
-  //   console.log(invoice)
-  // }
-
+  
   const viewInvoice = (invoiceId) => {
     let invoice = invoices.find((invoice) => invoice.id === invoiceId)
     SelectedInvoice.setInvoice(invoice)
@@ -72,9 +58,17 @@
   .invoice-list {
     display: flex;
     flex-flow: column nowrap;
-    row-gap: 1.6rem;
     align-items: center;
+    margin-bottom: 1.6rem;
+
+    @supports (row-gap: 1.6rem){
+      margin-bottom: 0;
+      row-gap: 1.6rem;
+    }
+  
   }
+
+
   .invoice {
     width: 100%;
     max-width: 67.2rem;

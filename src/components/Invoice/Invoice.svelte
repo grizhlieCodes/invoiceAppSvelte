@@ -15,7 +15,6 @@
 
   $: invoice = $SelectedInvoice
 
-  console.log($SelectedInvoice)
 
   $: id = invoice.id
   $: description = invoice.description
@@ -30,7 +29,6 @@
   $: invoiceUid = invoice.invoiceUid
 
   $: status = $SelectedInvoice.status
-  $: console.log(status)
 
   $: invoiceData = {
     id,
@@ -60,7 +58,6 @@
   }
 
   const deleteInvoice = () => {
-    console.log(invoiceUid)
     invoicesStore.deleteInvoice(invoiceUid)
     showDeletionConfirmation = !showDeletionConfirmation
     dispatch('closeInvoice')

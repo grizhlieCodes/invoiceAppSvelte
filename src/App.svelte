@@ -10,8 +10,6 @@
 
   let body = document.body
 
-  $: console.log($User)
-
   $: if ($darkMode === true) {
     body.classList.add('dark')
   } else {
@@ -33,7 +31,6 @@
   let editInvoice = false //<- THIS
   let invoiceId
   const editActualInvoice = (e) => {
-    console.log(`This is my id at editActualInvoice: ${e.detail}`)
     let id = e.detail
     invoiceId = id
     editInvoice = !editInvoice

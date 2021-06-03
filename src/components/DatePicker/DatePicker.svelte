@@ -210,14 +210,13 @@
 
       pickedDate.updateSelectedDate(newDate)
     } else {
-      console.log("nada");
+      console.log("DatePicker, unexpected scenario, panik!!!!!");
     }
   }
 });
 
   onMount(async () => {
     cal = document.querySelector('.cal')
-    console.log(cal)
     renderCalDays()
   })
 </script>

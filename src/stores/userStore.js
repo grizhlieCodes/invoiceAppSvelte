@@ -10,7 +10,6 @@ const customUser = {
     },
 
     signUpUser: (email, password, name) => {
-        console.log(name)
         firebase.auth().createUserWithEmailAndPassword(email, password)
             .then((userCredential) => {
                 let id = userCredential.user.uid
