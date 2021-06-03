@@ -130,18 +130,22 @@
     transition: background 200ms ease, box-shadow 200ms ease;
     padding: 0 0 0 2.4rem;
     margin: 0;
-    margin-bottom: 1.6rem;
     box-shadow: 0px 10px 20px rgba(72, 84, 159, 0.25);
     border-radius: 8px;
+
+    & + * {
+      margin-bottom: 1.6rem;
+    }
+
+    @supports (row-gap: 1.6rem){
+      row-gap: 1.6rem;
+      .filterSelections + * {
+        margin-bottom: 0;
+      }
+    }
   }
 
   
-@supports (row-gap: 1.6rem){
-  .filterSelections {
-    margin-bottom: 0;
-    row-gap: 1.6rem;
-  }
-}
 
   :global(body.dark) {
     .filterSelections {

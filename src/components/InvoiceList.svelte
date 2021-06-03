@@ -33,7 +33,6 @@
 
   export let filter = ''
 
-
   //Create store for data.
   //onMount -> save [...InvoicesArray] and store in localstorage. Then create the data flow.
 
@@ -48,7 +47,7 @@
   onMount(() => {
     dispatch('invoiceQuantity', invoices.length)
   })
-  
+
   const viewInvoice = (invoiceId) => {
     let invoice = invoices.find((invoice) => invoice.id === invoiceId)
     SelectedInvoice.setInvoice(invoice)
@@ -61,15 +60,18 @@
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
-    margin-bottom: 1.6rem;
 
-    @supports (row-gap: 1.6rem){
-      margin-bottom: 0;
-      row-gap: 1.6rem;
+    .invoice {
+      margin-bottom: 1.6rem;
     }
-  
-  }
 
+    @supports (row-gap: 1.6rem) {
+      row-gap: 1.6rem;
+      .invoice {
+        margin-bottom: 0;
+      }
+    }
+  }
 
   .invoice {
     width: 100%;
