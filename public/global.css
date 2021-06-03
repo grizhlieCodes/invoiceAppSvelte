@@ -83,8 +83,16 @@ body {
   grid-auto-rows: 15px;
   grid-auto-flow: row;
   place-items: center;
-  row-gap: 16px;
+  margin-bottom: 1.6rem;
 }
+
+@supports (row-gap: 1.6rem){
+  .cal {
+    margin-bottom: 0;
+    row-gap: 16px;
+  }
+}
+
 .cal p {
   margin: 0;
   padding: 0;
