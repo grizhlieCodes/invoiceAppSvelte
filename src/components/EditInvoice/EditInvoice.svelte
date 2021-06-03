@@ -62,6 +62,7 @@
   let status = 0
   let total = []
   let id = invoiceId ? invoiceId : ''
+  let invoiceUid = ''
 
   // VALIDATION VARIABLES
 
@@ -92,8 +93,6 @@
     clientCountryValid &&
     descriptionValid &&
     itemsValid
-
-  $: console.log(formValid)
 
   let data = {}
 
@@ -177,6 +176,7 @@
     items = invoice.items
     status = invoice.status
     total = invoice.total
+    invoiceUid = invoice.invoiceUid
   }
 
   const updateDateDue = (e) => {
@@ -281,6 +281,7 @@
       },
       items,
       total: updatedTotal,
+      invoiceUid: invoiceUid,
     }
     if (saveInvoiceAs === 'saveAsNew') {
       data = {
@@ -292,7 +293,7 @@
       data = {
         ...data,
         status,
-        id: createInvoiceID(invoiceIDList),
+        id,
       }
     } else if (saveInvoiceAs === 'saveAsDraft') {
       data = {
@@ -322,14 +323,13 @@
   const saveEditedInvoice = () => {
     updateDataWithAllVariables('saveAsEdit')
     let invoice = data
-    Invoices.editInvoice(invoice, invoice.id)
+    Invoices.editInvoice(invoice, invoiceUid)
     closeModalAndClearData()
   }
 
   const saveInvoiceAsDraft = () => {
     updateDataWithAllVariables('saveAsDraft')
     let invoice = data
-    console.log(invoice)
     Invoices.addInvoice(invoice)
     closeModalAndClearData()
   }
@@ -339,10 +339,16 @@
     if (formValid) {
       updateDataWithAllVariables('submitDraftToSend')
       let invoice = data
-      console.log(invoice)
       Invoices.editInvoice(invoice, invoice.id)
       closeModalAndClearData()
     }
+  }
+
+  const updateDraftInvoiceDontSend = () => {
+    updateDataWithAllVariables('saveAsEdit')
+    let invoice = data
+    Invoices.editInvoice(invoice, invoice.invoiceUid)
+    closeModalAndClearData()
   }
 
   const closeModalAndClearData = () => {
@@ -545,7 +551,7 @@
 <div class="editInvoice" transition:fly={{ x: -200, duration: 400 }}>
   {#if $size === 'mobile'}
     <div class="goBackContainer">
-      <GoBack on:click />
+      <GoBack on:click={closeModalAndClearData} />
     </div>
   {/if}
   <form on:submit|preventDefault autocomplete="off">
@@ -684,14 +690,10 @@
     {#if !formValid && saveAndSendClicked}
       <section class="error-messages">
         {#if !formValid}
-          <p>
-            - All fields must be added
-          </p>
+          <p>- All fields must be added</p>
         {/if}
         {#if !itemsValid}
-          <p>
-            - An item must be added
-          </p>
+          <p>- An item must be added</p>
         {/if}
       </section>
     {/if}
@@ -722,6 +724,7 @@
     </div>
   {:else if invoiceId}
     <div class="buttons-container">
+
       <div class="discard-button">
         <Button
           content="Cancel"
@@ -729,19 +732,11 @@
           btnClass="dark" />
       </div>
 
-      {#if status !== 'draft'}
-        <div class="save-final-button">
-          <Button
-            content="Save and Send"
-            on:click={saveDraftToSend}
-            btnClass="primary" />
-        </div>
-      {/if}
       {#if status === 'draft'}
-        <div class="save-button">
+        <div class="update-draft-button">
           <Button
-            content="Save Changes"
-            on:click={saveEditedInvoice}
+            content="Update Draft"
+            on:click={updateDraftInvoiceDontSend}
             btnClass="dark" />
         </div>
         <div class="save-final-button">
@@ -750,6 +745,16 @@
             on:click={saveDraftToSend}
             btnClass="primary" />
         </div>
+      {/if}
+
+      {#if status !== 'draft'}
+        <div class="save-button">
+          <Button
+            content="Save And Resend"
+            on:click={saveEditedInvoice}
+            btnClass="primary" />
+        </div>
+
       {/if}
     </div>
   {/if}
