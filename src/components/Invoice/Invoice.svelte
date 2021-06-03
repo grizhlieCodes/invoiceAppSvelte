@@ -102,7 +102,7 @@
     opacity: 0.6;
     left: 0;
     top: 0;
-    z-index: 500;
+    z-index: v(invoice-delete-overlay);
   }
 
   .delete-modal {
@@ -113,7 +113,7 @@
     place-items: center;
     left: 0;
     top: 0;
-    z-index: 600;
+    z-index: v(invoice-delete-modal);
 
     .inner-container {
       width: clamp(32.7rem, 50%, 48rem);

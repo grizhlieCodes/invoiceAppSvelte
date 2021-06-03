@@ -116,6 +116,8 @@
 
 <style lang="scss">
   //Main Grid Area + Main container styling
+
+  
   .calendar-container {
     background: v(datePicker-bg);
     width: 100%;
@@ -134,7 +136,7 @@
     margin-top: 1.6rem;
     transition: height 250ms ease, background 200ms ease;
     position: absolute;
-    z-index: 500;
+    z-index: v(datepicker-cal-container);
 
     .calendar__header {
       grid-area: calHead;

@@ -339,12 +339,12 @@
     background: black;
     width: 100%;
     height: 100%;
-    z-index: 100;
+    z-index: v(editInvoice-overlay);
     opacity: 50%;
   }
 
   .editInvoice {
-    z-index: 200;
+    z-index: v(editInvoice-editInvoice);
     height: 100%;
     width: clamp(37.5rem, 100%, 61.6rem);
     background: v(edit-invoice-bg);
@@ -355,7 +355,7 @@
     &::before {
       content: '';
       position: absolute;
-      bottom: 10rem;
+      bottom: 0rem;
       left: 0;
       right: 0;
       height: 30rem;
@@ -364,7 +364,7 @@
       background: linear-gradient(
         180deg,
         rgba(255, 255, 255, 0) 0%,
-        rgba(0, 0, 0, 0.31976540616246496) 100%
+        rgba(0, 0, 0, 0.2576540616246496) 100%
       );
     }
 
@@ -455,6 +455,7 @@
       letter-spacing: -0.38px;
       color: v(h2-item-list-col);
       transition: color 200ms ease;
+      margin-bottom: 1.6rem;
     }
   }
 
@@ -471,8 +472,9 @@
     transition: background 200ms ease;
     border-radius: 0 0.8rem 0 0;
     column-gap: 0.8rem;
-
-    box-shadow: 0px 10px 10px -10px rgba(72, 84, 159, 0.100397);
+    z-index: v(editInvoice-buttons-container);
+    margin-bottom: -1px;
+    box-shadow: 0px 10px 10px -10px rgba(72, 84, 159, 0.200397);
 
     .discard-button {
       flex: 1 0 auto;

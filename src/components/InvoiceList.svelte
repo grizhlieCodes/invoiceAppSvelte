@@ -90,13 +90,17 @@
       'dueDate status'
       'value status';
 
+    &:hover {
+      box-shadow: 0 0 1pt 1pt v(purple-500);
+    }
+
     &.tablet,
     &.desktop {
       padding: 1.6rem 2.4rem;
       height: 7.2rem;
-      grid-template-columns: 8.7rem 14.3rem minmax(13.6rem, 1fr) max-content 4rem 10.4rem 2.5rem;
+      grid-template-columns: 8.7rem 14.3rem    minmax(13.6rem, 1fr) max-content 4rem 10.4rem 2.5rem;
       grid-template-rows: 1fr;
-      grid-template-areas: 'id dueDate customer value . status arrow';
+      grid-template-areas: 'id      dueDate    customer                value      .   status arrow';
       justify-items: start;
       align-items: center;
     }
@@ -108,6 +112,10 @@
   :global(body.dark) {
     .invoice {
       box-shadow: 0px 10px 10px -10px rgba(72, 84, 159, 0.100397);
+
+      &:hover {
+        box-shadow: 0 0 1pt 1pt v(purple-500);
+      }
     }
   }
 

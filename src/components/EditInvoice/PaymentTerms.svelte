@@ -61,7 +61,7 @@
     letter-spacing: -0.025rem;
     line-height: 1.5rem;
     position: relative;
-    z-index: 400;
+    z-index: v(paymentTerms-form-item);
   }
   label {
     color: v(label-text);
