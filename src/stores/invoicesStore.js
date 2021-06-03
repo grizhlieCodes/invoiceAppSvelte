@@ -6,11 +6,6 @@ const invoices = writable([])
 let loadedInvoices = []
 let userID
 
-// if (localStorage.getItem('invoices')) {
-//     let localInvoices = JSON.parse(localStorage.getItem('invoices'))
-//     invoices.set(localInvoices)
-// }
-
 const customInvoices = {
     subscribe: invoices.subscribe,
     addInvoice: (invoice) => {
