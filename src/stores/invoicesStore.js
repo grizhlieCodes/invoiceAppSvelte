@@ -13,7 +13,7 @@ let userID
 
 const customInvoices = {
     subscribe: invoices.subscribe,
-    addInvoice: (invoice, userID) => {
+    addInvoice: (invoice) => {
         let allInvoices
         invoices.update(items => {
             allInvoices = [...items, invoice]
@@ -24,42 +24,67 @@ const customInvoices = {
         const options = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({...invoice})
+            body: JSON.stringify({ ...invoice })
         }
         console.log(invoice, userID)
         fetch(`https://invoiceappfementor-default-rtdb.europe-west1.firebasedatabase.app/invoices/${userID}.json`, options)
             .then(res => {
                 if (!res.ok) {
                     throw new Error(`Couldn't save new invoice`)
+                } else {
+                    customInvoices.fetchFirebaseInvoicesForUser()
                 }
             }).catch(err => console.log(err))
     },
-    editInvoice: (invoice, invoiceID) => {
+    editInvoice: (invoice, invoiceUid) => {
+        let allInvoices
+        let editedInvoice
+        console.log(invoiceUid)
+        invoices.update(items => {
+            editedInvoice = { ...invoice }
+            allInvoices = [...items]
+            let editedInvoiceIndex = allInvoices.findIndex(inv => inv.invoiceUid === invoiceUid)
+            allInvoices[editedInvoiceIndex] = editedInvoice
+            localStorage.setItem('invoices', JSON.stringify(allInvoices))
+            SelectedInvoice.setInvoice(editedInvoice)
+            return allInvoices
+        })
+        const options = {
+            method: 'PATCH',
+            headers: { 'Content-type': 'application/json' },
+            body: JSON.stringify({ ...editedInvoice })
+        }
+        fetch(`https://invoiceappfementor-default-rtdb.europe-west1.firebasedatabase.app/invoices/${userID}/${invoiceUid}.json`, options)
+            .then(res => {
+                if (!res.ok) {
+                    console.log(`didn't upload for some reas`)
+                } else {
+                    console.log('worked correctly')
+                }
+            }).catch(err => console.log(err))
+    },
+    deleteInvoice: (invoiceUid) => {
         let allInvoices
         invoices.update(items => {
             allInvoices = [...items]
-            let editedInvoiceIndex = allInvoices.findIndex(invoice => invoice.id === invoiceID)
-            allInvoices[editedInvoiceIndex] = { ...invoice }
-            localStorage.setItem('invoices', JSON.stringify(allInvoices))
-            SelectedInvoice.setInvoice(invoice)
-            return allInvoices
-        })
-    },
-    deleteInvoice: (invoiceID) => {
-        let allInvoices
-        invoices.update(items => {
-            allInvoices = [...items]
-            allInvoices = allInvoices.filter(invoice => invoice.id !== invoiceID)
+            allInvoices = allInvoices.filter(invoice => invoice.invoiceUid !== invoiceUid)
             localStorage.setItem('invoices', JSON.stringify(allInvoices))
             return allInvoices
         })
+        console.log(invoiceUid)
+        console.log(userID)
+        fetch(`https://invoiceappfementor-default-rtdb.europe-west1.firebasedatabase.app/invoices/${userID}/${invoiceUid}.json`, {
+            method: 'DELETE'
+        }).then(res => {if(!res.ok) { 
+            console.log(`Didn't delete properly.`) 
+        }}).catch(err => console.log(err))
     },
-    markInvoiceAsPaid: (invoiceID) => {
+    updateInvoiceStatusLocal: (invoiceID, newStatus) => {
         let allInvoices
         invoices.update(items => {
             allInvoices = [...items]
             let selectedInvoiceIndex = allInvoices.findIndex(invoice => invoice.id === invoiceID)
-            allInvoices[selectedInvoiceIndex].status = 'paid'
+            allInvoices[selectedInvoiceIndex].status = newStatus
             localStorage.setItem('invoices', JSON.stringify(allInvoices))
             return allInvoices
         })
@@ -80,27 +105,43 @@ const customInvoices = {
     },
     fetchFirebaseInvoicesForUser: () => {
         fetch(`https://invoiceappfementor-default-rtdb.europe-west1.firebasedatabase.app/invoices/${userID}.json`)
-        .then(data => data.json())
-        .then(invoiceData => {
-            for(const invoice in invoiceData){
-                loadedInvoices = [
-                    ...loadedInvoices,
-                    {
-                        ...invoiceData[invoice],
-                        invoiceUid: invoice,
-                    }
-                ]
-            }
-            invoices.set(loadedInvoices)
-        })
+            .then(data => data.json())
+            .then(invoiceData => {
+                console.log(loadedInvoices)
+                loadedInvoices = []
+                for (const invoice in invoiceData) {
+                    console.log(loadedInvoices)
+                    loadedInvoices = [
+                        ...loadedInvoices,
+                        {
+                            ...invoiceData[invoice],
+                            invoiceUid: invoice,
+                        }
+                    ]
+                    console.log(loadedInvoices)
+                }
+                invoices.set(loadedInvoices)
+                console.log(loadedInvoices)
+
+            })
     },
-    // updateInvoiceStatus = (status, invoiceUid) => {
-    //     const options = {
-    //         method: 'PATCH',
-    //         headers: {'Content-type': 'application/json'},
-    //         body: JSON.parse({})
-    //     }
-    // }
+    updateInvoiceStatusFirebase: (newStatus, invoiceUid) => {
+        let allInvoices
+        const unsubscribe = invoices.subscribe(inv => allInvoices = inv)
+        const updatedInvoice = allInvoices.find(invoice => invoice.invoiceUid === invoiceUid)
+        updatedInvoice.status = newStatus
+        const options = {
+            method: 'PATCH',
+            headers: { 'Content-type': 'application/json' },
+            body: JSON.stringify({ ...updatedInvoice })
+        }
+        fetch(`https://invoiceappfementor-default-rtdb.europe-west1.firebasedatabase.app/invoices/${userID}/${invoiceUid}.json`, options)
+            .then(res => {
+                if (!res.ok) {
+                    console.log(`didn't upload for some reas`)
+                }
+            }).catch(err => console.log(err))
+    }
 }
 
 export default customInvoices
