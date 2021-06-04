@@ -13,7 +13,7 @@
   //==================================================
   //Update for default user for printscreen then remove
 
-  let email = "test@user.com", password = "123456" , name
+  let email = "", password = "" , name
   //==================================================
   const updatePassword = (event) => {
     let val = event.target.value
@@ -45,12 +45,12 @@
   //==================================================
 
   //UPDATE FOR DEFAULT USER
-  onMount(() => {
-    setTimeout(() => {
-      const clickMoi = document.querySelector('.clickMoi')
-      clickMoi.click()
-    }, 200)
-  })
+  // onMount(() => {
+  //   setTimeout(() => {
+  //     const clickMoi = document.querySelector('.clickMoi')
+  //     clickMoi.click()
+  //   }, 200)
+  // })
 
 
 
