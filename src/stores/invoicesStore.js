@@ -105,7 +105,6 @@ const customInvoices = {
                         }
                     ]
                 }
-                console.log(loadedInvoices)
                 invoices.set(loadedInvoices)
                 if (loadedInvoices.length === 0) {
                     customInvoices.addDefaultInvoices()

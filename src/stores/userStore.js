@@ -6,7 +6,6 @@ const customUser = {
     subscribe: user.subscribe,
     setUser: (firebaseUser) => {
         user.set(firebaseUser)
-        console.log(firebaseUser)
     },
 
     signUpUser: (email, password, name) => {
@@ -37,7 +36,6 @@ const customUser = {
     },
 
     signInUser: (email, password) => {
-        console.log("change this: ",email, password)
         firebase.auth().signInWithEmailAndPassword(email, password)
             .then((userCredential) => {
                 // Signed in

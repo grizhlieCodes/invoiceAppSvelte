@@ -16,7 +16,6 @@ import invoicesStore from '../../stores/invoicesStore.js'
 
   const updateInvoiceStatus = (newStatus) => {
     status = newStatus
-    console.log(status)
     invoicesStore.updateInvoiceStatusLocal(id, status)
     invoicesStore.updateInvoiceStatusFirebase(status, invoiceUid)
     dispatch('updateInvoiceStatus', status)
