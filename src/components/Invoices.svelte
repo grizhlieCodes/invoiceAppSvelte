@@ -198,7 +198,7 @@
           <img src="./assets/illustration-empty.svg" alt="" />
           <h2>There is nothing here</h2>
           <p>
-            Create an invocie by clicking the {$size === 'mobile' ? 'New' : 'New Invoice'}
+            Create an invoice by clicking the {$size === 'mobile' ? 'New' : 'New Invoice'}
             button and get started
           </p>
         </div>
