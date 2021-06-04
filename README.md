@@ -6,7 +6,7 @@
 
 Howdy!
 
-Thank you for checking out my solution to the [InvoiceApp challenge](https://www.frontendmentor.io/challenges/invoice-app-i7KaLTQjl) from [FrontendMentor](https://www.frontendmentor.io)!
+Thank you for checking out [my solution](https://www.frontendmentor.io/solutions/invoice-app-using-svelte-and-firebase-with-custom-datepicker--vXsj8Kef) to the [InvoiceApp challenge](https://www.frontendmentor.io/challenges/invoice-app-i7KaLTQjl) from [FrontendMentor](https://www.frontendmentor.io)!
 
 This is my first 'well documented' project where I spent a lot of time and effort on really grasping concepts and comitting my code much more often and correctly than in the past, I hope it doesn't dissapoint too much 😁
 
@@ -48,8 +48,17 @@ But here's a list:
 
 ## Bugs bugs bugs 😳🐛
 
+- Key FEATURE (bug) 🤩: When you create a new account it will populate 3 default
+  invoices into the app. For some reason random inline-styling is being added to
+  them and changes their size to something ridiculously small. Just refresh and
+  we're golden. No clue, sorry.
 - I can't add pennies/cents (decimals) to my monetary number fields. Completely missed that. Looked around for a quick solution but didn't find one I liked. Might fix in the future.
-- Firebase security would allow anyone who has the access to the userID to get all user data soooo it's a slightly massive security flaw. The optimal behaviour would be to only allow a user to get data if their logged in auth Uid and firebase Uid match. But for some reason this wasn't working for me, will need to study up in the future.
+- Firebase security would allow anyone who has the access to the userID to get
+  all user data soooo it's a slightly massive security flaw. The optimal
+  behaviour would be to only allow a user to get data if their logged in auth
+  Uid and firebase Uid match. But for some reason this wasn't working for me,
+  will need to study up in the future.
+
 
 ## What I would do differently
 
