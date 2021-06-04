@@ -6,7 +6,7 @@
 
 Howdy!
 
-Thank you for checking out my solution to the [InvoiceApp](https://www.frontendmentor.io/challenges/invoice-app-i7KaLTQjl) challenge from [FrontendMentor](https://www.frontendmentor.io)!
+Thank you for checking out my solution to the [InvoiceApp challenge](https://www.frontendmentor.io/challenges/invoice-app-i7KaLTQjl) from [FrontendMentor](https://www.frontendmentor.io)!
 
 This is my first 'well documented' project where I spent a lot of time and effort on really grasping concepts and comitting my code much more often and correctly than in the past, I hope it doesn't dissapoint too much 😁
 
