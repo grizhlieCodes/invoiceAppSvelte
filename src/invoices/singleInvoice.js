@@ -1,85 +1,101 @@
-let jsonObject = 
-    {
-      "id": "XM9141",
-      "createdAt": "2021-08-21",
-      "paymentDue": "2021-09-20",
-      "description": "Graphic Design",
-      "paymentTerms": 30,
-      "clientName": "Alex Grim",
-      "clientEmail": "alexgrim@mail.com",
-      "status": "pending",
-      "senderAddress": {
-        "street": "19 Union Terrace",
-        "city": "London",
-        "postCode": "E1 3EZ",
-        "country": "United Kingdom"
-      },
-      "clientAddress": {
-        "street": "84 Church Way",
-        "city": "Bradford",
-        "postCode": "BD1 9PB",
-        "country": "United Kingdom"
-      },
-      "items": [
-        {
-          "name": "Banner Design",
-          "quantity": 1,
-          "price": 156.00,
-          "total": 156.00
-        },
-        {
-          "name": "Email Design",
-          "quantity": 2,
-          "price": 200.00,
-          "total": 400.00
-        },
-        {
-          "name": "Potato Design",
-          "quantity": 4,
-          "price": 100.00,
-          "total": 400.00
-        },
-        {
-          "name": "Potato Design",
-          "quantity": 4,
-          "price": 100.00,
-          "total": 400.00
-        },
-        {
-          "name": "Potato Design",
-          "quantity": 4,
-          "price": 100.00,
-          "total": 400.00
-        },
-        {
-          "name": "Potato Design",
-          "quantity": 4,
-          "price": 100.00,
-          "total": 400.00
-        },
-        {
-          "name": "Potato Design",
-          "quantity": 4,
-          "price": 100.00,
-          "total": 400.00
-        },
-        {
-          "name": "Potato Design",
-          "quantity": 4,
-          "price": 100.00,
-          "total": 400.00
-        },
-        {
-          "name": "Potato Design",
-          "quantity": 4,
-          "price": 100.00,
-          "total": 400.00
-        },
-      ],
-      "total": 556.00
-    }
+let jsonObjects = 
+[
+  {
+    "id": "OF2628",
+    "createdAt": "2021-06-04T14:31:36.394Z",
+    "paymentDue": "2021-07-04T14:31:36.394Z",
+    "description": "Scooby Snack Promo",
+    "paymentTerms": 30,
+    "clientName": "John Wayne",
+    "clientEmail": "john@wayne.com",
+    "status": "pending",
+    "senderAddress": {
+      "senderCity": "Metropolis",
+      "senderCountry": "United Kingdom",
+      "senderPostCode": "ME44TR",
+      "senderStreet": "Sender Street 25"
+    },
+    "clientAddress": {
+      "clientCity": "Scooby Town",
+      "clientCountry": "United Kingdom",
+      "clientPostCode": "SC00BY",
+      "clientStreet": "Wayne Street, Flat 15"
+    },
+    "items": [
+      {
+        "name": "Scooby Snack Ultimate",
+        "quantity": 1,
+        "price": 50000,
+        "total": 50000
+      }
+    ],
+    "total": 50000
+  },
+  {
+    "id": "OT1568",
+    "createdAt": "2021-06-04T14:31:36.394Z",
+    "paymentDue": "2021-07-04T14:31:36.394Z",
+    "description": "Another hit album",
+    "paymentTerms": 30,
+    "clientName": "DJ Khalid",
+    "clientEmail": "khalid@another.one",
+    "status": "paid",
+    "senderAddress": {
+      "senderCity": "Metropolis",
+      "senderCountry": "United Kingdom",
+      "senderPostCode": "ME44TR",
+      "senderStreet": "Sender Street 25"
+    },
+    "clientAddress": {
+      "clientCity": "Amazing City",
+      "clientCountry": "United Kingdom",
+      "clientPostCode": "AM47IN",
+      "clientStreet": "The Greatest 1"
+    },
+    "items": [
+      {
+        "name": "Another one on top of all the other ones",
+        "quantity": 1,
+        "price": 800000,
+        "total": 800000
+      }
+    ],
+    "total": 800000
+  },
+  {
+    "id": "BE1568",
+    "createdAt": "2021-06-04T14:31:36.394Z",
+    "paymentDue": "2021-07-04T14:31:36.394Z",
+    "description": "Draft descr",
+    "paymentTerms": 30,
+    "clientName": "",
+    "clientEmail": "",
+    "status": "draft",
+    "senderAddress": {
+      "senderCity": "",
+      "senderCountry": "",
+      "senderPostCode": "",
+      "senderStreet": ""
+    },
+    "clientAddress": {
+      "clientCity": " ",
+      "clientCountry": " ",
+      "clientPostCode": "",
+      "clientStreet": ""
+    },
+    "items": [
+      {
+        "name": "",
+        "quantity": 0,
+        "price": 0,
+        "total": 0
+      }
+    ],
+    "total": 0
+  }
+]
 
   
   
 
-  export default jsonObject
+  export default jsonObjects
