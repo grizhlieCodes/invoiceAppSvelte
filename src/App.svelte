@@ -7,6 +7,11 @@
   import darkMode from './stores/darkModeStore.js'
   import initialiseFirebaseAuth from './stores/initialiseFirebase.js'
   import User from './stores/userStore.js'
+  import SelectedInvoice from './stores/selectedInvoice.js'
+
+  onMount(() => {
+    initialiseFirebaseAuth()
+  })
 
   let body = document.body
 
@@ -41,9 +46,7 @@
     invoiceId = undefined
   }
 
-  onMount(() => {
-    initialiseFirebaseAuth()
-  })
+
 
 
 </script>
@@ -173,7 +176,6 @@
 {#if editInvoice}
   <EditInvoice
     on:toggleModal={() => {
-      console.log('Toggling invoice')
       invoiceId = undefined
       editInvoice = !editInvoice
     }}

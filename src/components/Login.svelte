@@ -5,13 +5,15 @@
   import Input from './Input.svelte'
   import { fly } from 'svelte/transition'
   import SmallModal from './SmallModal.svelte'
-
+  import {onMount, createEventDispatcher} from 'svelte'
   let showLogin = true
+
+  const dispatch = createEventDispatcher()
 
   //==================================================
   //Update for default user for printscreen then remove
 
-  let email = "", password = "" , name
+  let email = "test@user.com", password = "123456" , name
   //==================================================
   const updatePassword = (event) => {
     let val = event.target.value
@@ -41,11 +43,17 @@
   const signUpUser = () => authStore.signUpUser(email, password, name)
 
   //==================================================
+
   //UPDATE FOR DEFAULT USER
-  // onMount(() => {
-  //   const clickMoi = document.querySelector('.clickMoi')
-  //   clickMoi.click()
-  // })
+  onMount(() => {
+    setTimeout(() => {
+      const clickMoi = document.querySelector('.clickMoi')
+      clickMoi.click()
+    }, 200)
+  })
+
+
+
   //==================================================
 </script>
 
