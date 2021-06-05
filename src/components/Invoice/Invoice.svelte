@@ -54,7 +54,7 @@
   let closeModalEvent
   onMount(() => {
     closeModalEvent = window.addEventListener('keydown', (e) => {
-      //Esc for IE/Edgee and Escape for all other browsers
+      //Esc for IE/Edge and Escape for all other browsers
       //https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key
       if(e.key === "Esc" || e.key === "Escape") {
         cancelDeletion()
