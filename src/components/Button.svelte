@@ -1,7 +1,8 @@
 <script>
   export let type = 'button',
     content,
-    btnClass
+    btnClass,
+    autofocus = false
 </script>
 
 <style lang="scss">
@@ -26,7 +27,7 @@
     background: v(btn-primary-bg);
     transition: background 200ms ease;
 
-    &:hover {
+    &:hover, &:focus {
       background: v(btn-primary-hover-bg);
       transition: background 200ms ease;
     }
@@ -60,7 +61,7 @@
         }
       }
     }
-    &:hover {
+    &:hover, &:focus {
       span {
         background: v(btn-addition-span-hover-bg);
         transition: background 200ms ease;
@@ -73,7 +74,7 @@
     background: v(btn-red-bg);
     transition: color 200ms ease, background 200ms ease;
 
-    &:hover {
+    &:hover, &:focus {
       background: v(btn-red-hover-bg);
     }
   }
@@ -84,7 +85,7 @@
     transition: color 200ms ease, background 200ms ease;
 
 
-    &:hover {
+    &:hover, &:focus {
       background: v(btn-light-hover-bg);
       color: v(btn-light-hover-text);
     }
@@ -96,7 +97,7 @@
     transition: color 200ms ease, background 200ms ease;
 
 
-    &:hover {
+    &:hover, &:focus {
       background: v(btn-dark-hover-bg);
       color: v(btn-dark-hover-text);
     }
@@ -108,7 +109,7 @@
     width: 100%;
     transition: color 200ms ease, background 200ms ease;
 
-    &:hover {
+    &:hover, &:focus {
       background: v(btn-large-hover-bg);
       color: v(btn-large-hover-text);
     }
@@ -116,7 +117,7 @@
 </style>
 
 {#if btnClass === 'addition'}
-  <button {type} on:click class={btnClass}>
+  <button {type} on:click class={btnClass} autofocus>
     <div class="plus-container">
       <span />
       <span />
@@ -124,5 +125,5 @@
     <p>{content}</p>
   </button>
 {:else}
-  <button {type} on:click class={btnClass}>{content}</button>
+  <button {type} on:click class={btnClass} autofocus>{content}</button>
 {/if}

@@ -10,7 +10,7 @@
   import Button from '../Button.svelte'
   import invoicesStore from '../../stores/invoicesStore.js'
 
-  import { createEventDispatcher, onDestroy } from 'svelte'
+  import { createEventDispatcher, onMount, onDestroy } from 'svelte'
   const dispatch = createEventDispatcher()
 
   $: invoice = $SelectedInvoice
@@ -42,11 +42,6 @@
     items,
     total,
   }
-
-  onDestroy(() => {
-    SelectedInvoice.clearInvoice()
-  })
-
   let showDeletionConfirmation = false
 
   const showDeleteModal = () => {
@@ -56,7 +51,20 @@
   const cancelDeletion = () => {
     showDeletionConfirmation = !showDeletionConfirmation
   }
-
+  let closeModalEvent
+  onMount(() => {
+    closeModalEvent = window.addEventListener('keydown', (e) => {
+      //Esc for IE/Edge and Escape for all other browsers
+      //https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key
+      if(e.key === "Esc" || e.key === "Escape") {
+        cancelDeletion()
+      }
+    })
+  });
+  onDestroy(() => {
+    window.removeEventListener("keydown", closeModalEvent)
+    SelectedInvoice.clearInvoice()
+  })
   const deleteInvoice = () => {
     invoicesStore.deleteInvoice(invoiceUid)
     showDeletionConfirmation = !showDeletionConfirmation
@@ -190,7 +198,7 @@
       </p>
       <div class="buttons">
         <Button content="Cancel" btnClass="light" on:click={cancelDeletion} />
-        <Button content="Delete" btnClass="red" on:click={deleteInvoice} />
+        <Button content="Delete" btnClass="red" autofocus={true} on:click={deleteInvoice} />
       </div>
     </div>
   </div>
