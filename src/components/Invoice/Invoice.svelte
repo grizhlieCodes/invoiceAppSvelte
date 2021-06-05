@@ -198,7 +198,7 @@
       </p>
       <div class="buttons">
         <Button content="Cancel" btnClass="light" on:click={cancelDeletion} />
-        <Button content="Delete" btnClass="red" on:click={deleteInvoice} />
+        <Button content="Delete" btnClass="red" autofocus={true} on:click={deleteInvoice} />
       </div>
     </div>
   </div>
